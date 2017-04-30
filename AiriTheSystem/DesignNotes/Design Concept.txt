@@ -1,0 +1,129 @@
+﻿>>> Development Guide
+Practice/To get a sense of potential speakings - develop ability to rationale everyone's whatever sayings, especially during real communication.
+Theory/You don't think when it comes to human emotions, you just follow the feelings/urges/etc.
+Principle/The sources of such are diverse, and taking any action becomes possible in this case, at least, human isn't just staying stable. But consequences follow, if we accidentally committed our life and time.
+Observation/My inaction causes my life losing lots of chance to change.
+Method/When people talk, you experience, index, and reply with a closest natch.
+Theory/Airi can read to learn.
+	We just need a structure that can converge and correlate.
+	(Structure)4-Layet Discover and Associate: Word, phrase, sentence(meaning), theme
+	: Learn from real and pure dialogues(e.g. classical drama works) 
+
+>>> Division (Application Domain) of TheSystem (In level of complexity and robustness)
+Domain 1: Well-Formulated Expert System using trained materials quite like FAQ
+Domain 2: Pattern-Action model for an extended understanding yet well defined behavior types
+*Domain 3: Concepts and auto-reply, with multilayers of depedent understanding from knowledge base (WordNet and Wiki)
+Domain 4: Knowledge machine for categorization, integrated with SIS and desktop working environment for more efficient information digestion and processing
+*Domain 5: Memory and Personality, with experience (as events) and conception capability (as "mentioning")
+
+>>> Implementation Ideas - Philosophical Story Design Regarding Airi
+Airi uses THE system: human DOESN'T "understand" - human brain just has clues then respond to it in real time.
+This is how a "context" works: it constantly searches until result converge or determined. There must be a key, and key must be precise otherwise it is impossible to find the right result.
+When there are multiple results, the system CANNOT decide what to do until futhrt information is facilitated in which case a decision is made (internal to the system, not explicit to the thinker) and a choice is thrown. 
+This applies to speaking as well: when we are emitting words, what we have said continuously shapes our next word - in a sense we never actually come up with a complete sentence before we begin to speak. (This can be observed when we right and talk - what ever we have said/done helps the action continue)
+Still Pending research: How browser and dictionary searches, what other advanced search algorithms and data structures or information models exist to capture things. But this research is trivial, because figure out a way to make our assumption work and optimize it is more useful.
+Example being when you were first asked phone nunber you might hesitate but after enough times you might not consider that much and choose whatever comes to you mind until someday you begin to reconsider your behavior in this aspect.
+At any given chance, our reaction is a trained result of "think less but just do" achieved from simplified signal processing (we simply thoughts, but react upon identify featured clues, this is the reason why soldiers misfire at moving animals).
+Ultimately whatever get aroused in the listener’s mind is his/her perception mapped to the object under discussion so it doesn’t matter how we describe it as long as it reaches that perception, see Airi The System.
+
+>>> Misc ideas
+Define special symbols as part of lattern. (And but, ?!'" as functional phrase - preprocess them to add a space)
+Decorations like Adv and adj can be interpreted as specifier that create specific conrext for noun and verbs (and some single-word noun/verbs are compressed such context)
+A concept constitutes of any number of component aspects. To identify it means to highlight the feature Components in concept graph then find its higher level parent. One key is how attribution is given so that it is possible to highlight concepts that are abstract and not directly represented by spoken words. That is, how to identify conceptual patterns. 
+Recognition using feature (this enables Airi to talk in a higher level non-informative and nonspecific yet human like and remarkable way)
+
+>>> Implementation - Proposal One
+: Physically divided by boundary
+: No synthesizing sentences
+: 
+: User memory stored as a new theme
+<Layer 1 Scattered Memory: words>
+Clealry identifiable by separation symbol; Used as key to search senyences; Lowest storage unit; Linked to all sentence occurrences throughout themes {Given a bunch of input words - use this step to identify idea}
+<Layer 2 Solid Conversation: Setences>
+Clealry identifiable by separation symbols; Used as key to search themes; {Given one idea, use random mechanisms to choose respond}
+<Layer 3 Strategy and Plots: Theme>
+Clealry identifiable by extra effort; Highest storage unit {Given any mood matching respond, }
+[Pattern recognition: Chn words and phrases - impossible] 
+[Reply mechanism: Words match + random pick up a sentence then reply from within a theme ]
+Process
+1 Given any sentence, dissect it's components, then use them as key to find all. matches with leading key (Simplified: or randomly pick ONE key and find matches to that key)
+2 Collect immediate responses to all above search results
+3 (Simplified: Either randomly pick one, or ) Analysis results and use imagination to synthesize a more suitable answer
+4 All current ongoing conversation is stored as a complete theme record for next search as well 
+5 There can be embedded data driven phrases or physical actions(animations, programmable behaviors) inside training material. This way we may even insert a pro-processor before storing user's speaking inputs e.g. extract names etc.
+
+>>> Revision Implementation - Development Clue (Commercial Purpose)
+1 Big data, better searching and matching, intelligent substitution, Turing test communication (For fun programming)
+  - 
+  - 
+Feature of good learning material: Sentences are highly linearly related.
+2 Focus on understanding and synthesizing words ( Fuzzy reach)
+  - Fuzzy Action/Intention/Speech blend: certain words in a speech can have action weight, certain words are merely informative, certain actions are meaningful when combined with certain decorations - when all this happen within a specific theme, it's context is clearer (e.g. user switched mode)
+  - 
+Central idea is still that no one actually ever understands what others are speaking, but listener has a close imagination to speakers intentions and listener is able to reply with decent attention and communication strategies. Complex patterns might exist.
+Central idea: When people talk/reach out, then have a specific intention/key information - a mental destination thst exists before language (or textual description) is organized, which they gradually add decorations to make it more detailed and specific.
+3 Develop predefined communication set, used for specific applications (Commercial product ready)
+  - Education system allowing students to ask genrous questions
+  - Artificial Intelligence speech recognition command
+  - In-Game AI that can respond in some level to user communication and have rather specialized set of communication skills(that can be specific to design of each character), along with Action mechanism they are even capable of extended soecialized behaviors
+Usage: We provide soecific/general multi-to-one/multi dialogs for training, and the system will choose proper words to repl
+Optimization: To further refine searching we can seperate questions into a special list so while matching we don't match that in answers list.
+4 Airi Perception
+  - Accompany basic learning with a dictionary for more formal treatment of grammar and meaning: 
+		Notice that a bunch of language constructs(e.g. if, else, of, on, me, you ) defines well all possible lingual relations between concepts(I.e. aspects and relations); 
+		All other concepts are merely a result of mujti-layers combination
+  - Try to figure out meaning of words from learning materials: check if the word already in dictionary then we can apply syntax and conceptual patterns to see whether the word matches our knowledge, if so continue; 
+  if not, try to figure out a new fundamental usage and extract such pattern to form a new dictionary; 
+  when ever word of a single sentence is well understood it is possible to construct a new compound concept, or do make addition to existing compound concept if we find a match; 
+  concepts do not necessarily have names, before they are explicitly named (as a summary for organization purpose) we just give it a GUID.  
+		A Concept doesn't have a pattern, because its merely a concept of interconnected concepts. 
+		A concept might be used to describe a process, but that's it's interpretation not it's content.
+	: Updated Word Structure{name, related sentences; syntactic patterns of specifics and generals, syntactical properties(e.g. verb etc), syntactic forms, direct conceptual mapping (as perceptions), memorial concept mapping, related compound concepts(as a well organized theme)}
+	: Updated Sentence Structure{Content, theme; a sentence doesn't need reference to related compound concepts because thst should be interpretable in real time}
+	: Updated Theme Structure{Theme name, sentences; theme compound concept}, notice a theme is no longer as a unit container of sentences, it also can be more specifically used as an "organized theme" which defines a preset of possible conversation conventions (e.g. greetings)
+	: Syntactical Pattern structure{List<PatternElement>,parent pattern, variation patterns, related concept} 
+		// Syn Pattern is purely syntactical, it looks like a regex, it can interpret not only words themselves but also access their syntactical properties when matching, what's more it is possible to embed patterns inside patterns 
+		Implementation: recursively the end point is pure words, a SPatternExpression can contain below elements, separated by space, each one can be defined optional
+		Pattern are used in two ways: given a sentence see which patterns it matches, given a sentence see whether it contains some assigned pattern
+	: Structure PatternElement {enum type, string word, string property, string form, pattern subpattern, bool optional, list<PatternElement> Choice}
+	: Concept structure{concept GUID, subconcepts, parent concepts, related words, concept action/accessor, related well-organized theme}
+  - (Perception of meaning) Map to a single concept rather than sentence, react with a single concept rathet than a specific sentence as well: 
+		Every spoken sentence involves multiple and mujti-layers of concepts, and obviously concepts are NOT directly mapped to a word; 
+  - Advanced syntactical pattern matching with variable characters: ONE pattern is one pattern, so it is well defined; A pattern is a concept that relates to some meaning or theme
+
+Currently Working on:
+1. Enable Instigator theme, add conversation to it
+2. ParseClue (?)
+3. Pattern definition and extraction
+4. IsMatchPattern
+5. Conception.cs
+
+>>> Massive Scale Learning
+How to extract information from unstructured natural languages (blogs etc.) and generate conclusions/summaries about them:
+	E.g. Given a book describing object oriented language but not giving a specific summarying sentence how would we describe the concept of OOP to someone else using short sentences?
+
+>>> Extension
+	Just realized there can be a general purpose way of implementing QuickMatch.
+Implementation: Given any divisible elment, given a function to divide the element into subelements; Given subelements let there be a way to compare them; 
+Application: Match english words using only characters; Matching sentences using only words
+Existing SOlution: Regular Expression - http://www.alecjacobson.com/weblog/?p=475
+
+>>> Future Advaned Application
+	Let Airi read, organize, index all those unstructured information for me - given them a structure and make things well organized at different layers so we don't need bothering collecting information.
+	This can be an automatic process: she just reads and collects. Or be an issue-and-execute process: whenever we need some information we ask her to do a first pass searching for us and we just consume the organized result.
+
+>> Airi Human-Like Imperfection Impelementation: Short-Path THikning/Reaction Mechanism
+	1. Use time/depth critical constraint to break thinking and force emitting a reply;
+	2. The above is the only way because if given considerable amount of thinking no action can be taken because our thoughts are endless/recursive; Value system is simply a way to abstract away depths, so it belongs to above.
+
+>> Process, Personality
+1 Do you do sth - ask about experience, answer experience
+Experience is organized as events.
+Events are distinctinguished from process.
+Process consists of events.
+Airi's personality is defined as things (I.e. events) she had done.
+Application: Do you eat apples, do you like red, do you love someone -- those are all queries about past and future actions.
+	(Important recognition: all those are possible to be interpreted/described as actions e.g. likes means more likely to choose for future specific circumstances e.g. when use a color)
+2. 人格定义 - Format:
+	Autobiography, in terms like "I (did) ...." in a natural language, and Airi will adapt that.
+	This is the efficient method to define characters in stories e.g. NPC, VR simulations and other applications.

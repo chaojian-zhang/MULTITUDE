@@ -1,0 +1,5 @@
+﻿# Encoded in UTF8
+# Extended auxiliary knowledge about specific THINGS, including objects and actions
+# Knowledge sheet can be treated as a textual representation of Airi's conceptual memory about concepts
+# E.g. An apple has color; An apple is a kind of fruit
+# The definitions here are not structural but rather written in a natural language so one can view, edit and add later (while in actual Airi's memory it will be structured)

@@ -1,0 +1,3 @@
+﻿# Encoded in UTF8
+# Narrative style documentation of experience, all concepts mentioned here should be solidly defined (i.e. has perceptual mapping)
+# Experience design principle: Everything MENTIONED in an experience sheet like this should has a solid conceptual base - the functions of experience design isn't to define, but to link (logics between concepts and perceptions). Meaning that a fundamental perception (i.e. concept memory) if the fundation for defining meaningful experience, otherwise a mentioned word is just a mentioned word and won't respond to conceptual inputs (because there is no such a thing to reasonate with).

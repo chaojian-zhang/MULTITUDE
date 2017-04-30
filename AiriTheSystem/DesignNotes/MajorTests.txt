@@ -1,0 +1,17 @@
+﻿By passing below tests, we can claim Airi's fundamental components functional and ready for next stage development
+1. Given any well formulated english sentence (as justified by an English speaker), we tell all components from it, and even induce its semantic topics
+Ref: 
+	Problem Domain: http://stackoverflow.com/questions/5544475/does-an-algorithm-exist-to-help-detect-the-primary-topic-of-an-english-sentenc
+	Google: algorithm to find subject of a sentence
+	Comparing with other existing solutions: https://www.quora.com/Whats-the-best-algorithm-for-decomposing-an-English-phrase-into-its-parts-subject-verb-object-etc
+	On statistical approaches: https://en.wikipedia.org/wiki/Natural_language_processing
+Tests:
+	(Sample) Does chicken taste like turkey (Expectation) subject, object, verb
+	(Sample) Fruit flies like a banana (Expectation) 
+	(Sample) I ate pie (Expectation) 
+	(Sample) I will be updating this program shortly (Expectation) 
+	(Sample) That the moon is flat is not a debate any longer (Expectation) 
+	(Sample) How are you (Expectation) 
+	(Sample) Is it true that whales are mammals (Expectation) 
+	(Sample) How are we suppsed to send human to the Mars is still an resolved problem, though human is making considerable progress on it. (Expectation) Tell "it"
+	(Sample) (Expectation) 

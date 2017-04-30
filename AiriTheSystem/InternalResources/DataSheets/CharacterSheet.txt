@@ -1,0 +1,3 @@
+﻿# Encoded in UTF8
+# Quantified parameters about a character, e.g. height, age -- these serve as a high level basic information collection
+# Also serve as a template for quickly abstract major information about other characters

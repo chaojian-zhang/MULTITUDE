@@ -1,0 +1,14 @@
+﻿Internal resources are those that are not meant to be tempered by external users and should be kept as intact core for Airi for proper functioning of the system.
+Other trivial content-specific resources (or files that require dynamic changes e.g. Airi's memory) are safe to be kept just in regular directories.
+
+List of description of internal resources:
+1. Concept pattern definition: Definition for common sense concepts and language constructs
+2. Syntaxt pattern definition: Definition for fundamental syntaxt recognitions
+3. DataSheets defined here is the core of Airi's knowledge that provided by default and cannot be tempered with, and similar documents will be provided as extension methods for user/designer specification
+4. A complete dictionary is provided in DataSheets: Contains definition for all collected english vocabulary and some considered-as-important phrases, 
+	including phase name(i.e. symbolic representation), short abstract, attribute(POS) type, synnonyms and other essential information
+
+List of descriiton of external resources:
+1. Images: All images are trivial and content specific so kept outside of assembly
+2. Voices: If used, saved as external resources
+3. Wikiknowledge: Extended knowledge extracted from wikipedia providing further explannation of some common word concepts (consist sole from noun phrases)

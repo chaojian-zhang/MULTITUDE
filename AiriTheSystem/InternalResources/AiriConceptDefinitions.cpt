@@ -1,0 +1,63 @@
+﻿// Notice this definition serve as a practical layer above basic vocabulalry menaings, and is our 物质之上 way of defining thinking pattern
+
+/* This file defines advanced combinational concept/pattern recognition for Airi */
+'Know': =PhraseAccessible=	// Phrase is accessible in language memory
+Understand: =PhraseAccessible= =PhraseLevel1Connection=	// Phrase have some sort of lower level connection
+Connection: =LanguageConstructedConcept=	// Have language construction definition
+Definitive Source: =FromFirstOrderDesignerSpecifiedLearningSource=	// Knowledge from sources given by designers are treated as absolute truth; explicit statements will be provided
+Picked Up Source: =FromFirstOrderCommunicationLearningSource=	// From direct contact with real human
+Reading Source: =FromSecondOrderReadingLearningSource=	// From reading materials online, e.g. novels
+Truth/Falsity: =ExplicitStatementAccessible=	// There is a corresponding explicit statement, might be interpretable per grammar pattern, e.g. synnonyms allowed
+'Accuse': -Truth/Falsity -@PeopleName	// - indicates in whatever order of occurence
+'Like': =ArousalLikingFeeling=	// Hardwired in physical layer, short-path thinking might be incorporated but still out of reach of Airi's explicit conception (i.e. automatic done e.g. per occurence frequency)
+'Like': =ArousalComfortFeeling=	// Hardwired in physical layer, e.g. sweet tastes
+Sense: =PhysicalArousal=	// Visual, tactile etc.
+
+/* Meaning of phrases; Using and Instantiating */
+/// <summary>
+///	Usage-Recognition: E.g. They(John and Lily) care each other, They hold a ceremony, they got a legal document for marriage -> They are married
+/// Usage-Instantiation: E.g. They get married -> Instantiation of related concept instances, or modification on existing ones (i.e. people)
+///	@Instance desribes accompanying conceptual instances that must be present for recognition purpose of will be generated for conceptualization process (into concept pool)
+/// @Process describes similar to Instance, but instead of static things it describes a dynamic thing
+/// </summary>
+// All descriptive title for a meaning is non-phrase, i.e. not refered directly from internal memory of Airi - this is because def of meaning are by nature ABSTRACT, despite their names solid
+// Def of meaning below can ultimately represent character of Airi because it's very specific and deterministic
+// "As in" describes contexts where the concept applies
+// Concepts as defined below requires STRONG match
+// ~ indicates variety word, including syn and other verb forms
+People as in people<noun> person<noun> human<noun> @PeopleName
+	<Physical> People Class Encapsulation provided by physical layer
+Care For as in 'care for'<verb>'
+	-Instances: 
+	-Processes: 
+Dedication as in dedication<noun> ~dedicate<verb>:
+	-Instances: 
+	-Processes: "Care For"
+Marry as in ~marry<verb, transitive>, married<adj>, marriage<noun>
+	-Instances:	People{xn} Dedication "Marriage Ceremony" "Legal Recognition" // Yes, Airi's understanding of marriage is a braod one	// For a more limited usage we can specifiy the quantity constraint to 2
+	-Processes: 
+Marriage Ceremony as in marriage<noun>
+	-Instances: "Marry" "Ceremony"
+	-Processes: 
+Legal Recognition as in ....
+	-Instances: "Legal Document" "Legal Definition"
+	-Processes: 
+/* Development source: 1. Daily encounter 2. ID of specs and tree 3. WordNet listing of meanings 
+The purpose is: non-recursive definition, tree-like structure, absolute mathcing*/
+// One note on non-recursive definition: notice sometimes it's necessary, for completeness of concept definition othat some concepts involve others in a depdent way, in this case when query into such 
+//	depedent concepts the known (the querying concept) is assumed as present
+
+/*Some commonly used statements (in the future Airi will collect and try to use such from her own readings*/
+So am I: when identify some similar perceptions
+
+/**************** New Treatments *****************
+Concepts are ultimately defined by physical observation/perception (physical measurement), and other concepts
+Concepts are recognized through:
+	Presence of signals (combinations), sequence of signals, timed sequence of signals, and some logical division of signals
+Do notice that from SIS's poitn of view Airi's learning capability is only well developed when we have given her enough fundations, otherwise she will be weak. For example for ordinary (conceptually and intelligently un-organized) people they don't have a consistent/SIS way of learning and expressing but their intelligence are flexible (i.e. non-rationally-based) enough to navigate their lives.
+Our purpose in this design file wil be give a MC's point of view's definition of all vocabulary + secondary abstraction concepts a definition (or multiple) for Airi such that:
+	1. She may refer to it as a dict
+	2. She may actively recognize it for communication purpose
+	Once the framework is setup, we will be working on that manually immediately to create progress - and we might just begin with a matching syntaxt vocabulary dict, and do it by: fundamental perceptions, vocabuulary, secondary concepts - three stages
+(The actual physical perception will be implemented seperate from Core's conceptual perception, and its interface is defined by: object templates, uniqueness pointer, property values and inheritance)
+**************************************************/

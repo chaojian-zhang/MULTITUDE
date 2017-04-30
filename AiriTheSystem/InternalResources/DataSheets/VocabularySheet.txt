@@ -1,0 +1,31 @@
+﻿# Encoded in UTF8
+# Vocabularies containing POS, Synonym relationships, wiki abstract, AND a formal english dictionary definition
+# Airi should be able to learn new vocabular from formal english dictionary definition
+# This file is an effort of program-generated dump from WordNet(or other python/C# NLP libraries) and manual editing (for cleaning up and adding new items)
+# Each word shall be defined once; Each sense of the same word is effectively a new word
+# The goal of this vocabular sheet is both as a wiki abstract, a data sheet, and a functional dictionary
+# Format: 
+#	- Line ending with \r or \n or \r\n
+#	- Use # at the beginning of line to in dicate comments for the rest of line; No space shall be allowed before # symbol
+#	- New words/phrases at the beginning of line after [Word], immediately (no space) followed by a colon and a space then single-space delimited attribute types (POS)
+#	- Each sense of the word is defined by a FORMAL ENGLISH DICTIONARY DEFINITION, immediately after [Definition] and <attribute>, it should be a single line of statements consisting of one or more sentences
+#   - Different forms of the same word (which indicate small tone change or serve other semantic functions) are all listed after [Form] after [Definition], dependent of definition or POS
+#	- Synonyms follow after [Synonym], immediately (no space) followed by a comma delimited list of other words(leading space allowed for readability); Each synnonym corresponds to and differ by each definition
+#	- Abstract of the word (used for technical terms) follow [Abstract], no extra new lines are allowed; This is a longer version of definition
+#	- Order of above elements are not strict but recommeded ordering as described here; Each word shall be seperated by a blank line; Each definition of word shall be seperated by a commented ------- for readaibility; Leading spaces of lines are always ignored
+#	- Unrecognized [Element] will be ignored with a warning, but not causing any side effect; Use this for documentation purpose is needed
+#	- Words listed from A-Z in ascending order
+
+# Example
+# [Word]book: noun verb
+#	[Definition]<noun>A set of printed pages that are held together so that you can read them.
+#	[Form]books
+#	[Synonym]printed pages
+#	[Abstract]
+#	----------
+#	[Definition]<verb>To make arrangements to stay in a place, eat in a restaurant, go to a theatre etc. at a particular time in the future
+#	[Form]booked, booking, books
+#	[Synonym]reserve
+# 
+# [Word]another word here
+# ...

@@ -1,0 +1,2 @@
+﻿Airi doesn't deal with raw perceptions: Airi deal with processed/organized perception concepts. 
+But this kind of "organization" is organized in so far as providing all potentially useful information, and filtering out background noises. I.e. perceptions are not actual more condensed concepts in memory.

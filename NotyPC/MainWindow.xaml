@@ -1,0 +1,92 @@
+﻿<Window x:Class="MULTITUDE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE"
+        mc:Ignorable="d"
+        Title="MULTITUDE" Height="768" Width="1024" Icon="Resources/folder.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button x:Name="button5" Content="Open Folder" Width="75"/>
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Folder Path" TextDecorations="Underline" Width="180" Height="30"/>
+        </StackPanel>
+        <StackPanel Grid.RowSpan="1" Grid.Column="0" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Margin="10,0">
+            <Button x:Name="button" Content="Fetch Changes"/>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="Folder 1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="SubFolder1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/file.png" Width="20" Height="20"/>
+                <Label Content="File1.txt(Copy)"/>
+                <Button x:Name="button2" Content="View Orignal" Width="75" Click="button2_Click"/>
+                <Button x:Name="button3" Content="Replace" Width="75"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="Folder 1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/file.png" Width="20" Height="20"/>
+                <Label Content="File1.txt(Ghost)"/>
+                <Button x:Name="button2_Copy" Content="View Orignal" Width="75" Click="button2_Click"/>
+                <Button x:Name="button3_Copy" Content="Append" Width="75"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.RowSpan="3" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Margin="10,0">
+            <Button x:Name="button1" Content="Generate New View"/>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="Folder 1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="SubFolder1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/file.png" Width="20" Height="20"/>
+                <Label Content="File1.txt"/>
+                <CheckBox Content="Download" HorizontalAlignment="Center" IsChecked="True" Height="30" VerticalAlignment="Bottom"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="Folder 3"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="SubFolder1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal">
+                <Image Source="Resources/folder.png" Width="20" Height="20"/>
+                <Label Content="Folder 1"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/file.png" Width="20" Height="20"/>
+                <Label Content="File1.txt"/>
+                <CheckBox Content="Download" HorizontalAlignment="Center" IsChecked="True" Height="30" VerticalAlignment="Bottom"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Orientation="Horizontal" Margin="30,0,0,0">
+                <Image Source="Resources/file.png" Width="20" Height="20"/>
+                <Label Content="File2.png"/>
+                <CheckBox Content="Download" HorizontalAlignment="Center" IsChecked="True"/>
+            </StackPanel>
+            <Button x:Name="button4" Content="Submit to Server"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"/>
+    </Grid>
+</Window>

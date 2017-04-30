@@ -1,0 +1,90 @@
+﻿<Window x:Name="window" x:Class="MULTITUDE.UploadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE"
+        mc:Ignorable="d"
+        Title="Upload New Structure" Height="768" Width="1024" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Storyboard x:Key="WindowExpand">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="window">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1024">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource WindowExpand}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" >
+            <Button x:Name="OpenFolderButton" Content="Open Folder" Width="75" Click="OpenSelectFolderButton_Click"/>
+            <TextBlock x:Name="FolderPathBlock" TextWrapping="Wrap" TextDecorations="Underline" Height="30" Margin="0" Text="" Padding="0,13,0,0"/>
+            <Button x:Name="GenerateViewButton" Content="Generate Folder Structure" Click="GenerateViewButton_Click" IsEnabled="False"/>
+        </DockPanel>
+        <ScrollViewer Grid.Row="1" >
+            <TreeView x:Name="DirectoryView" HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True">
+                <TreeView.Resources>
+                    <local:DirectoryItemsSourceCreator x:Key="DirectoryItemsSourceCreator"/>
+                    <HierarchicalDataTemplate DataType="{x:Type local:JFolder}" ItemsSource="{Binding Converter={StaticResource DirectoryItemsSourceCreator}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Foreground="Green" Tag="{Binding}" Click="OpenFolderButton_Click" >
+                                <Button.Content>
+                                    <Image Source="Resources/folder.png" Margin="0,0,5,0" />
+                                </Button.Content>
+                            </Button>
+                            <TextBlock Text="{Binding FolderName}" />
+                            <TextBlock Text=" [" Foreground="Blue" />
+                            <TextBlock Text="{Binding Folders.Count}" Foreground="Blue" />
+                            <TextBlock Text="]" Foreground="Blue" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type local:JFile}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Foreground="Green" Tag="{Binding}" Click="OpenFileButton_Click" >
+                                <Button.Content>
+                                    <Image Source="Resources/file.png" Margin="0,0,5,0" />
+                                </Button.Content>
+                            </Button>
+                            <TextBlock Text="{Binding FileName}" />
+                            <CheckBox Content="Enable Content" Foreground="Green" IsChecked="{Binding bInclude}" Tag="{Binding}" Checked="CheckBox_bInclude_Checked" Unchecked="CheckBox_bInclude_Unchecked" ></CheckBox>
+                            <CheckBox Content="ANSI Encoded" Foreground="Green" IsChecked="{Binding bANSI}" Tag="{Binding}" Checked="CheckBox_bANSI_Checked" Unchecked="CheckBox_bANSI_Unchecked"></CheckBox>
+                            <!-- http://stackoverflow.com/questions/1906587/wpf-bind-to-itself -->
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </ScrollViewer>
+        <StackPanel HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch">
+            <Button x:Name="SubmitButton" Content="Submit" Height="20" Click="SubmitButton_Click" IsEnabled="False"/>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="SaveJSONButton" Click="SaveJSONButton_Click" IsEnabled="False" Grid.Column="0" Content="Save JSON"/>
+                <Button x:Name="SaveHTMLButton" Click="SaveHTMLButton_Click" IsEnabled="False" Grid.Column="1" Content="Save HTML"/>
+            </Grid>
+            <StackPanel Height="30" Orientation="Horizontal">
+                <Label Content="Status: "/>
+                <Label x:Name="StatusLabel"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,3 @@
+Subject: <Noun>
+Time: [Morning|Afternoon|Evening]
+Greeting: Good "Time"

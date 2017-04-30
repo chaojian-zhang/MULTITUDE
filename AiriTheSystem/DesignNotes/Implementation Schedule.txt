@@ -1,0 +1,48 @@
+﻿>>> Current 2017 March
+1. (Coding) PatternMemory total recoding and testing using stateachine for extracting pattern elements
+2. (Design) Organze notes on concepts and design the system for full potentiality
+2. (Engineering) Figure out ways of automatic and manual unit tests to thoroughly test Pattern definitions, recognitions
+4. (Design) Define more useful patterns and complete language constructurs
+3. (Coding) Implement some conceptialization and enable Airi to do useful stuff by associating some useful actions
+5. (Facility) Complete dictionary definition files and its importing and creation framework
+6. Check out mobile and QuickNotes folder on disk on AiriTheSystem implementation and patterns
+
+>>> Details
+1. PatternInstance.GetWordCount() may not be accurate considering our recent changes -> Deprecate this function
+2. "Good morning" matched to Verb Phrase error debug (SplitPatternStringElement() has problem with counting elements) -> Test it
+
+>>> Future
+1. <Design> Phrase/word distionction and Chinese language (no space seperation; non-domain specific storage) in Vocabulary.cs: ProbeWord...() functions
+2. <Study> Dictionary setup
+	Study WordNet C# library: 
+		<Partially Done> Figure out how to do query and which properties can be useful to us
+		<Partially Done> Current working on SearchResult.findtheinfo
+	Load Words: A combination of Linux words list, syntactical deduction and WordNet extraction
+	Define Dictionary: Define a dictionary format for final Airi dictionary; Transfer current vocabulary class to use this internal file
+	Study Python NPL: Check what NPL can provide us and extract useful information
+	<Pending> Establish Simple Relations between words and decide on "common sensse" concepts and language constructs and how we might adopt it
+	Knowledge and phrase learning
+		Extra abstract and title from Wiki and WikiDict; NO NEED TO consider putting it in binary since texts are efficiently stored already (Also check how useful WikiDict is since we already have Wikipedia)
+		Devise a way to remove not useful information from Wikipedia and seperate into core (loaded in mem as knowledge) and auxiliary part (queried only when needed for refencen purpose)
+3. <Facility/Action> Make responses data-driven, or scriptable (using python), or at least a sperate dll so we don't need to always recompile when adding new functions
+
+>>> Features/Facilities
+1. Music playback
+2. Weather reading
+3. Speech recognition and synthesize
+
+>> Conceptual Aspects Experimental Implementation
+1. Actions and Patterns Reaction
+2. Speech Generation
+3. Conceptual Attribution among random sets of concepts
+	Set theory of inclusion
+	Ambiguous judgement
+	Elaboration on parent and children concept
+	Finite number iteration of well-defined relations
+4. Events, process, personality and experience memory
+
+>>> Futher Improvements/Debugs
+1. See <Debug><Improvement> for debug and improvement request
+2. See <Performance><Test> for potential performance boosts (need better solution) and experimental codes (need clean up)
+3. See <Development> for changed for publish version, e.g. internalize some classes
+4. See <TODO> for other misc tasks
