@@ -9,6 +9,9 @@ Theory/Airi can read to learn.
 	(Structure)4-Layet Discover and Associate: Word, phrase, sentence(meaning), theme
 	: Learn from real and pure dialogues(e.g. classical drama works) 
 
+>> Important Reading (Pending) - Read while associate how we cooperate
+https://en.wikipedia.org/wiki/Perception
+
 >>> Division (Application Domain) of TheSystem (In level of complexity and robustness)
 Domain 1: Well-Formulated Expert System using trained materials quite like FAQ
 Domain 2: Pattern-Action model for an extended understanding yet well defined behavior types
@@ -31,6 +34,7 @@ Define special symbols as part of lattern. (And but, ?!'" as functional phrase -
 Decorations like Adv and adj can be interpreted as specifier that create specific conrext for noun and verbs (and some single-word noun/verbs are compressed such context)
 A concept constitutes of any number of component aspects. To identify it means to highlight the feature Components in concept graph then find its higher level parent. One key is how attribution is given so that it is possible to highlight concepts that are abstract and not directly represented by spoken words. That is, how to identify conceptual patterns. 
 Recognition using feature (this enables Airi to talk in a higher level non-informative and nonspecific yet human like and remarkable way)
+Airi speaks a subset of English - Aritificial English or Anglish, with major focus on understanding, expressing and converying information and instructions
 
 >>> Implementation - Proposal One
 : Physically divided by boundary

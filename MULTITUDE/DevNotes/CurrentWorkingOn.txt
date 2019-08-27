@@ -1,0 +1,2 @@
+﻿1. Serialization: Document.cs; Home.cs
+	While home is serialized, documents only serialize their base, with their sub class contents saved directly to the file rather than serialized (except for caches)

@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.IconBase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl"
+             mc:Ignorable="d" Width="{x:Static local:IconBase.DefaultCanvasIconSize}" Height="{x:Static local:IconBase.DefaultCanvasIconSize}"
+             d:DesignHeight="{x:Static local:IconBase.DefaultCanvasIconSize}" d:DesignWidth="{x:Static local:IconBase.DefaultCanvasIconSize}" 
+             SizeChanged="UserControl_SizeChanged" Loaded="UserControl_Loaded" ToolTipService.InitialShowDelay="0" 
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseMove="UserControl_MouseMove" 
+             MouseLeftButtonDown="UserControl_MouseLeftButtonDown" MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
+             MouseDoubleClick="UserControl_MouseDoubleClick">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem>
+                <MenuItem.Header>
+                    <Grid>
+                        <Button Content="Get Physical Location"/>
+                        <Button Content="Get Physical Folder"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Header="Menu item 2" />
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <UserControl.Resources>
+        <Style x:Key="IconImageBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
+        <Style x:Key="IconSelectionBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA40000"/>
+                        <GradientStop Color="#FF320000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsMouseOver, ElementName=IconImage}" Value="True">
+                    <Setter Property="Cursor" Value="Arrow" />
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="IconImage" TargetType="Image">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Stretch" Value="UniformToFill"/>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.ToolTip>
+        <StackPanel>
+            <ItemsControl x:Name="ToolTipCluesPanel">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Label x:Name="ToolTipNameLabel" Visibility="Collapsed"/>
+            <Label x:Name="ToolTipCommentLabel" Visibility="Collapsed"/>
+        </StackPanel>
+    </UserControl.ToolTip>
+    <!-- Icon Container-->
+    <Grid>
+        <Border x:Name="SelectionBorder" Style="{StaticResource IconSelectionBorder}"/>
+        <!-- Actual Icon Content -->
+        <Grid x:Name="IconContentGrid" Margin="5">
+            <!-- Default Small Icon -->
+            <Border x:Name="IconImageBorder" Style="{StaticResource IconImageBorder}">
+                <Image x:Name="IconImage" Source="/MULTITUDE;component/Resource/Backbutton.png" Style="{StaticResource IconImage}" Margin="3" Stretch="UniformToFill"/>
+            </Border>
+            <!-- Document specific preview icon are added dynamically -->
+            <!-- Requiredments: 1. Automatically adjust size using Grid 2. Leave some non-event handling yet visible area around corner so IconBase can handle resizing -->
+        </Grid>
+    </Grid>
+</UserControl>

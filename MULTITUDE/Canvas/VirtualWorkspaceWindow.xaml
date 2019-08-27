@@ -1,0 +1,720 @@
+﻿<Window xmlns:CustomControl="clr-namespace:MULTITUDE.CustomControl"  x:Class="MULTITUDE.Canvas.VirtualWorkspaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Canvas"
+        xmlns:localc="clr-namespace:MULTITUDE.Class"
+        xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
+        mc:Ignorable="d" d:DesignWidth="1366" d:DesignHeight="768" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MULTITUDE" Foreground="{x:Null}" WindowStartupLocation="CenterScreen"  WindowState="Maximized" AllowDrop="True" 
+        ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True" WindowStyle="None" Background="#FF343434"
+        Drop="Window_Drop" DragEnter="Window_DragEnter" Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
+        MouseDown="Window_MouseDown" MouseMove="Window_MouseMove" MouseUp="Window_MouseUp" GiveFeedback="Window_GiveFeedback" DragOver="Window_DragOver" DragLeave="Window_DragLeave" MouseDoubleClick="Window_MouseDoubleClick">
+    <Window.Resources>
+        <SolidColorBrush x:Key="CanvasSpaceSwitchPaneButtonDimBorder" Color="#19AEAEAE"/>
+        <SolidColorBrush x:Key="CanvasSpaceSwitchPaneDimBorder" Color="#FF051A38"/>
+        <SolidColorBrush x:Key="CanvasSpaceSwitchPaneBackground" Color="#FF233C5B"/>
+        <SolidColorBrush x:Key="CanvasSpaceSwitchPaneSeparatorColor" Color="#FF4681E8"/>
+        <Style x:Key="CanvasSpaceSwitchPaneButton" TargetType="Button">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CanvasSpaceSwitchPaneButtonDimBorder}"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style x:Key="CanvasSpaceSwitchPaneButtonImage" TargetType="Image">
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Height" Value="26"/>
+        </Style>
+        <Style x:Key="CanvasSpaceSwitchPaneButtonLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style x:Key="CanvasSpaceSwitchPaneButtonShortcutLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="#FFFFD598"/>
+            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform X="16" Y="-7"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CanvasSpaceSwitchPaneBorder" TargetType="Border">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0,2,2,2"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CanvasSpaceSwitchPaneDimBorder}"/>
+            <Setter Property="Background" Value="{StaticResource CanvasSpaceSwitchPaneBackground}"/>
+        </Style>
+        <Style x:Key="CanvasSpaceSwitchPaneLineSeparator" TargetType="Line">
+            <Setter Property="Stroke" Value="{StaticResource CanvasSpaceSwitchPaneSeparatorColor}"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="X1" Value="0"/>
+            <Setter Property="X2" Value="50"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <BlurEffect Radius="2" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DocumentEmptySlotValid" TargetType="Border">
+            <Setter Property="Margin" Value="8"/>
+            <!-- In correspondence to {x:Static localc:VirtualWorkspace.GridUnitGap}-->
+            <Setter Property="Width" Value="36"/>
+            <!-- In correspondence to {x:Static localc:VirtualWorkspace.GridUnitSize}-->
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="1"/>
+            <Setter Property="BorderBrush" Value="#7F48F1E9"/>
+            <Setter Property="Background" Value="#332AC7F5"/>
+        </Style>
+        <SolidColorBrush x:Key="ButtonGoldenForegroundText" Color="#FFFFAE00"/>
+        <SolidColorBrush x:Key="ButtonGoldenForegroundTextFocus" Color="#FFCB8100"/>
+        <SolidColorBrush x:Key="ButtonGoldenChromeBackground" Color="#FF68511F"/>
+        <SolidColorBrush x:Key="ButtonGoldenRim" Color="#FFBFA23D"/>
+        <SolidColorBrush x:Key="ButtonGoldenRimFocus" Color="#FFC39C48"/>
+        <Style x:Key="TrapezoidalButtonGoldenUpper" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Blue"/>
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource ButtonGoldenRimFocus}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="true">
+                    <Setter Property="BorderBrush" Value="{StaticResource ButtonGoldenRimFocus}" />
+                </Trigger>
+                <Trigger Property="IsDefaulted" Value="true">
+                    <Setter Property="BorderBrush" Value="{StaticResource ButtonGoldenRimFocus}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="{StaticResource ButtonGoldenForegroundTextFocus}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource ButtonGoldenRimFocus}"/>
+                </Trigger>
+                <!-- <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                            </Trigger> -->
+            </Style.Triggers>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Foreground" Value="{StaticResource ResourceKey=ButtonGoldenForegroundText}"/>
+            <Setter Property="Background" Value="{StaticResource ResourceKey=ButtonGoldenChromeBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=ButtonGoldenRim}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Margin="{TemplateBinding Margin}">
+                            <!-- Trapzoidal Background Shape -->
+                            <Path x:Name="TrapPath" Fill="{TemplateBinding Background}"  
+                                  Stroke="{TemplateBinding BorderBrush}" 
+                                  StrokeThickness="{TemplateBinding BorderThickness}" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure IsClosed="True" StartPoint="0,0">
+                                            <LineSegment Point="30,0"/>
+                                            <LineSegment Point="22,15"/>
+                                            <LineSegment Point="8,15"/>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <!-- Text -->
+                            <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TrapezoidalButtonGoldenLower" TargetType="Button" BasedOn="{StaticResource TrapezoidalButtonGoldenUpper}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Margin="{TemplateBinding Margin}">
+                            <!-- Trapzoidal Background Shape -->
+                            <Path x:Name="TrapPath" Fill="{TemplateBinding Background}"  
+                                  Stroke="{TemplateBinding BorderBrush}" 
+                                  StrokeThickness="{TemplateBinding BorderThickness}" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure IsClosed="True" StartPoint="8,0">
+                                            <LineSegment Point="22,0"/>
+                                            <LineSegment Point="30,15"/>
+                                            <LineSegment Point="0,15"/>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <!-- Text -->
+                            <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="CoordinateLocatorBorderBrush"/>
+        <SolidColorBrush x:Key="CoordinateLocatorSurfaceBrush" Color="#59A7B6D1"/>
+        <SolidColorBrush x:Key="CoordinateLocatorHoverBorderBrush" Color="#BFFFFF00"/>
+        <SolidColorBrush x:Key="CoordinateLocatorHoverSurfaceBrush" Color="#BFA0C7FF"/>
+        <SolidColorBrush x:Key="CoordinateLocatorHighlightBorderBrush"  Color="#BF408EFF"/>
+        <SolidColorBrush x:Key="CoordinateLocatorHighlightSurfaceBrush" Color="#FF70ABFF"/>
+        <Style x:Key="CoordinateLocatorBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{StaticResource CoordinateLocatorSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CoordinateLocatorBorderBrush}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource CoordinateLocatorHoverSurfaceBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource CoordinateLocatorHoverBorderBrush}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{StaticResource CoordinateLocatorHighlightSurfaceBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource CoordinateLocatorHighlightBorderBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Storyboard x:Key="FadeInOutAnimation" Storyboard.TargetProperty="(Opacity)">
+            <DoubleAnimation From="1" To="0.3" Duration="0:0:1"/>
+            <DoubleAnimation From="0.3" To="1" Duration="0:0:1"/>
+        </Storyboard>
+    </Window.Resources>
+    <Grid>
+        <Canvas x:Name="MainCanvas">
+            <Canvas.Style>
+                <Style TargetType="Canvas">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=LockScreen}" Value="Visible">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <BlurEffect Radius="15"/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Canvas.Style>
+            <!-- Background Handling: A blur like such is too expensive, consider process it during loading, create a temp image and bind to it -->
+            <!-- <Image x:Name="BackgroundImageDrop" Source="{Binding ElementName=BackgroundImage,Path=Source}" Stretch="Fill"
+               Width="{Binding ActualWidth, ElementName=MainCanvas}"
+               Height="{Binding ActualHeight, ElementName=MainCanvas}">
+            <Image.Effect>
+                <BlurEffect Radius="1024"/>
+            </Image.Effect>
+        </Image> -->
+            <!-- 
+        <Border x:Name="BackgroundImageCover" BorderThickness="0" Background="#309CBDDA"
+               Width="{Binding ActualWidth, ElementName=MainCanvas}"
+               Height="{Binding ActualHeight, ElementName=MainCanvas}">
+            <Border.Effect>
+                <BlurEffect Radius="5"/>
+            </Border.Effect>
+        </Border> -->
+            <Image x:Name="BackgroundImage" Source="/MULTITUDE;component/Resource/Images/Background.jpg" Stretch="Uniform"
+               Width="{Binding ActualWidth, ElementName=MainCanvas}"
+               Height="{Binding ActualHeight, ElementName=MainCanvas}"/>
+            <!-- Background: Shared Player -->
+            <wpf:VlcPlayer xmlns:wpf="clr-namespace:Meta.Vlc.Wpf;assembly=Meta.Vlc.Wpf" x:Name="vlcPlayer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" Height="0" Background="{x:Null}" Visibility="Collapsed"/>
+            <!-- Absolute positioned UI items -->
+            <Grid x:Name="AbosolutePositionedUI" Width="{Binding ActualWidth, ElementName=MainCanvas}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <!-- Settings Button -->
+                <Button x:Name="SettingsButton" Grid.Row="1" Grid.Column="1" Background="{x:Null}" Click="SettingsButton_Click">
+                    <Image Width="16" Height="16"  Source="/MULTITUDE;component/Resource/Settings (1).png"/>
+                </Button>
+                <!-- Cross-top search bar: with customization in load -->
+                <cc:MemoirSearchBar x:Name="TopSearchBar" Grid.Row="1" Grid.Column="2"/>
+                <!-- Title Displays -->
+                <DockPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" LastChildFill="True">
+                    <Label DockPanel.Dock="Left" Content="Subject: " VerticalAlignment="Bottom" Foreground="White" FontSize="36" Padding="0"/>
+                    <TextBox x:Name="VWSubjectName" DockPanel.Dock="Left" Text="Sample" MinWidth="150"
+                         Padding="0,0,0,-4" BorderBrush="White" BorderThickness="0,0,0,2" Margin="0,0,0,5"
+                         VerticalAlignment="Bottom" Background="Transparent" FontSize="24"
+                         Foreground="White" TextChanged="VWSubjectName_TextChanged" MouseLeave="VWSubjectName_MouseLeave">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="IsReadOnly" Value="True"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Focusable" Value="True"/>
+                                        <Setter Property="IsReadOnly" Value="False"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </DockPanel>
+                <!-- VW Level Operations -->
+                <DockPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+                    <!-- Coordinate Compass -->
+                    <Grid x:Name="CoordinateCompass" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="40" Margin="0,0,10,0"
+                      Background="Transparent" MouseLeftButtonDown="VWLocationCompass_MouseLEftButtonDown">
+                        <Grid.Resources>
+                            <Style TargetType="Border" BasedOn="{StaticResource CoordinateLocatorBorder}">
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <BlurEffect Radius="3"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border x:Name="LocatorCompassTLIcon" Grid.Row="0" Grid.Column="0" />
+                        <Border x:Name="LocatorCompassTIcon" Grid.Row="0" Grid.Column="1" />
+                        <Border x:Name="LocatorCompassTRIcon" Grid.Row="0" Grid.Column="2" />
+                        <Border x:Name="LocatorCompassLIcon" Grid.Row="1" Grid.Column="0" />
+                        <Border x:Name="LocatorCompassCenterIcon" Grid.Row="1" Grid.Column="1" IsEnabled="True" />
+                        <Border x:Name="LocatorCompassRIcon" Grid.Row="1" Grid.Column="2" />
+                        <Border x:Name="LocatorCompassBLIcon" Grid.Row="2" Grid.Column="0" />
+                        <Border x:Name="LocatorCompassBIcon" Grid.Row="2" Grid.Column="1" />
+                        <Border x:Name="LocatorCompassBRIcon" Grid.Row="2" Grid.Column="2" />
+                        <Label x:Name="CoordinateCompassCoordinateLabel" Content="Coordinate: 1,1" Grid.Row="3" Grid.ColumnSpan="3" FontSize="4" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           ToolTipService.InitialShowDelay="0" ToolTip="Coordinate: 1,1"/>
+                    </Grid>
+                    <!-- Commit Button -->
+                    <Button x:Name="ConvertVWToVAButton"  Style="{StaticResource ButtonStyle}" Click="ConvertVWToVAButton_Click"
+                    Content="Commit as VA" ToolTip="Organize all documents in current virtualworksapce under a VA named after current VW's subject."/>
+                    <!-- Pack VW as a document Button -->
+                    <Button x:Name="PackAsDocumentButton" Style="{StaticResource ButtonStyle}" Click="PackAsDocumentButton_Click"
+                    Content="Pack as document" ToolTip="Pack current VW as a document."/>
+                </DockPanel>
+                <!-- Virtual Page Control -->
+                <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="50,0,0,0">
+                    <Button x:Name="Page0Button" Style="{StaticResource TrapezoidalButtonGoldenUpper}" Content="1" Click="Page0_Click" IsEnabled="False"/>
+                    <Button x:Name="Page1Button" Style="{StaticResource TrapezoidalButtonGoldenLower}" Content="2" Click="Page1_Click"/>
+                    <Button x:Name="Page2Button" Style="{StaticResource TrapezoidalButtonGoldenUpper}" Content="3" Click="Page2_Click"/>
+                    <Button x:Name="Page3Button" Style="{StaticResource TrapezoidalButtonGoldenLower}" Content="4" Click="Page3_Click"/>
+                    <Button x:Name="Page4Button" Style="{StaticResource TrapezoidalButtonGoldenUpper}" Content="5" Click="Page4_Click"/>
+                </StackPanel>
+                <!-- Virtual Workspace Stack -->
+                <ListBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="250" Margin="10"
+                     ItemsSource="{Binding VWStackTrace}"
+                Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=Name}" MouseLeftButtonDown="VWStack_JumpBackInTrace"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <!-- Document Selection Drag -->
+            <Border x:Name="DragArea" Canvas.Top="250" Canvas.Left="400" Width="0" Height="0" Visibility="Hidden" Style="{StaticResource MouseDragArea}"/>
+            <!-- Left Side Canvas Switch Pane -->
+            <Grid x:Name="LeftSideSpaceSwitchPane" Canvas.Left="-3" Height="{Binding ActualHeight, ElementName=MainCanvas}" >
+                <Border Style="{StaticResource CanvasSpaceSwitchPaneBorder}">
+                    <StackPanel>
+                        <!-- Viewers and Presentation -->
+                        <!-- Scene -->
+                        <Button x:Name="WebBrowserButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="WebBrowserButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Web.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Web_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F1]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Web Browser" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Music Player -->
+                        <Button x:Name="MediaPlayerButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click ="MediaPlayerButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Media.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Media_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F2]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Media" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Table Viewer -->
+                        <Button x:Name="TableViewerButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="TableViewerButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Table.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Table_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F3]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Table" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Image Viewer -->
+                        <Button x:Name="ImageViewerButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="ImageViewerButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Image.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Image_hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F4]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Image" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <Line Style="{StaticResource CanvasSpaceSwitchPaneLineSeparator}"/>
+                        <!-- Editors and Creation -->
+                        <!-- Markdown Plus Editor-->
+                        <Button x:Name="MDPlusButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="MDPlusButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Document.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Document_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F5]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="MarkD+" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Graph Editor -->
+                        <Button x:Name="GraphEditorButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="GraphEditorButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Graph.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Graph_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F6]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Graph" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Archive -->
+                        <Button x:Name="ArchiveButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="ArchiveButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Archive.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Archive_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F7]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Archive" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Collection Creator -->
+                        <Button x:Name="CollectionCreatorButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}"  Click="CollectionCreatorButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Collection.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Collection_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F8]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Collection" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Clue Browser -->
+                        <Button x:Name="ClueBrowserButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="ClueBrowserButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Clue.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Clue_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F9]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Clue" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <Line Style="{StaticResource CanvasSpaceSwitchPaneLineSeparator}"/>
+                        <!-- Spaces -->
+                        <!-- Quick Match -->
+                        <Button x:Name="QuickMatchButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="QuickMatchButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/QuickMatch.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/QuickMatch_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F10]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="QuickMatch" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Forgotten Space -->
+                        <Button x:Name="ForgottenSpaceButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="ForgottenSpaceButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Forgotten.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Forgotten_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F11]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Forgotten" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Void Space -->
+                        <Button x:Name="VoidSpaceButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="VoidSpaceButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Void.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Void_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[F12]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Void" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Extra: Leave -->
+                        <Line Style="{StaticResource CanvasSpaceSwitchPaneLineSeparator}"/>
+                        <Button x:Name="LeaveButton" Style="{StaticResource CanvasSpaceSwitchPaneButton}" Click="LeaveButton_Click">
+                            <StackPanel>
+                                <Grid>
+                                    <Image Source="/MULTITUDE;component/Resource/Icons/CanvasSpace/Leave.png" >
+                                        <Image.Style>
+                                            <Style TargetType="Image"  BasedOn="{StaticResource CanvasSpaceSwitchPaneButtonImage}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/CanvasSpace/Leave_Hover.png"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Label HorizontalAlignment="Center" Content="[N/A]" Style="{StaticResource CanvasSpaceSwitchPaneButtonShortcutLabel}" Visibility="{Binding CanvasSpaceShortCutLabelVisibility}"/>
+                                </Grid>
+                                <Label Content="Leave" Style="{StaticResource CanvasSpaceSwitchPaneButtonLabel}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- Freestyle Document Canvas: Generated in code -->
+            <Canvas x:Name="DocumentIconsCanvas"
+                Width="{Binding ActualWidth, ElementName=MainCanvas}"
+                Height="{Binding ActualHeight, ElementName=MainCanvas}">
+                <Canvas.RenderTransform>
+                    <TranslateTransform x:Name="DocumentIconsCanvasTranslation" X="0" Y="0"/>
+                </Canvas.RenderTransform>
+            </Canvas>
+            <!-- Bottom Tooltray
+        <CustomControl:ToolTray x:Name="BottomTooltray" Canvas.Bottom="0" Width="{Binding ActualWidth, ElementName=MainCanvas}" HorizontalAlignment="Center">
+        </CustomControl:ToolTray> -->
+            <!-- Overlap elements: On top of everything else -->
+            <Grid Width="{Binding ActualWidth, ElementName=MainCanvas}" Height="{Binding ActualHeight, ElementName=MainCanvas}">
+                <!-- Timer Support -->
+                <Grid x:Name="TimerSettings" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Border BorderThickness="1" Background="{StaticResource ResourceKey=SurfaceBackground}" Padding="15">
+                        <StackPanel>
+                            <Label Content="Timer Setup" HorizontalAlignment="Center" Style="{StaticResource UITitleStyle}"/>
+                            <DockPanel LastChildFill="False" HorizontalAlignment="Center" Margin="2">
+                                <DockPanel.Resources>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Foreground" Value="{StaticResource ResourceKey=TransparentText}"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="FontSize" Value="25"/>
+                                        <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsReadOnly" Value="False">
+                                                <Setter Property="TextDecorations" Value="Underline"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="{StaticResource ResourceKey=TransparentText}"/>
+                                        <Setter Property="FontSize" Value="25"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </DockPanel.Resources>
+                                <TextBox x:Name="TimerHourTextBox" Text="{Binding TimerHourText}" ToolTip="Hour"/>
+                                <Label Content=":"/>
+                                <TextBox x:Name="TimerMinuteTextBox" Text="{Binding TimerMinuteText}" ToolTip="Minute"/>
+                                <Label Content=":"/>
+                                <TextBox x:Name="TimerSecondTextBox" Text="{Binding TimerSecondText}" ToolTip="Second"/>
+                            </DockPanel>
+                            <TextBox x:Name="TimerRemindingMessageTextBox" Text="{Binding TimerRemindingMessage}" Margin="4" AcceptsReturn="True"
+                                 Style="{StaticResource TextboxStyle}" BorderThickness="0"/>
+                            <DockPanel x:Name="SetNewTimerOptions" LastChildFill="False">
+                                <Button DockPanel.Dock="Left" Content="Set" Style="{StaticResource ButtonStyle}" Width="70" ToolTipService.InitialShowDelay="0" ToolTip="Notice by setting a new timer previous one will be cancelled." Click="TimerSet_Click"/>
+                                <Button DockPanel.Dock="Right" Content="Cancel" Style="{StaticResource ButtonStyle}" Width="70" Click="TimerCancel_Click"/>
+                            </DockPanel>
+                            <Grid x:Name="CancelExistingTimerOptions" Visibility="Collapsed">
+                                <Button HorizontalAlignment="Center" Content="Clear" Style="{StaticResource ButtonStyle}" Width="70" ToolTipService.InitialShowDelay="0" ToolTip="Clear existing timer." Click="TimerClear_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <!-- Center Hover Spiral VW Coordinate System: Actual content generated in procedural code -->
+                <Grid x:Name="SpiralVWCoordinateGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="560" Height="560" Visibility="Collapsed">
+                    <Grid.Resources>
+                        <Style TargetType="ItemsControl" BasedOn="{StaticResource ItemsControlStyle}">
+                            <Setter Property="BorderThickness" Value="3"/>
+                            <Setter Property="Margin" Value="10"/>
+                            <!-- When not enabled it's current active; When enabled it's used for swtiching into others -->
+                            <Setter Property="Background" Value="Gray"/>
+                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Setter Property="ItemTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Name}"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" Value="{StaticResource DimTextBorderMysticalBlue}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="{StaticResource FrameBackground}"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource DimTextBorder}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.Effect>
+                        <DropShadowEffect ShadowDepth="0"/>
+                    </Grid.Effect>
+                </Grid>
+            </Grid>
+
+            <TextBlock x:Name="DocumentDropCursorText" Text="Test" Canvas.Top="439" Canvas.Left="784"  FontSize="14" Foreground="AliceBlue" Visibility="Collapsed" IsHitTestVisible="False"/>
+        </Canvas>
+
+        <!-- Lock Screen Overlay, State Preserved Until Unlocked -->
+        <Grid x:Name="LockScreen" Visibility="{Binding LockscreenVisibility}" Background="#5946453E"
+            Width="{Binding ActualWidth, ElementName=MainCanvas}"
+            Height="{Binding ActualHeight, ElementName=MainCanvas}">
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                Content="Acccess Is Locked" Style="{StaticResource GoldenBoldTextStyle}" FontSize="75" Foreground="#AAFFF48A">
+                <Label.Effect>
+                    <DropShadowEffect ShadowDepth="0" Color="#AAFFF48A"/>
+                </Label.Effect>
+            </Label>
+            <Image VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20" Width="64" Height="64"
+                ToolTipService.InitialShowDelay="0" ToolTip="The screen is locked, you will not be able to access any contents directly." Source="/MULTITUDE;component/Resource/Icons/lock-icon.png"/>
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20" Style="{StaticResource RoundCornerButtonThickTransparent}"
+                Content="Close" FontSize="20" Click="LeaveButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

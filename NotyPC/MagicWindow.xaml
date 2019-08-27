@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MULTITUDE"
         mc:Ignorable="d"
         Title="Magic Explorer" Height="758" Width="1024" WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{x:Null}" 
-        AllowsTransparency="True" WindowStyle="None" SnapsToDevicePixels="True" ShowInTaskbar="False" StateChanged="window_StateChanged"  Deactivated="window_Deactivated" Activated="window_Activated">
+        AllowsTransparency="True" WindowStyle="None" SnapsToDevicePixels="True" ShowInTaskbar="False" StateChanged="window_StateChanged"  Deactivated="window_Deactivated" Activated="window_Activated" ShowActivated="False">
     <Window.Resources>
         <Storyboard x:Key="Window_Fade_In">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="window">

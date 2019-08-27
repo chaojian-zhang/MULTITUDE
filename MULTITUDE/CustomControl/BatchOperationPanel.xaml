@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.BatchOperationPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl"
+             mc:Ignorable="d" d:DesignHeight="1366" d:DesignWidth="375"
+             Width="375" Style="{StaticResource ContentPanel}">
+    <UserControl.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Width" Value="65"/>
+        </Style>
+        <Style x:Key="ExpanderStyle" TargetType="Expander">
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="Foreground" Value="{StaticResource ResourceKey=ForegroundText}"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <!-- Operations Row: scroll using MMB && MouseWheel (<Development> Pending) -->
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
+            <Border BorderThickness="1" BorderBrush="Gray">
+                <StackPanel>
+                    <!-- Statistics and general management -->
+                    <Expander Header="Documents (n selected):" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Types and names of selected documents. Click to edit.\nAll documents, unless &apos;cleared&apos; in Void Universe, are not physically deleted - but only hidden from all other views, including clues and links and CEA (this part might be too technical, change it)." 
+                           Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <ScrollViewer Style="{StaticResource ScrollViewerStyle}" MaxHeight="350">
+                                <ItemsControl Style="{StaticResource ScrollableItemsControlStyleV}">
+
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <DockPanel LastChildFill="False">
+                                <Button Content="Remove" ToolTip="Remove from current VW; Move to Forgotten Universe if no clue is assigned to this document."/>
+                                <Button Content="Delete" ToolTip="Remove from home(including clues) and all VWs; Reside in Void Universe afterwords."/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!-- Clues editing -->
+                    <Expander Header="Common Clues (n shared):" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="The clues that are shared by selected documents. Click to edit (refactor)." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <ScrollViewer Style="{StaticResource ScrollViewerStyle}" MaxHeight="350">
+                                <ItemsControl Style="{StaticResource ScrollableItemsControlStyleV}">
+
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Expander>
+                    <!-- Meta editing -->
+                    <Expander Header="Meta Tagging (n added):" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Shared meta information by selected documents. Click to edit. Name and comments excluded." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <ScrollViewer Style="{StaticResource ScrollViewerStyle}" MaxHeight="350">
+                                <ItemsControl Style="{StaticResource ScrollableItemsControlStyleV}">
+
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Expander>
+                    <!-- Actions -->
+                    <Expander Header="Actions:" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Common document operations." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <DockPanel LastChildFill="False">
+                                <Button Content="Copy" ToolTip="Do a mental copy. Only a reference is duplicated, no physical file operations happen. Use this if you want the copied document share same content as the original one."/>
+                                <Button Content="Clone" ToolTip="Do a physical copy. A physical file is duplicated. Use this if you want the copied document have different content as the original one."/>
+                                <Button Content="Cut" ToolTip="Cut selected documents and paste it in another virtual workspace."/>
+                                <Button Content="Paste" ToolTip="Paste the cut documents in current virtual workspace."/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!-- Advanced Actions -->
+                    <Expander Header="Advanced Actions:" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Clue editing and document merging operations." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <DockPanel LastChildFill="False">
+                                <Button Content="???" ToolTip="..."/>
+                                <Button Content="???" ToolTip="..."/>
+                                <Border BorderThickness="1" BorderBrush="Gray">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Rename" ToolTip="..."/>
+                                        <TextBox Height="20" Width="150" Style="{StaticResource TextboxStyle}" Margin="0,0,2,0" ToolTipService.InitialShowDelay="0" 
+                                         ToolTip="Format: \n\tAny string with [#] for auto numbering, [D] for auto dating in YYYY-MM-DD and [T] for auto timing in hh:mm:ss; \n\tA string without formatting will automatically use numbering.\n\tFor advanced formats embed whole string in []."/>
+                                    </StackPanel>
+                                </Border>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!-- File Operations -->
+                    <Expander Header="File Operations:" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Operations that interact with PC file system." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <DockPanel LastChildFill="False">
+                                <Button Content="Export" ToolTip="..."/>
+                                <Button Content="Archive" ToolTip="..."/>
+                                <Button Content="VA" ToolTip="..."/>
+                                <Button Content="Internalize" ToolTip="..."/>
+                                <Button Content="Remove" ToolTip="..."/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <!-- VW Layout -->
+                    <Expander Header="VW Layout" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Lyaout options for formatted VW icons positioning." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <DockPanel LastChildFill="False">
+                                <Label Content="Overall: " Width="55"  Style="{StaticResource UIFieldStyle}"/>
+                                <Button Content="Square Grid Small" Width="120" ToolTip="Resize documents in small icons with page overflow."/>
+                                <Button Content="Square Grid Small" Width="120" ToolTip="Resize documents in big icons with page overflow."/>
+                            </DockPanel>
+                            <DockPanel>
+                                <Label Content="Align: " Width="55" Style="{StaticResource UIFieldStyle}"/>
+                                <WrapPanel>
+                                    <Button Content="Left" ToolTip="..."/>
+                                    <Button Content="Right" ToolTip="..."/>
+                                    <Button Content="Up" ToolTip="..."/>
+                                    <Button Content="Down" ToolTip="..."/>
+                                    <Button Content="Vertical Center" Width="100" ToolTip="..."/>
+                                    <Button Content="Horizontal Center" Width="100" ToolTip="..."/>
+                                </WrapPanel>
+                            </DockPanel>
+                            <DockPanel>
+                                <Label Content="Distribute: " Width="55"  Style="{StaticResource UIFieldStyle}"/>
+                                <WrapPanel>
+                                    <Button Content="Left" ToolTip="..."/>
+                                    <Button Content="Right" ToolTip="..."/>
+                                    <Button Content="Up" ToolTip="..."/>
+                                    <Button Content="Down" ToolTip="..."/>
+                                    <Button Content="Vertical Center" Width="100"  ToolTip="..."/>
+                                    <Button Content="Horizontal Center" Width="100" ToolTip="..."/>
+                                </WrapPanel>
+                            </DockPanel>
+                            <!-- Notice internally still canvas location is recorded and when switch to a smaller screen no page overflow will occur, this is such a page matches physical available space and page use is considerate, for there are only 5 pages -->
+                        </StackPanel>
+                    </Expander>
+                    <!-- Document Selection -->
+                    <Expander Header="Quick Selection" Style="{StaticResource ExpanderStyle}">
+                        <StackPanel>
+                            <Label Content="Lyaout options for formatted VW icons positioning." Style="{StaticResource UIFieldStyle}" Padding="20,0,0,0"/>
+                            <DockPanel LastChildFill="False">
+                                <Label Content="Select by: " Style="{StaticResource UIFieldStyle}"/>
+                                <ComboBox Width="75"/>
+                                <Button Content="Select" ToolTip="..."/>
+                            </DockPanel>
+                            <!-- Notice internally still canvas location is recorded and when switch to a smaller screen no page overflow will occur, this is such a page matches physical available space and page use is considerate, for there are only 5 pages -->
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </Border>
+            <!-- Notice we intend not to categorize such batch Operations hidden in pages in the operation panel so all functionalities are available at a glance; But when things grow complicated it might be necessary to aid in clarity -->
+        </ScrollViewer>
+    </Grid>
+</UserControl>

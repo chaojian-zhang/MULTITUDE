@@ -1,0 +1,128 @@
+﻿<Window x:Class="MULTITUDE.CustomControl.Components.MarkdownPlusEditorPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
+        xmlns:local="clr-namespace:MULTITUDE.CustomControl.Components"
+        mc:Ignorable="d" ShowActivated="False"
+        Title="MarkdownPlusEditorPopup" SizeToContent="WidthAndHeight" Style="{StaticResource PopupWindow}" Background="{x:Null}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource RoundCornerButtonThickTransparent}">
+            <Setter Property="MaxHeight" Value="60"/>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="TextOptionsPopup">
+        <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#19FFFFFF"/>
+                    <Setter Property="CornerRadius" Value="6"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#FFCDCDCD"/>
+                            <Setter Property="Background" Value="#33E0E0E0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel Orientation="Horizontal">
+                <DockPanel x:Name="FormattingPanel" LastChildFill="False">
+                    <!-- Formatting -->
+                    <!-- Heading options -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                        <Button Content="H1" Click="H1Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading1FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading1Brush}"/>
+                        <Button Content="H2" Click="H2Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading2FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading2Brush}"/>
+                        <Button Content="H3" Click="H3Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading3FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading3Brush}"/>
+                        <Button Content="H4" Click="H4Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading4FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading4Brush}"/>
+                        <Button Content="H5" Click="H5Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading5FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading5Brush}"/>
+                        <Button Content="H6" Click="H6Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading6FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading6Brush}"/>
+                        <Button Content="H7" Click="H7Button_Click" ToolTip="Change heading style; Click again to revert to default font style."
+                            FontSize="{x:Static local:MarkdownPlusEditor.Heading7FontSize}"
+                            Foreground="{x:Static local:MarkdownPlusEditor.Heading7Brush}"/>
+                        <TextBox x:Name="FontSizeTextBox" Text="Font size" Style="{StaticResource TextboxStyle}" VerticalAlignment="Center" Margin="2" 
+                             GotFocus="FontSizeTextBox_GotFocus" TextChanged="FontSizeTextBox_TextChanged"/>
+                    </DockPanel>
+                    <!-- Color Picker -->
+                    <local:ColorPicker DockPanel.Dock="Top" SelectedColorChangedEvent="ColorPicker_SelectedColorChangedEvent"/>
+                    <!-- Font Setting -->
+                    <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                        <Button DockPanel.Dock="Right" Click="StrikethroughButton_Click">
+                            <TextBlock Text="S" TextDecorations="Strikethrough"/>
+                        </Button>
+                        <Button DockPanel.Dock="Right" Click="UnderlineButton_Click" IsEnabled="True">
+                            <TextBlock Text="U" TextDecorations="Underline"/>
+                        </Button>
+                        <Button DockPanel.Dock="Right" Content="I" Click="ItalicButton_Click" IsEnabled="True"
+                            FontStyle="Italic"/>
+                        <Button DockPanel.Dock="Right" Content="B" Click="BoldButton_Click" IsEnabled="True"
+                            FontWeight="Bold"/>
+                        <TextBox DockPanel.Dock="Right" Text="Search here" Style="{StaticResource TextboxStyle}" Height="32" VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DockPanel>
+                <!-- Controls -->
+                <StackPanel x:Name="ControlsPanel">
+                    <!-- List formats -->
+                    <StackPanel Background="{x:Null}">
+                        <DockPanel LastChildFill="False">
+                            <Label Content="List Styles" Style="{StaticResource UIContentStyle}"/>
+                            <Button x:Name="MinimizePanelButton" DockPanel.Dock="Right" Content="-" Width="auto" Click="MinimizePanel_Click" ToolTip="Minimize Panel"/>
+                        </DockPanel>
+                        <Button Content="Bulleted" Width="auto" Click="BulletedButton_Click"/>
+                        <Button Content="Numbered" Width="auto" Click="NumberedButton_Click"/>
+                        <Button Content="Latin" Width="auto" Click="LatinButton_Click"/>
+                        <Button Content="Plain" Width="auto" Click="PlainButton_Click" ToolTip="Create a list without any decoration."/>
+                    </StackPanel>
+                    <!-- Extra Options -->
+                    <StackPanel>
+                        <Label Content="Actions" Style="{StaticResource UIContentStyle}"/>
+                        <Button Content="Export to Text" Width="auto" Click="ExportToText_Click"/>
+                        <Button Content="Floating Note" Width="auto" Click="FloatingNote_Click"/>
+                        <Button Content="Floating Image" Width="auto" Click="FloatingImage_Click"/>
+                        <DockPanel LastChildFill="True">
+                            <cc:MemoirSearchBar Width="150" Margin="2"/>
+                            <Button Content="Link" Width="auto" Margin="2" Click="LinkButton_Click"/>
+                        </DockPanel>
+                    </StackPanel>
+                    <!-- Table Quick Creation -->
+                    <StackPanel >
+                        <Label Content="Table Creation" Style="{StaticResource UIContentStyle}"/>
+                        <Border Width="112" Height="80" Margin="5" MouseMove="Table_MouseMove" MouseLeave="Table_MouseLeave" MouseLeftButtonDown="Table_MouseLeftButtonDown">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/MULTITUDE;component/Resource/Images/TableSlot.png" 
+                                TileMode="Tile" Stretch="None" ViewportUnits="Absolute" Viewport="0,0,16,16"/>
+                            </Border.Background>
+                            <Border x:Name="HoverBorder" Width="0" Height="0" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/MULTITUDE;component/Resource/Images/TableSlotHovered.png" 
+                                TileMode="Tile" Stretch="None" ViewportUnits="Absolute" Viewport="0,0,16,16"/>
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                        <DockPanel HorizontalAlignment="Center" LastChildFill="False">
+                            <Button Content="⇔" Width="auto" Padding="2" FontSize="20" Click="TableHorizontalExpand_Click" ToolTipService.InitialShowDelay="0" ToolTip="(Alt+RightArrow) Expand table by one column."/>
+                            <Button Content="⇕" Width="auto" Padding="2" FontSize="20" Click="TableVerticalExpand_Click" ToolTipService.InitialShowDelay="0" ToolTip="(Alt+DownArrow)Expand table by one row."/>
+                            <Button Content="⇍" Width="auto" Padding="2" FontSize="20" Click="TableShrinkToLeft_Click" ToolTipService.InitialShowDelay="0" ToolTip="(Alt+LeftArrow)Shrink table to left."/>
+                            <Button Content="⇪ " Width="auto" Padding="2" FontSize="20" Click="TableShrinkToTop_Click" ToolTipService.InitialShowDelay="0" ToolTip="(Alt+Up)Shrink table to top." FontWeight="Bold"/>
+                            <!-- Ref: http://xahlee.info/comp/unicode_arrows.html, https://www.key-shortcut.com/en/writing-systems/35-symbols/arrows/ -->
+                        </DockPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

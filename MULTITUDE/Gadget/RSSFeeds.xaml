@@ -1,0 +1,19 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:local="clr-namespace:MULTITUDE.Gadget"
+        x:Class="MULTITUDE.Gadget.RSSFeeds"
+        Title="RSS Reader" ShowInTaskbar="False" >
+    <Window.Resources>
+        <XmlDataProvider x:Key="Feed" Source="http://www.cbc.ca/cmlink/rss-topstories"/>
+    </Window.Resources>
+    <DockPanel DataContext="{Binding Source={StaticResource Feed}, XPath=/rss/channel/item}">
+        <TextBox DockPanel.Dock="Top" Text="{Binding Source={StaticResource Feed}, BindsDirectlyToSource=true, Path=Source, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label DockPanel.Dock="Top" Content="{Binding XPath=/rss/channel/title}" FontSize="14" FontWeight="Bold"/>
+        <Label DockPanel.Dock="Top" Content="{Binding XPath=/rss/channel/description}"/>
+        <ListBox DockPanel.Dock="Left" DisplayMemberPath="title" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Width="300"/>
+        <Frame Source="{Binding XPath=link}"/>
+    </DockPanel>
+</Window>

@@ -1,10 +1,59 @@
-﻿>>> Current 2017 March
+﻿>>> Stepped record - One week two days
+1. Test Grammar recognition - patterns are loaded fine, pending matching test, add support and test for Advanced clauses
+	<any> test
+	#Tag test
+	@Category setup and test
+	Partial pattern setup and test with both prio- and post- cases
+	Escaping characters inside pattern definitions for quotes; Pending define Mr. and " etc. inside a pattern
+1.5 Investigate comprehension by "Making sense of things"
+	Finish analysis and picking up common patterns in IELTS reading I
+	Category implementation and loading
+	Verb and adverb implementation and loading
+	Some pattern handler implementation
+2. Implement comprehension
+	Definitions and designs: Test and implement handlers for new patterns that might be useful when comprehend sentences; Implement categories and collect data for fundamental adv. prep. etc., define them well
+	ConceptPool: Either use ConceptPool class or Concept.cs function directly as a concept pool - implement specific instance and template (might be implemented in categories already) and general instance concepts with dynamic expansion
+	Memory: Implement memory for speeches by subject per ConceptPool instances
+	Tranlators: Implement translators that fill in the gap between conceptual links, specifically, concept accessors (in terms of patterns, not preprocessors) and meaning translators (e.g. for critical thinking)
+	Knowledge: Devise a general framework for easily extend and define interconnection of (conceptual) objects, memory speeches, and vocabularies (symbols) etc. (i.e. define objects through rules rather than physical perceptions), with consideration for future physical (in terms of physical reality and or virtual reality) perceptions of specific objects
+	Catelog Framework: Either with a ConceptObject, or with a phrase directly - given a sentence we can not only establish a link to its subject, but also a link from its objects to the subject. E.g. When given "Chronology is a field of study that concerns short-term rhythms of time and their effect on flora and fauna", despite the connection belonging to Chronology, we can also establish connections with "study" and "fauna" etc.. The rough way is to just link them, a more useful way is to establish some descriptive links so  we don't always just search the link but selectively, e.g. from Fauna: Fauna-<study>-Chronology, instead of Fauna-Chronology directly. Again we can see a carefully chosen matter-of-fact non-clusterring enclopedia-like knowledge training material is crucial to correct establishment of just-right/clean knowledge base for Airi.
+2.5 Implement comprehension - a completely abstract/definitive way (Or this implementation might be a more innocent version of Airi, compared with the robust and intelligent one; The exact implication and application pending investigation)
+	Knowledge base - common sense and knowledge. Neither absolutely true, thus we provide mechanisms to verify and change. For concrete concepts this are better not implemetned in a textual way but in terms of conceptual pool (e.g. components of a car); For abstract concepts it's okay to completely define using language only (e.g. Meaning of science, biology etc.)
+	"A car has four wheels" is the (knowledgewise) same as "Joey likes Rachael" - we just record things as is, and if considered a fact then it is; We can assume all such informative statements be true - until we encounter some conflict.
+	Logic can be defined in terms of manipulation on existing memories of statements, e.g. if "A likes B" and "B likes C" then A likes C -- such simple and elegant rules are what most people use, without bothering the meaning behind things.
+	There are Transformation rules which enables converting one statement into another through existing other statements, much as the logic above
+	Definition or mentioning might be implemented as a form of overriding existing statements, e.g. "An obejct with three wheels is also a car".
+2.7 Keyword
+whose
+Facility: Connection search, similarity search(meaning ID observation, I.e. no longer defined by a specialized Conceptual pattern), emutation(pending definition)
+goal: a game, natural language speech, Airi intelligence backend, lingual and procedural logic
+Mental states
+	Learning mode: Everything as truth, committed and organized
+	Story mode: Collected as is, in seperate concept pool
+	Conversation mdoe: Aim at ambiguity and similarity, satisfied with just a meaning
+2.85 On Similarity betweeon meaning and the "conceptual" meaning of textual symbols rather than another layer of description
+	—— How to identify "happy" means the same as "Holding a shoe up"
+	：No they can and cannot for since happy can mean different things under different circumstance and if we dont JUST rely on its superficial meaning we cannot expect to convery meaning clearly
+	The analysis of underleying empathy or conceptual pattern should be another layer independent of the superficial language itself, which isn't the subject of current discussion.
+	E.g. To discover patterns/descriptive words from a sequence of actions happening.
+
+3. Reading and ask questions - technical description and ask keywords, IELTS reading and ask comprehension (See our IELTS materials and check out "IELTs reading" and "short stories", also consider technical materials e.g. those provided by KTCourse)
+	Specific critical thinking patterns will be implemented for very specific types of thinking, e.g. given an answer find out why it's true
+4. Wikipedia dump parsing - wikipedia dump extracting abstract, no wiki dict
+5. Knowledge base: 
+	- All Longman Dict definitions, formatted
+6. Language Translation: Eng, Jpn, Chn
+
+>>> Current 2017 March
 1. (Coding) PatternMemory total recoding and testing using stateachine for extracting pattern elements
 2. (Design) Organze notes on concepts and design the system for full potentiality
 2. (Engineering) Figure out ways of automatic and manual unit tests to thoroughly test Pattern definitions, recognitions
 4. (Design) Define more useful patterns and complete language constructurs
 3. (Coding) Implement some conceptialization and enable Airi to do useful stuff by associating some useful actions
 5. (Facility) Complete dictionary definition files and its importing and creation framework
+	- Generator as a seperate project (Scheduled next coding)
+	- Loader in VocabularyManager (Coding done; Pending debug)
+	- Allow the same phrase to be defined multiple times with different definitions of course to allow seperate additional definitions sections (e.g. one from WN, one from manual appendix)
 6. Check out mobile and QuickNotes folder on disk on AiriTheSystem implementation and patterns
 
 >>> Details
@@ -25,6 +74,8 @@
 		Extra abstract and title from Wiki and WikiDict; NO NEED TO consider putting it in binary since texts are efficiently stored already (Also check how useful WikiDict is since we already have Wikipedia)
 		Devise a way to remove not useful information from Wikipedia and seperate into core (loaded in mem as knowledge) and auxiliary part (queried only when needed for refencen purpose)
 3. <Facility/Action> Make responses data-driven, or scriptable (using python), or at least a sperate dll so we don't need to always recompile when adding new functions
+4. <Facility> Native speech interface for J/E/C languages with synthesization(not compleltely synthesized) and accurate recognition
+5. <Software Design> Follow Java style file/package management and clean up our namespaces and access control; Specifically, put one class in one file with the same name, let folder name be the same as namespace name (without root folder "Airi" is OK)
 
 >>> Features/Facilities
 1. Music playback
@@ -44,5 +95,6 @@
 >>> Futher Improvements/Debugs
 1. See <Debug><Improvement> for debug and improvement request
 2. See <Performance><Test> for potential performance boosts (need better solution) and experimental codes (need clean up)
-3. See <Development> for changed for publish version, e.g. internalize some classes
+3. See <Development> for changed for publish version, e.g. internalize some classes; Also see "Development Note(s)" in comments where no explicit <> is used (not recommended but sometimes this looks neater)
 4. See <TODO> for other misc tasks
+5. See <Pending> for some other minor arrangements

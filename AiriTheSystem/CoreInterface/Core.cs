@@ -88,7 +88,9 @@ namespace Airi.TheSystem
             //Instruction.Action action = instance.Type.PatternAction;
             //List<string> response = action.Execute(instance);
             //return response;
-            return null;
+
+            // Comprehension
+            // ... NExt
 
             // Organize generated output, substitution proper pronouns
             // ... 
@@ -98,7 +100,17 @@ namespace Airi.TheSystem
 
             // (Option) Emotional State Filtering (Do it here or above)
             // ... 
+
+            return null;
         }
+
+        // [Conditional("DEBUG")]
+#if DEBUG
+        public void SpeakNativeUnitTest()
+        {
+            AiriMemory.RecognizeUnitTest();
+        }
+#endif
 
         // Given a well formated input (currently we have no special format specification except that we require the sentence itself isn't enclosed in double quotes
         //  otherwise it might indicate a quote, not something speaker says
@@ -289,6 +301,18 @@ namespace Airi.TheSystem
                     }
                 }
             }
+        }
+
+        // Read and comprehend a story
+        public void ReadStory(string storyContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Answer questions about the story
+        public string AskStory(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

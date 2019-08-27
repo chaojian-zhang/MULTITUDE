@@ -1,0 +1,27 @@
+﻿<Window x:Class="MULTITUDE.Gadget.LightWebBrowser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Gadget"
+        mc:Ignorable="d"
+        d:DesignWidth ="1024" d:DesignHeight ="768" Width="1024" Height="768"
+        Title="Light Web" Background="{StaticResource DialogBackground}" BorderThickness="1"  ShowInTaskbar="False"
+        WindowStyle="None" AllowsTransparency="False" BorderBrush="#FF3E3E3E" Foreground="Black" Topmost="True" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Window Title Row -->
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF3F3F46" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="B: Lightning" Style="{StaticResource ResourceKey=UITitleStyle}"/>
+            <Button Grid.Column="1" Content="X" Margin="3" Background="{StaticResource ButtonBackground}" BorderBrush="{x:Null}" Click="ExitButton_Click"/>
+        </Grid>
+        <WebBrowser x:Name="WebBrowser" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Grid>
+</Window>

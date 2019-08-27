@@ -1,0 +1,42 @@
+﻿<Window x:Class="MULTITUDE.CustomControl.CanvasSpaceWindow.GraphEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.CustomControl.CanvasSpaceWindow"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="Clue Browser" Closing="Window_Closing" Closed="Window_Closed"
+        d:DesignWidth="1366" d:DesignHeight="768" KeyDown="Window_KeyDown"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource CanvasSpaceWindow}">
+    <Grid Width="{Binding ElementName=CreatorWindow, Path=ActualWidth}" Height="{Binding ElementName=CreatorWindow, Path=ActualHeight}" Background="{StaticResource CollectionCreatorBackground}">
+        <!-- Graph Layers -->
+        <Grid x:Name="GraphGrid" >
+            <!-- Default Layer: Created in code -->
+        </Grid>
+        <!-- Layer Stacks -->
+        <ItemsControl HorizontalAlignment="Right" VerticalAlignment="Top" Width="250" Margin="10"
+                     ItemsSource="{Binding StackedLayerNames}"
+                Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Path=.}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <!-- General UI Controls -->
+        <Border BorderThickness="1" BorderBrush="Black" Background="#554B4B4B"
+                HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2"/>
+            </Border.Effect>
+            <StackPanel>
+                <Label Content="Space Occupy"/>
+                <Label Content="Space Occupy"/>
+                <Label Content="Space Occupy"/>
+                <Label Content="Space Occupy"/>
+                <Label Content="Space Occupy"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

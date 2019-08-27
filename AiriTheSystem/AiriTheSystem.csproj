@@ -7,7 +7,7 @@
     <ProjectGuid>{C46C8337-D394-4C6E-BBEA-5599DDB3282F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Airi</RootNamespace>
+    <RootNamespace>Airi.TheSystem</RootNamespace>
     <AssemblyName>AiriTheSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +52,7 @@
     <Compile Include="Facilities\Weather.cs" />
     <Compile Include="Facilities\Wikipedia.cs" />
     <Compile Include="Facilities\WordNet.cs" />
+    <Compile Include="MemoryAndConception\Concept.cs" />
     <Compile Include="MemoryAndConception\Conception.cs" />
     <Compile Include="CoreInterface\Core.cs" />
     <Compile Include="MemoryAndConception\ConceptPool.cs" />
@@ -58,7 +60,6 @@
     <Compile Include="MemoryAndConception\BaseMemory.cs" />
     <Compile Include="MemoryAndConception\MetaInfo.cs" />
     <Compile Include="ActionAndBehavior\Processor.cs" />
-    <None Include="MemoryAndConception\PatternMemory - Backup20170326 before major definition change.cs" />
     <Compile Include="MemoryAndConception\PatternMemory.cs" />
     <Compile Include="Perception\Face.cs" />
     <Compile Include="Perception\Object.cs" />
@@ -92,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DesignNotes\Concept Engine.txt" />
+    <Content Include="InternalResources\DataSheets\ApplicationInterface.txt" />
+    <Content Include="InternalResources\DataSheets\LogicalDefinitionsOfCommonWords3000.txt" />
     <EmbeddedResource Include="InternalResources\DataSheets\CharacterSheet.txt" />
     <EmbeddedResource Include="InternalResources\DataSheets\ExperienceSheet.txt" />
     <EmbeddedResource Include="InternalResources\DataSheets\KnowledgeSheet.txt" />

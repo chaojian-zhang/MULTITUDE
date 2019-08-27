@@ -1,0 +1,175 @@
+﻿<Window x:Class="MULTITUDE.Dialog.UserConfigurationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Dialog"
+        mc:Ignorable="d"
+        Title="UserHomeSelectionWindow" Style="{StaticResource DialogWindow}" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundText}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DimTextBorder}"/>
+        </Style>
+        <!-- Needs a control tempalte to change that stupid (because not customizable) looking white border: https://stackoverflow.com/questions/3173364/white-border-around-groupbox, https://stackoverflow.com/questions/22090491/remove-border-line-on-groupbox-wpf -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,4,0,0"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DimTextBorder}"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Window Title Row -->
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF3F3F46" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="User Configuration" Style="{StaticResource ResourceKey=UITitleStyle}"/>
+            <Button Grid.Column="1" Content="X" Margin="3" Background="{StaticResource ButtonBackground}" BorderBrush="{x:Null}" Click="ExitButton_Click"/>
+        </Grid>
+        <!-- Shared Common Settings -->
+        <GroupBox Grid.Row="1" Header="Common Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Home Location Row -->
+                <Label Grid.Row="0" Grid.Column="0" Width="100" Content="Primary Home" Style="{StaticResource UIFieldStyle}" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="HomeLocationTextBox" Text="{x:Static local:UserConfigurationDialog.HomeDefaultText}"  Width="200" Style="{StaticResource TextboxStyle}" 
+                         LostFocus="HomeLocationTextBox_LostFocus" PreviewMouseLeftButtonDown="HomeLocationTextBox_PreviewMouseLeftButtonDown" TextAlignment="Center"/>
+                <Button Grid.Row="0" Grid.Column="2" x:Name="OpenFolderButton" DockPanel.Dock="Right" Content="Open" Style="{StaticResource ButtonStyle}" Click="OpenFolderButton_Click"/>
+                <!-- User Appellation row -->
+                <Label Grid.Row="1" Grid.Column="0" Width="100"  Content="Appellation" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="AppellationTextBox" Text="{x:Static local:UserConfigurationDialog.AppellationDefaultText}" Width="200"  Style="{StaticResource TextboxStyle}" 
+                         LostFocus="AppellationTextBox_LostFocus" PreviewMouseLeftButtonDown="AppellationTextBox_PreviewMouseLeftButtonDown" TextAlignment="Center"/>
+                <!-- UserID row -->
+                <Label Grid.Row="2" Grid.Column="0" Width="100"  Content="UserID" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="UserIDTextBox" Text="{x:Static local:UserConfigurationDialog.UserIDDefaultText}" Width="200"  Style="{StaticResource TextboxStyle}" 
+                         LostFocus="UserIDTextBox_LostFocus" PreviewMouseLeftButtonDown="UserIDTextBox_PreviewMouseLeftButtonDown" TextAlignment="Center"/>
+                <!-- password row -->
+                <Label Grid.Row="3" Grid.Column="0" Width="100"  Content="Password" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <PasswordBox Grid.Row="3" Grid.Column="1" x:Name="PasswordTextBox"  Password="{x:Static local:UserConfigurationDialog.PasswordDefaultText}" Width="200" Foreground="{StaticResource ResourceKey=TransparentText}" Background="{StaticResource ResourceKey=SurfaceBackground}" LostFocus="PasswordTextBox_LostFocus" PreviewMouseLeftButtonDown="PasswordTextBox_PreviewMouseLeftButtonDown"/>
+            </Grid>
+        </GroupBox>
+        <!-- VW Specific Settings -->
+        <GroupBox Grid.Row="2" Header="VW Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- VW wallpaper row -->
+                <Label Grid.Row="0" Grid.Column="0" Width="110"  Content="VW Wallpapers" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <!-- Well its function serves like a linker Memoir but since it's not a document we are using a normal textfield; <Development> Or we can allow it to be a creator so it has some autocompletion after all -->
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="WallpaperTextbox" Text="{x:Static local:UserConfigurationDialog.WallpaperDefaultText}" Width="200" Style="{StaticResource TextboxStyle}" 
+                         TextChanged="WallpaperTextbox_TextChanged" TextAlignment="Center"/>
+                <!-- VW rhythm row -->
+                <Label Grid.Row="1" Grid.Column="0" Width="110"  Content="VW Rhythm" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="RhythmTextbox" Text="{x:Static local:UserConfigurationDialog.RhythmDefaultText}" Width="200"  Style="{StaticResource TextboxStyle}" 
+                         TextChanged="RhythmTextbox_TextChanged" TextAlignment="Center"/>
+                <!-- VW gadget selection row -->
+                <Label Grid.Row="2" Grid.Column="0" Width="110"  Content="VW Gadgets" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <DockPanel Grid.Row="2" Grid.Column="1" LastChildFill="False">
+                    <!-- A set of toggle buttons with icons-->
+                    <Button Content="Place" Style="{StaticResource ButtonStyle}"/>
+                    <Button Content="Place" Style="{StaticResource ButtonStyle}"/>
+                    <Button Content="Place" Style="{StaticResource ButtonStyle}"/>
+                </DockPanel>
+            </Grid>
+        </GroupBox>
+        <!-- OS (Windows) Related Settings -->
+        <GroupBox Grid.Row="3" Header="Windows Settings">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Enable Right Click Context Menu -->
+                <Label Grid.Row="0" Grid.Column="0" Width="155" Content="Add to Context Menu" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <CheckBox  Grid.Row="0" Grid.Column="1" x:Name="AddContextCheckbox" VerticalAlignment="Center"/>
+                <!-- Add to registry and establish file association and singleton app-->
+                <Label Grid.Row="1" Grid.Column="0" Width="110" Content="Add to Registry" Style="{StaticResource ResourceKey=UIFieldStyle}" HorizontalAlignment="Left"/>
+                <CheckBox  Grid.Row="1" Grid.Column="1" x:Name="AddRegistryCheckbox" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <!-- Button Row -->
+        <StackPanel Orientation="Horizontal" Grid.Row="4" >
+            <Button x:Name="SaveButton" Content="Save &amp; Reload" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" Click="SaveButton_Click"/>
+            <Button x:Name="ExportButton" Content="Export Home" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}" Click="ExportButton_Click" ToolTip="Export all contents in the home as a compressed document; To import, just drag in"/>
+        </StackPanel>
+        <DockPanel Grid.Row="4" HorizontalAlignment="Right" >
+            <DockPanel.Resources>
+                <!-- Colors pending adjustment -->
+                <Style TargetType="Border">
+                    <Setter Property="Width" Value="15"/>
+                    <Setter Property="Height" Value="15"/>
+                    <Setter Property="CornerRadius" Value="8"/>
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Background" Value="Pink"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="Label">
+                    <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Gold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Resources>
+            <!-- Pending MouseDown events handling -->
+            <Border>
+                <Label Content="R" ToolTip="Bug report and suggestions; Use Alt+Print Screen to invoke screenshot with bug report."/>
+                <!-- Email sent directly to MULTITUDE@totalimagine.com by automated@totalimagine.com hardcoded using Gmail API-->
+            </Border>
+            <Border>
+                <Label Content="P" ToolTip="Philosophy and Usage Guide"/>
+            </Border>
+            <Border>
+                <Label Content="I" ToolTip="Commands and Shortcuts"/>
+            </Border>
+            <Border>
+                <Label Content="?" ToolTip="About This Software"/>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -457,7 +457,9 @@ namespace MULTITUDE
             }
         }
 
-        private async void DispatchNewJob()
+        // Don't use void: https://stackoverflow.com/questions/12144077/async-await-when-to-return-a-task-vs-void
+        // https://stackoverflow.com/questions/34361630/how-to-wait-for-async-void-to-complete
+        private async Task DispatchNewJob()
         {
             // http://stackoverflow.com/questions/30248572/how-to-catch-an-operationcanceledexception-when-using-continuewith
             /* Multi-Threaded Version*/

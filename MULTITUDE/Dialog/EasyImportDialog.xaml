@@ -1,0 +1,83 @@
+﻿<Window x:Name="window" x:Class="MULTITUDE.Dialog.EasyImportDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Dialog"
+        xmlns:facility="clr-namespace:MULTITUDE.Class.Facility"
+        mc:Ignorable="d"
+        Title="Import Targets" d:DesignHeight="768" d:DesignWidth="1024" WindowStartupLocation="CenterScreen" Style="{StaticResource DialogWindow}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="26"/>
+        </Grid.RowDefinitions>
+        <!-- Window Title Row -->
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF3F3F46" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Import Targets" Style="{StaticResource UITitleStyle}"/>
+            <Button Grid.Column="1" Content="X" Margin="3" Background="{StaticResource ButtonBackground}" BorderBrush="{x:Null}" Click="ExitButton_Click"/>
+        </Grid>
+        <!-- Content Row -->
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource ResourceKey=FrameBackground}" BorderThickness="1">
+            <DockPanel LastChildFill="True">
+                <Label DockPanel.Dock="Top" Content="View all drives on curernt computer. Select some folders to begin importing." Style="{StaticResource UIContentStyle}"/>
+                <TreeView DockPanel.Dock="Top" x:Name="DirectoryView" HorizontalAlignment="Stretch" MaxHeight="1024"
+                      Background="{StaticResource ButtonBackground}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      TreeViewItem.Expanded="DirectoryView_Expanded" TreeViewItem.Collapsed="DirectoryView_Collapsed">
+                    <!--  VirtualizingStackPanel.IsVirtualizing="True" causes problem with keyboard navigation and scrolling with mouse wheel -->
+                    <TreeView.Resources>
+                        <Style TargetType="ScrollViewer" BasedOn="{StaticResource ScrollViewerStyle}"/>
+                        <facility:DirectoryItemsSourceCreator x:Key="DirectoryItemsSourceCreator"/>
+                        <HierarchicalDataTemplate DataType="{x:Type facility:TreeFolderInfo}" ItemsSource="{Binding Converter={StaticResource DirectoryItemsSourceCreator}}">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="" IsChecked="{Binding bSelected}" Unchecked="FolderSelectionCheckBox_UnChecked" Checked="FolderSelectionCheckBox_Checked" VerticalAlignment="Center"/>
+                                <Image Margin="0,0,5,0" Width="36" Height="36">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding bExpanded}" Value="true">
+                                                    <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/Folder (Opened) Icon.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding bExpanded}" Value="false">
+                                                    <Setter Property="Source" Value="/MULTITUDE;component/Resource/Icons/Folder(Closed) Icon.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <Label Content="{Binding Name}" Style="{StaticResource UIFieldStyle}"/>
+                                <Label Content=" [" Style="{StaticResource UIContentStyle}"/>
+                                <!-- <TextBlock Text="{Binding Converter={StaticResource DirectoryItemsCountCreator}}" Foreground="Blue" /> -->
+                                <Label Content="{Binding ItemsCount}" Style="{StaticResource UIContentStyle}"/>
+                                <Label Content="]" Style="{StaticResource UIContentStyle}"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type facility:TreeFileInfo}">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="" IsChecked="{Binding bSelected}" Unchecked="FileSelectionCheckBox_UnChecked" Checked="FileSelectionCheckBox_Checked" VerticalAlignment="Center"/>
+                                <Image Source="/MULTITUDE;component/Resource/Icons/File Icon.png" Margin="0,0,5,0"  Width="36" Height="36"/>
+                                <Label Content="{Binding Name}" Style="{StaticResource UIContentStyle}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding bExpanded}" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+            </DockPanel>
+        </Border>
+        <!-- Buttons Row -->
+        <DockPanel HorizontalAlignment="Stretch" Grid.Row="2" LastChildFill="True">
+            <!--<Button Content="Save HTML" Style="{StaticResource ButtonStyle}"/>-->
+            <Button DockPanel.Dock="Right" Content="Cancel" Style="{StaticResource ButtonStyle}" Click="CancelButton_Click"/>
+            <Button DockPanel.Dock="Right" Content="Confirm" Style="{StaticResource ButtonStyle}" Click="ConfirmButton_Click"/>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,36 @@
+﻿#### Applications
+# Format of applications
+# [Application]general name for the application, this should be general and not specific to a particual application but a type
+#	[Context]the operational keywords that can trigger manipulations of the application
+#	[Target]the actual executable application; to fully conform this interface, the application should be providing a seperate client and server
+#	[Object]the particular pattern elements as defined in language patterns used to define the objects that an application operate on; Implied no object for certain contexts
+#	(Deprecated)[Interface]specific execution commands for specific functions, this defines the programming interface for the application; (Deprecated) Lead by a "context" + a "object"; Or a general one
+#		For obvious reason this element is completely unncessary
+# To summon an application, 1. use a "Verb phrase"; 2. Use related context and object phrases inside a sentence that follows logical interface of the application.
+
+[Application]music
+	[Context]play, change, restart, stop
+	[Target]KuwoMusicCustomClient.exe
+	[Object]@Music, @Song, @Singer, next, previous, @SongsCategory, new song
+	# [Interface]play @Music: <Target> play <Object>
+	# [Interface]restart @Music: <Target> restart <Object>
+	# [Interface]<Target> <Context> <Object> # The target application should keep a seperate database and feed necessary information to the host (i.e. Airi)
+
+[Application]note
+	[Context]add, change, delete, tell
+	[Target]NoteCustomClient.exe
+	[Object]"Sentence"
+
+[Application]email
+	[Context]send, send to, check, update
+	[Target]EmailCustomClient.exe
+	[Object]@Contacts, <Any>, "Send email"
+	[Interface]send "Send email": <Target> send Content to Contacts
+
+# Target reference example: Airi, play Taylor Swift's new song, add <yesterday's conversation with Charles> to <my> notes, add going to a part to <my> <today's> schedule, send <my schedules> to <Louis's> mobile/email, and send where on earth have you been to Ray
+# Interpretation: music application, note application with context extract from memory, schedule/canlendar application, email/mobile application with content extract from calendar, IM application; Things in <> defines the elements that are not directly defined by application themselves but represent a generic TEXTPIPE interface (i.e. outputs to inputs)
+# >>> Pending resolving <yesterday's conversation with Charles>
+
+# Currently complicated cases like email takes too much effort on the interface, for actual setup we either
+# 1. Define a better and finer interface
+# 2. Don't use this interface; Use above content as a reference and instead just implement such functions as facilities inside Airi; In other words, don't define extendable interfaces

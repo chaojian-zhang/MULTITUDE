@@ -1,0 +1,70 @@
+﻿<Window x:Class="MULTITUDE.Dialog.DedicatedCreditsScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Dialog"
+        mc:Ignorable="d" d:DesignWidth="1366" d:DesignHeight="768" 
+        Title="MULTITUDE Credit Screen" Foreground="black" Background="{x:Null}" WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized" ResizeMode="NoResize" ShowInTaskbar="False"  AllowsTransparency="True" WindowStyle="None" 
+        Loaded="Window_Loaded" MouseDown="Window_MouseDown">
+    <!-- Overall style: golden, shiny, bright, colorful -->
+    <Grid>
+        <!-- Background -->
+        <Border Background="#595B5B5B">
+            <Border.Effect>
+                <BlurEffect/>
+            </Border.Effect>
+        </Border>
+        <!-- Foreground -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label FontSize="126" Content="Credits (or a pixel font)" HorizontalAlignment="Left" FontFamily="Vivaldi"/>
+            <Label FontSize="42" Content="Every great work is a result of many who have worked hard to make it possible." HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="48" Content="Categories: " Padding="0,10,0,0"/>
+                <Label FontSize="56" Content="Software components, development tools, Images and icons" Padding="0,0,0,10"/>
+            </StackPanel>
+            <Label FontSize="126" Content="♡" HorizontalAlignment="Center" Padding="0" MouseDown="HeartLabel_MouseDown"
+                   ToolTipService.InitialShowDelay="0" ToolTip="Love this tool!">
+                <Label.Resources>
+                    <!-- Mouse down text: ❤ -->
+                    <!-- Mouse down color -->
+                    <LinearGradientBrush x:Key="BrightRedHeartColor" EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFF0E0E"/>
+                        <GradientStop Color="#FF680808" Offset="1"/>
+                    </LinearGradientBrush>
+                </Label.Resources>
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource GoldenForegroundText}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+            <Label FontSize="32" Content="Developed on a old yet deligent 4790 machine." HorizontalAlignment="Center"/>
+            <Label FontSize="32" Content="With living expenses kindly sponsored by my parents." HorizontalAlignment="Center"/>
+            <Label FontSize="32" Content="A Charles Chang Production" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="24" Content="Official Site: "/>
+                <TextBlock>           
+                    <Hyperlink NavigateUri="http://www.totalimagine.com" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Label FontSize="24" Content="TotalImagine.com"/>
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="24" Content="Contact: "/>
+                <TextBlock>           
+                    <Hyperlink NavigateUri="charles@totalimagine.com" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Label FontSize="24" Content="charles@totalimagine.com"/>
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <Label FontSize="24" Content="© 2017 Charles Chang" HorizontalAlignment="Center"/>
+            <Label FontSize="24" Content="This application shall be free for another 50 years so please support me through business connection." HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>

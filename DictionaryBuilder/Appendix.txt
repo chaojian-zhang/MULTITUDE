@@ -1,0 +1,129 @@
+﻿#### Fundamental basic appendix for what isn't available on WN, AND advanced conceptual definitions for Airi
+# Also notice some errors in WN: 
+# 1. I should not be an adj
+
+[Word]above
+	<Definition><prep>Empty
+	[Usage]above <noun>
+	# ----------
+	<Definition><prep>Empty
+	[Usage]above expectation
+
+[Word]be
+	[Definition]<verb>State of being
+	[Form]is, are, was, were, been, being
+
+[Word]behave
+	[Definition]<verb>to do things that are good, bad, sensible etc.
+	[Usage]behave in a <adj> way
+	# ----------
+	[Definition]<verb>to not do things that annoy or offend people
+	[Usage]behave [yourself|themselves|himself|herself|itself]
+
+[Word]he
+	[Definition]<pron>Empty
+
+[Word]I
+	[Definition]<pron>Empty
+
+[Word]is
+	[Definition]<verb>Empty
+
+[Word]she
+	[Definition]<pron>Empty
+
+[Word]use
+	[Definition]<noun>to use something that is available in order to achieve something or to get an advantage of yourself
+	[Usage]make use of <noun>
+
+[Word]we
+	[Definition]<pron>Empty
+
+#### Fundamental category definitions
+# It makes a lot of sense that Airi knows much more than I do
+# The implementation of categories should support arbitary layer of runtime dynamic depth, just to know that a category can contain either subcategories or specific items, not both
+# All below category definitions are required to have "Name" suffix, yet actual conceptual categories don't have it
+# Key ideas: Objects can be grouped; Some objects can take only specific values; All categories by default has a "name" property, which is effectively equivalent as its otherwise non-staed assignment, e.g. "that color's name is red" is equivalent as "that color is red", thus all items of the category are dynamic and expand upon encountering
+# Category can have alias
+[Category]PeopleName, PersonName
+	[SubCategories]BoyName, GirlName
+	# A strong version of properties that describes some of the core essence of objects; Normally these are the most commonly used elements of an object
+	[RepresentativeProperties]Name, Age, Sex, Gender, Skin
+	# Properties are downwad inherited
+	# "Name, Wealth, Health, Age, Experience, Hobby" etc. are commonly used
+	# "Wife, Husband, Son, Daughter, Love, Type" etc. are abstract
+	# "Desk, Chair, House, Car" etc. simply follows the rule though normally we didn't consider it this way
+	# "Charles" etc. follows the rule as much as above ones, e.g. "My Charles will graduate soon"
+	# Notice one might argue all tangible things can be "of someone" thus shouldn't be explicitly listed here as "properties", as equally as "names" and "ages" etc; But when think about it: 1. It does follow the definition of "property" as we proposed 2. It is very valid indeed since there is no reason not to add it here
+	# The curious thing to note here is, its completely valid for a person, upon learning someone speaking "My race car is cool", ask his mom/dad "Can I own a race car as well?", or "where is MY race car"?; Or maybe not ask it to someone, but kept that idea in mind and seek to own a race car someday; The same applies to "You are my Cinderella (Princess)".
+	[Properties]Name, Wealth, Health, Age, Experience, Hobby, Job, Wife, Husband, Son, Daughter, Love, Type, Desk, Chair, House, Car, Charles
+	# Notice per grammar speaking all adj. can be used, in some extent to describe any specific noun (especially when used as a metaphor)
+	# In English this is often used with "Be" words (e.g. he is old) and linking-words like "feel" (e.g. he feels strong)
+	# Notice all Be States can be translated into a valued property, e.g. "Someone is blue" can mean "someone's skin's color is blue" or "someone's emtion is blue"; The recognition of this is important since, if given "tree is green" and asked "color of tree" one should be able to answer, i.e. the property of an object is recursively defined
+	# Notice in the above example when talked about "Someone is green" its potential meanings are defined by the expression itself, i.e. the combination as indicated by the expression
+	[Be States]Fat, tall, thin, shinny
+	# Notice some verbs don't describe a process, but descibes a state as well - in that case since it's not a linking word it works with adverbial modifiers (状语) or adverbs to convey state, e.g. behave in a bad way or behave well
+	# Depending on what follows (noun or adverb) it seems some otherwise procedure words can exibit this property as well, e.g. eat apple is a process yet eat well is a state
+	[Do States]Behave
+	[Actions]Eat, Love, Sleep
+
+[Category]BoyName, MaleName
+	# Items can be used to categorize, but also be used to represent the values that can possibly be taken, as in the case of "ColorName"
+	[Items]Oliver, Jack, Harry, Jacob, Charlie, Thomas, George, Oscar, James, William, Noah, Alfie, Joshua, Muhammad, Henry, Leo, Archie, Ethan, Joseph, Freddie, Samuel, Alexander, Logan, Daniel, Isaac, Max, Mohammed, Benjamin, Mason, Lucas, Edward, Harrison, Jake, Dylan, Riley, Finley, Theo, Sebastian, Adam, Zachary, Arthur, Toby, Jayden, Luke, Harley, Lewis, Tyler, Harvey, Matthew, David, Reuben, Michael, Elijah, Kian, Tommy, Mohammad, Blake, Luca, Theodore, Stanley, Jenson, Nathan, Charles, Frankie, Jude, Teddy, Louie, Louis, Ryan, Hugo, Bobby, Elliott, Dexter, Ollie, Alex, Liam, Kai, Gabriel, Connor, Aaron, Frederick, Callum, Elliot, Albert, Leon, Ronnie, Rory, Jamie, Austin, Seth, Ibrahim, Owen, Caleb, Ellis, Sonny, Robert, Joey, Felix, Finlay, Jackson
+
+[Category]GirlName, FemaleName
+	[Items]Amelia, Olivia, Isla, Emily, Poppy, Ava, Isabella, Jessica, Lily, Sophie, Grace, Sophia, Mia, Evie, Ruby, Ella, Scarlett, Isabelle, Chloe, Sienna, Freya, Phoebe, Charlotte, Daisy, Alice, Florence, Eva, Sofia, Millie, Lucy, Evelyn, Elsie, Rosie, Imogen, Lola, Matilda, Elizabeth, Layla, Holly, Lilly, Molly, Erin, Ellie, Maisie, Maya, Abigail, Eliza, Georgia, Jasmine, Esme, Willow, Bella, Annabelle, Ivy, Amber, Emilia, Emma, Summer, Hannah, Eleanor, Harriet, Rose, `Amelie, Lexi, Megan, Gracie, Zara, Lacey, Martha, Anna, Violet, Darcey, Maria, Maryam, Brooke, Aisha, Katie, Leah, Thea, Darcie, Hollie, Amy, Mollie, Heidi, Lottie, Bethany, Francesca, Faith, Harper, Nancy, Beatrice, Isabel, Darcy, Lydia, Sarah, Sara, Julia, Victoria, Zoe, Robyn
+
+[Category]ColorName
+	[Items]Red, Green, Organge
+
+[Category]FruitName
+	[Items]
+	[Properties]Color
+
+# The below CarCompany should be seperated into two words in Cateogry object Name
+[Category]CarCompanyName
+	[Items]
+
+[Category]LocationName
+	[SubCategories]Cityname, StreetName, BuildingName, PlaceName, GeographicalName
+	[Properties]Name, Location, History, Story
+
+[Category]PlaceName
+	[SubCateogories]StoreName, PartName
+
+[Category]CityName
+	[Items]Abidjan, Addis Ababa, Ahmedabad, Alexandria, Ankara, Auckland, Baghdad, Bandung, Bangkok, Barcelona, Beijing, Belgrade, Bengaluru, Berlin, Bogotá, Brasília, Brazzaville, Brisbane, Bucharest, Budapest, Buenos Aires, Busan, Cairo, Calgary, Caloocan, Cape Town, Casablanca, Changsha, Chaozhou, Chengdu, Chennai, Chicago, Chittagong, Chongqing, Cologne, Córdoba, Daegu, Daejeon, Dallas, Dar es Salaam, Davao City, Delhi, Dhaka, Dongguan, Dubai, Durban, Ekurhuleni, Faisalabad, Fez, Foshan, Fukuoka, Fuzhou, Giza, Guadalajara, Guangzhou, Guayaquil, Gujranwala, Hamburg, Hangzhou, Hanoi, Harbin, Hefei, Ho Chi Minh City, Hong Kong, Houston, Hyderabad, Hyderabad, Incheon, Islamabad, Istanbul, İzmir, Jaipur, Jakarta, Jeddah, Johannesburg, Kabul, Kaohsiung, Karachi, Kawasaki, Kiev, Kinshasa, Kobe, Kochi, Kolkata, Kuala Lumpur, Kwangju, Kyoto, Lagos, Lahore, Lima, London, Los Angeles, Luanda, Lucknow, Madrid, Managua, Manila, Medan, Medellin, Mexico City, Milan, Minsk, Montreal, Moscow, Multan, Mumbai, Munich, Nagoya, Nagpur, Nairobi, Nanjing, New Taipei City, New York City, Osaka, Paris, Peshawar, Philadelphia, Phnom Penh, Phoenix, Prague, Pune, Pyongyang, Quanzhou, Quezon City, Quito, Rawalpindi, Rio de Janeiro, Riyadh, Rome, Rosario, Saint Petersburg, Saitama, Salvador, Santiago, Sapporo, Seoul, Shanghai, Shantou, Shenyang, Shenzhen, Singapore, Surabaya, Surat, Suzhou, São Paulo, Taichung, Tainan, Taipei, Tbilisi, Tehran, Tianjin, Tokyo, Toronto, Ulsan, Vienna, Vijayawada, Visakhapatnam, Wenzhou, Wuhan, Xi'an, Xiamen, Yangon, Yerevan, Yokohama, Zhengzhou, Zhongshan, Zunyi
+	# Reference: https://en.wikipedia.org/wiki/List_of_largest_cities
+	# Reference: http://www.jspacesystems.or.jp/ersdac/ASTERimage2/library_E.html
+	# Reference: https://en.wikipedia.org/wiki/List_of_towns_and_cities_with_100,000_or_more_inhabitants/cityname:_B
+	[Properties]Population
+
+[Category]CountryName
+	[Properties]Population, Capital, Economy, History, Culture
+
+#### Grouped Adverbs
+# Key Idea: Certain adverbs often have specific functions, and can be grouped, what's more such adverbs often seem to convey linear meaning
+# Scale describes a scale from 0-1 to represent intensity, carefully ordered; Of course the scale is only relative and not absolute, but enough for the purpose to divide it roughly like this because after all that's how human perceive them
+# AdverbType is a descriptive string
+[AdverbType]Frequency
+	[Scale]never, seldom, sometimes, often, always
+[AdverbType]General Intensity
+	[Scale]little, few, somewhat, a little, quite a few, very, very many, very much, a lot
+	# "not ... at all" counts as well but can only be implemented as a pattern; Language isn't well structured that's why we provide all kinds of facilities that can hopefully converge to a meaning
+	# Also notice in some cases "badly" can mean "a lot", e.g. "He wanted to win badly"
+
+#### Grouped Adverbs
+# Key Idea: Certain adjectives often have specific meanings, and can be grouped, what's more such adjectives often seem to convey linear meaning
+# Scale describes a scale from 0-1 to represent intensity, carefully ordered; Of course the scale is only relative and not absolute, but enough for the purpose to divide it roughly like this because after all that's how human perceive them
+# AdjectiveMeaning is a descritive string
+# All elements in scale should/will be a valid phrase on its own
+[AdjectiveMeaning]Importance
+	[Scale]Useless, great, Important, Significant, Crucial
+[AdjectiveMeaning]Intensity
+	[Scale]Less, Some, More
+
+#### Fundamental preposition definitions
+# Key ideas: preposition have clear functions and what kind of words they use with
+# Functions: show place, time, direction
+# Type of words to use with: noun, pronoun, Greund

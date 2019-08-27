@@ -1,0 +1,2 @@
+﻿1. The use of VLCNet makes us architecture specific, otherwise we are good with Any CPU configuration.
+VLCNet seems ok with AnyCPU configuration but IE browser sucks at Youtube and we might need to use CefSharp which will force our application to be in x86 - which is accepted.

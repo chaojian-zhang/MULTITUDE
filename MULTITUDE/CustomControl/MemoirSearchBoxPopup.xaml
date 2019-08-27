@@ -1,0 +1,74 @@
+﻿<Window x:Class="MULTITUDE.CustomControl.MemoirSearchBoxPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.CustomControl"
+        mc:Ignorable="d" d:DesignWidth ="1024" d:DesignHeight="768" Closing="Window_Closing" KeyDown="Window_KeyDown"
+        Title="MemoirSearchBoxPopup" Style="{StaticResource DialogWindow}" Background="{x:Null}" SizeToContent="Height" 
+        BorderThickness="0" Visibility="Hidden" MouseLeave="SearchPopup_MouseLeave">
+    <StackPanel>
+        <!-- Main Search bar -->
+        <DockPanel LastChildFill="True">
+            <!-- Search box -->
+            <Grid>
+                <TextBox x:Name="SearchTextBox" AcceptsReturn="False" AcceptsTab="False" Style="{StaticResource TextboxStyle}" Text="" TextChanged="SearchTextBox_TextChanged" PreviewKeyDown="SearchTextBox_PreviewKeyDown"/>
+                <Border x:Name="ValidationSymbol" HorizontalAlignment="Right" Width="15" Height="15" Margin="0,0,5,0" 
+                    CornerRadius="10" BorderThickness="1" Background="Pink" Visibility="Hidden" MouseDown="ValidationSymbol_MouseDown">
+                    <Label x:Name="ValidationSymbolText" Style="{StaticResource SearchBarValidationAndTooltipLabel}"/>
+                </Border>
+            </Grid>
+        </DockPanel>
+        <!-- Extended Functionalities (Popup): Summoned when needed -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!-- Clue phrase (fragment) selection pane: bind to List<ClueFragment> -->
+            <ItemsControl x:Name="ClueFragmentSelectionpane" Grid.Row="0" Style="{StaticResource ItemsControlStyle}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:ClueButton Content="{Binding Path=Name}" PrefixLabelContent="{Binding Path=Index}" SuffixLabelContent="{Binding Path=Count}" Click="ClueButton_Click"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl >
+            <!-- Document selection pane: bind to List<Documetn>; <Development> Consider adding groups by document type -->
+            <ListBox x:Name="DocumentSelectionPane" Grid.Row="1" Style="{StaticResource ItemsControlStyle}" Visibility="Collapsed"
+                     ScrollViewer.HorizontalScrollBarVisibility ="Disabled" PreviewKeyDown="DocumentSelectionPane_PreviewKeyDown">
+                <!-- Might want to amke content scroll and show height -->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Width="{x:Static local:IconBase.DefaultDocumentIconSize}" Height="{x:Static local:IconBase.DefaultDocumentIconSize}" 
+                               Source="{Binding Path=SmallIcon}" ToolTipService.InitialShowDelay="0" ToolTip="{Binding Path=Description}" MouseMove="DocumentSelectionImage_MouseMove"/>
+                        <!-- Tooltip showtime duration is a bit too short -->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseDoubleClick" Handler="DocumentIconItem_MouseDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox >
+            <!-- Recent clues pane: Bind to another List<ClueFragment> -->
+            <ItemsControl x:Name="RecentCluesPane" Grid.Row="2" Style="{StaticResource ItemsControlStyle}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:ClueButton Content="{Binding Path=Name}" SuffixLabelContent="{Binding Path=Count}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </StackPanel>
+</Window>

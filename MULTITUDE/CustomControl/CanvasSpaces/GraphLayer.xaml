@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.CanvasSpaces.GraphLayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl.CanvasSpaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="#59FFFFFF"
+             Style="{StaticResource CanvasSpaceUserControl}" 
+             DragEnter="GraphLayerGrid_DragEnter" DragLeave="GraphLayerGrid_DragLeave" DragOver="GraphLayerGrid_DragOver" Drop="GraphLayerGrid_Drop" GiveFeedback="GraphLayerGrid_GiveFeedback" AllowDrop="True"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="UserControl_Loaded"
+             MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" MouseWheel="UserControl_MouseWheel"
+             KeyDown="UserControl_KeyDown" MouseMove="UserControl_MouseMove">
+    <UserControl.Resources>
+        <Style x:Key="InformativePanel" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Background" Value="#554B4B4B"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="GraphLayerGrid">
+        <!-- Graph Document Name -->
+        <TextBox Text="{Binding DocumentName}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20" Style="{StaticResource AutoHideDocumentNameTextBox}"/>
+        <!-- Graph Node Network -->
+        <Canvas RenderTransformOrigin="0,0">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="CanvasScale" ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform x:Name="CanvasTranslation" X="0" Y="0"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <!-- Debug 
+            <Border BorderThickness="2" BorderBrush="Blue" Width="{Binding ElementName=GraphLayerGrid, Path=ActualWidth}" Height="{Binding ElementName=GraphLayerGrid, Path=ActualHeight}"/>
+            <StackPanel Margin="10">
+                <Label Foreground="Red" Content="{Binding ElementName=CanvasTranslation, Path=X}"/>
+                <Label Foreground="Red" Content="{Binding ElementName=CanvasTranslation, Path=Y}"/>
+            </StackPanel>-->
+            <!-- Dynamically Generated Nodes -->
+            <Canvas x:Name="GraphLayerImageCanvas">
+
+            </Canvas>
+            <!-- Connectors -->
+            <Path Stroke="Black" StrokeThickness="1">
+                <Path.Data>
+                    <GeometryGroup x:Name="Connectors"/>
+                </Path.Data>
+            </Path>
+            <!-- Dynamically Generated Nodes -->
+            <Canvas x:Name="GraphLayerCanvas">
+
+            </Canvas>
+        </Canvas>
+        <Canvas>
+            <!-- Node Selection Drag Box -->
+            <Border x:Name="DragArea" Canvas.Top="0" Canvas.Left="0" Width="0" Height="0" Visibility="Hidden" Style="{StaticResource MouseDragArea}"/>
+            <!-- Drag-n-drop indicator -->
+            <TextBlock x:Name="DocumentDropCursorText" Text="Drop" Canvas.Top="0" Canvas.Left="0"  FontSize="14" Foreground="AliceBlue" Visibility="Collapsed" IsHitTestVisible="False"/>
+        </Canvas>
+        <!-- Information Panels -->
+        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource InformativePanel}">
+            <StackPanel>
+                <Label Content="Bookmark Nodes" Style="{StaticResource UIFieldStyle}"/>
+                <ListBox ItemsSource="{Binding Bookmarks}" Style="{StaticResource ListBoxStyle}" SelectionMode="Single" MouseMove="BookmarkList_MouseMove">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=Description}" MouseUp="ListBox_MouseUp" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+        <!-- <Pending> Pending definition and decide whether this is necessary since we have bookmarks -->
+        <Border x:Name="SearchPanel" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="1" BorderBrush="Gray" Background="{StaticResource ButtonBackground}" Padding="2" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Search" Style="{StaticResource UIFieldStyle}"/>
+                <TextBox x:Name="SearchTextBox" Width="150" Style="{StaticResource TextboxStyle}" VerticalAlignment="Center" PreviewKeyDown="SearchTextBox_PreviewKeyDown"/>
+                <Button Content="Close" Style="{StaticResource ButtonStyle}" Click="CloseButton_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

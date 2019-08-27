@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.ToolTray"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl"
+             mc:Ignorable="d"  d:DesignHeight="200" d:DesignWidth="1024"
+             Style="{StaticResource InWindowGadget}">
+    <Grid HorizontalAlignment="Center">
+        <Grid Margin="0,0,0,16">
+            <!-- Background Tray: a 3D looking glossy shinney white tray -->
+            <Button Content="---------------------------Test---------------------------" Height="25" VerticalAlignment="Bottom"/>
+            <!-- Tool tray items-->
+            <DockPanel HorizontalAlignment="Center" Margin="96,0,96,0">
+                <Button Content="Test" Width="126" Height="126"/>
+                <Button Content="Test" Width="126" Height="126"/>
+                <Button Content="Test" Width="126" Height="126"/>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

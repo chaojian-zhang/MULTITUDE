@@ -1,0 +1,102 @@
+﻿<Window x:Class="MULTITUDE.CustomControl.CanvasSpaceWindow.ForgottenUniverseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.CustomControl.CanvasSpaceWindow"
+        mc:Ignorable="d"
+        Title="Forgotten Universe" Closed="Window_Closed"
+        d:DesignWidth="1366" d:DesignHeight="768" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource CanvasSpaceWindow}">
+    <Window.Resources>
+        <Style x:Key="GlassyBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="#5980B6E6"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <BlurEffect/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DocumentIconBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource ResourceKey=ForegroundText}"/>
+            <Setter Property="MaxWidth" Value="175"/>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                            <!-- Might want to adjust center scale at center rather than top left edge which doesn't look very natural -->
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="{StaticResource MatureGoldenForegroundText}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <!-- Color needs tunning -->
+    <Grid Background="#FF04112C" >
+        <!-- 
+        <Grid.Background>
+            <ImageBrush ImageSource="/MULTITUDE;component/Resource/Images/ForgottenSpaceBackground2.png" Stretch="None" TileMode="Tile">
+            <ImageBrush ImageSource="/MULTITUDE;component/Resource/Images/ForgottenSpaceBackground2.png" Stretch="UniformToFill"/>
+        </Grid.Background> -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Central Background -->
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource GlassyBorder}">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#BF002649"/>
+                    <GradientStop Color="#BF004C93" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <!-- Decorative Document Canvas -->
+        <Canvas x:Name="DecorativeDocumentCanvas" Grid.ColumnSpan="3" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
+            <Canvas.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource DocumentIconBlockStyle}"/>
+            </Canvas.Resources>
+        </Canvas>
+        <!-- Glassy Decoration RAnge -->
+        <Border Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource GlassyBorder}"/>
+        <Border Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource GlassyBorder}"/>
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource GlassyBorder}"/>
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource GlassyBorder}"/>
+        <!-- Title -->
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="25">
+            <Label Content="Forgotten Space" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource UITitleStyle}"/>
+            <Label Content="        View documents that are not categorized under any clue, and edit their properties." HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource UIContentStyle}"/>
+        </StackPanel>
+        <!-- Document canvas -->
+        <Border Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                BorderThickness="2" BorderBrush="#FF241B63" CornerRadius="1" Background="{x:Null}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!-- Filter Bar -->
+                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextboxStyle}" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextChanged="TextBox_TextChanged"/>
+                <!-- Total Forgotten Document Count -->
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,35,45,0">
+                    <Label x:Name="ForgottenDocumentCountLabel" Content="Total Forgotten Documents Count: " Style="{StaticResource UITitleStyle}"/>
+                    <Button Content="Show Documents Without a Clue" Style="{StaticResource ButtonStyle}" Click="ToggleShowClueless_Click"/>
+                </StackPanel>
+                <!-- Floating documents -->
+                <Canvas x:Name="DocumentCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True">
+                    <Canvas.Resources>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource DocumentIconBlockStyle}"/>
+                    </Canvas.Resources>
+                </Canvas>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

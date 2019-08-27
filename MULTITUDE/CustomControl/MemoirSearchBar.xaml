@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.MemoirSearchBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl"
+             mc:Ignorable="d" x:Name="MemoirSearchBarControl"
+             d:DesignHeight="175" d:DesignWidth="300">
+    <Grid>
+        <!-- Main Search bar -->
+        <DockPanel LastChildFill="True">
+            <!--Search mode selection combo -->
+            <ComboBox x:Name="SearchModeComboBox" Visibility="Collapsed" SelectedIndex="0" ItemsSource="{Binding Source={StaticResource MemoirSearchContextEnum}}"/>
+
+            <!-- Search box -->
+            <Grid>
+                <TextBox x:Name="SearchTextBox" AcceptsReturn="False" AcceptsTab="False" Style="{StaticResource TextboxStyle}" Text="" IsReadOnly="True"
+                         GotFocus="SearchTextBox_GotFocus" PreviewKeyDown="SearchTextBox_PreviewKeyDown" PreviewMouseDown="SearchTextBox_PreviewMouseDown" MouseMove="SearchTextBox_MouseMove"/>
+                <Border x:Name="ValidationSymbol" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,0,5,0" 
+                    CornerRadius="10" BorderThickness="1" Background="Pink" Visibility="Hidden" MouseDown="ValidationSymbol_MouseDown">
+                    <Label x:Name="ValidationSymbolText" Style="{StaticResource SearchBarValidationAndTooltipLabel}" />
+                </Border>
+            </Grid>
+        </DockPanel>
+        <!-- Extended Functionalities (Popup): Summoned when needed -->
+    </Grid>
+</UserControl>

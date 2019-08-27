@@ -1,0 +1,40 @@
+﻿<Window x:Class="TestWindows.TestWindow2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestWindows"
+        mc:Ignorable="d"
+        Title="TestWindow2" Height="300" Width="300" ShowInTaskbar="False">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="1" Grid.Column="1" Content="Move Content" ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="0" ToolTip ="Cut external items into User home; If it's a folder, a remapped structure will be generated as well." Click="Button_Click"/>
+            <Button Grid.Row="1" Grid.Column="3" Content="Copy Content" ToolTipService.InitialShowDelay="0" ToolTip="Make a copy of external items; If it's a folder, a remapped structure will be generated as well."/>
+            <Button Grid.Row="1" Grid.Column="5" Content="Create Reference" ToolTip ="Reference the item externally.">
+            </Button>
+            <Button Grid.Row="1" Grid.Column="7" Content="Import Structure" ToolTip ="Generate a corresponding Collection structure for the item, if it's a file, nothing happens."/>
+            <PasswordBox x:Name="passwordBox" Grid.Column="4" HorizontalAlignment="Left" Margin="0,56,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="120"/>
+            <Viewbox Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="100" Margin="23,19,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100">
+                <ContentControl Margin="20">
+                    <Button Content="Button" Width="75"/>
+                </ContentControl>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</Window>

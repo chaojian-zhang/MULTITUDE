@@ -48,21 +48,101 @@ namespace Airi.TheSystem.Memory
 
             // Recognize pattern
             List<PatternInstance> patterns = Patterns.FindMatchPatterns(sentence);
+            // There are three ways to handle non-match with existing patterns
+            // 1. Begin with next character and procceed to see if there is any trialing matches
+            // 2. Use partial matches from above process
+            // 3. Use genenric conceptual methods (pending devising)
 
             // Filtering patterns
             // ...
 
             // <Debug> Iterate through patterns and see what we have gotten
-            foreach (PatternInstance pattern in patterns)
+            for (int i = 0; i < patterns.Count; i++)
             {
-                pattern.ShowAnalysis();
+                System.Console.Write(i+1 + ": ");
+                patterns[i].ShowAnalysis();
             }
 
             // Do other stuff
             // ...
 
+            // <On processing of speeches in terms of memory>
+            // 1. Airi's memory of speechs are as is, for information can just be remembered as is, with all its details; The effect on concept though, is represented as its effect on new constructions of links and concepts in a more fundamental "base understanding", i.e. the BaseMemory and maybe Vocabulary components
+            // 2. "The effectiveness of a piece of information lies in our understanding of it", i.e. the association we have made with it, see Concept.cs, the definition of Comprehension; In otherwords, a piece of information itself is just a string of text without any power, UNLESS, it's associated with our conceptual recognition (from text map to objects, and from objects we recognize texts) and our behaviors (if any, implied by the information itself, not necessarily the sentence itself but the overall descritpion -- I assert, some explicit mentioning of actions must be made for an information to be behavior-wise influential, otherwise it will completely depend on reader's logical capability and creativity to apply the information in his/her own actions), that, is the essence of memory. (Example: that is why a sentence like "Tom ate an apple" really doesn't mean anything despite the fact that it describes an event - the listener's behavior to this sentence is completely random (e.g. they can ask questions or express their feelings) in a sense that not implied by the sentence itself)
+            // 3. In a sentence, only several elements are specific, or non are specific at all - in later case we remember it as is and assume nothing about it; in former case it's a clue as to which block in our memory pool we can associate the information with; Otherwise, the sentence is associated with a general concept. Both of which, we call "subjects". The key here is "general concept" means "marine life" is the same as "sea creatures" in so far as the former CONTAINS the later - and that is defined explicitly in our knowledge, e.g. in terms of 
+
             return null;
         }
+
+#if DEBUG
+        internal void RecognizeUnitTest()
+        {
+            RecognizeUnitTestHelper("is", new string[] { "Be"}); // "Be"
+            RecognizeUnitTestHelper("have lunch",new string[] { "Verb phrase"});   // "Verb phrase"
+            RecognizeUnitTestHelper("do sport",new string[] { "Verb phrase"});   // "Verb phrase"
+            RecognizeUnitTestHelper("in",new string[] { "Spatial prep" });   // "Spatial prep"
+            RecognizeUnitTestHelper("deliciously cooked dinner",new string[] { "Descriptive component"});   // "Descriptive component"
+            RecognizeUnitTestHelper("apple is fruit",new string[] { "is construct"});   // " is Construct"
+            RecognizeUnitTestHelper("carpet is red", new string[] { "is construct", "state construct" });   // "state Construct"
+            RecognizeUnitTestHelper("computer on desk",new string[] { "on construct" });   // "on Construct"
+            RecognizeUnitTestHelper("friend of me",new string[] { "of construct"});   // "of Construct"
+            RecognizeUnitTestHelper("London is west to Toronto",new string[] { "Direction construct"});   // "Direction Construct"
+            RecognizeUnitTestHelper("What is happiness",new string[] { "Curiosity quest certain"});   // "Curiosity Quest Certain"
+            RecognizeUnitTestHelper("What does computer aided design mean?",new string[] { "", ""});   // "Curiosity Quest Uncertain"
+            RecognizeUnitTestHelper("Hi",new string[] { "Descriptive component", "Interruption 1", "Courtesy interrupt" });   // "Interruption 1"
+            RecognizeUnitTestHelper("Excuse me",new string[] { "Verb phrase", "Interruption 2", "Courtesy interrupt" });   // "Interruption 2"
+            RecognizeUnitTestHelper("Sorry to bother you",new string[] { "Interruption 3", "Courtesy interrupt" });   // "Interruption 3" // "Courtesy Interrupt"
+            RecognizeUnitTestHelper("Evening",new string[] { "Descriptive component","Time" });   // "Time"
+            RecognizeUnitTestHelper("Good Night",new string[] { "Descriptive component","Greeting" });   // "Greeting"
+            RecognizeUnitTestHelper("迷迭香 is mysterious spice",new string[] { "Definition" });   // "Definition"
+            RecognizeUnitTestHelper("From now on, Knife means mission", new string[] { "Advanced language concept"});   // "Advanced language concept"
+            RecognizeUnitTestHelper("Do you like me?",new string[] { "Ask experience" });   // "Ask Experience"
+            RecognizeUnitTestHelper("Excuse me, where is London",new string[] { "Location query" });   // "Location Query"
+            RecognizeUnitTestHelper("How is weather",new string[] { "Weather query" });   // "Weather Query"
+            RecognizeUnitTestHelper("Airi, play Music",new string[] { "","" });   // "Airi Run Command"
+            RecognizeUnitTestHelper("Why he escaped from school is what we do not know yet",new string[] { "从句表达句" });   // "从句表达句"
+            RecognizeUnitTestHelper("Send email to charles@totalimagine.com", new string[] { "Send email pattern test" });   // "Send email pattern test"
+            // RecognizeUnitTestHelper("",new string[] { "","" });   // ""
+        }
+#endif
+
+#if DEBUG
+        internal bool RecognizeUnitTestHelper(string sentence, string[] expectedPatterns)
+        {
+            // Recognize pattern
+            List<PatternInstance> patterns = Patterns.FindMatchPatterns(sentence);
+
+            if (patterns.Count == 0)
+            {
+                System.Console.WriteLine("[Error]\"" + sentence + "\": no matching pattern");
+                DebugPrintSentenceBasicStatistics(sentence);
+                return false;
+            }
+
+            // Compare with expectations
+            for (int i = 0; i < patterns.Count; i++)
+            {
+                if (patterns[i].Type.Name != expectedPatterns[i])
+                {
+                    System.Console.WriteLine("[Error]\"" + sentence + "\": failed at " + patterns[i].Type.Name);
+                    DebugPrintSentenceBasicStatistics(sentence);
+                    return false;
+                }
+            }
+
+            // System.Console.WriteLine("[Success]\"" + sentence + "\": " + string.Join(", ", expectedPatterns));
+            return true;
+        }
+#endif
+
+#if DEBUG
+        // Print information about each word in the sentence to aid in debug
+        private void DebugPrintSentenceBasicStatistics(string sentence)
+        {
+            // Print information about phrases in the word, mostly whether they exist or their POS
+            // throw new NotImplementedException();
+        }
+#endif
 
         // Export current memory into human readable form
         static public void ExportMemory()

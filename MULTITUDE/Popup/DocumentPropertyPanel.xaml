@@ -1,0 +1,102 @@
+﻿<Window x:Class="MULTITUDE.Popup.DocumentPropertyPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Popup"
+        xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
+        mc:Ignorable="d" ShowActivated="False"
+        Title="Document Property" Width="375" SizeToContent="Height" Style="{StaticResource DialogWindow}">
+    <Window.Resources>
+        <Style x:Key="MetaTextboxStyle" TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}">
+            <Setter Property="CharacterCasing" Value="Upper"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Window Title Row -->
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF3F3F46" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{Binding ElementName=DocumentNameTextBox, Path=Text}" Style="{StaticResource ResourceKey=UITitleStyle}"/>
+            <Button Grid.Column="1" Content="X" Margin="3" Background="{StaticResource ButtonBackground}" BorderBrush="{x:Null}" Click="ExitButton_Click"/>
+        </Grid>
+        <!-- Document Property Row -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Title Row -->
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource UITitleStyle}" Content="Document Properties"/>
+            <!-- (Non-Editable) GUID Row -->
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="GUID:"/>
+            <Label x:Name="DocumentGUIDLabel" Grid.Row="1" Grid.Column="1" Style="{StaticResource UIFieldStyle}" Content="ID0000"/>
+            <!-- (Non-Editable) Creation Date Row -->
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="Creation Date:"/>
+            <Label x:Name="DocumentCreationDateLabel" Grid.Row="2" Grid.Column="1" Style="{StaticResource UIFieldStyle}" Content="2017-00-00"/>
+            <!-- (Editable) Type Row -->
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="Type:"/>
+            <ComboBox x:Name="DocumentTypeComboBox" Grid.Row="3" Grid.Column="1"  Width="60" HorizontalAlignment="Left"  IsEnabled="False"
+                      ItemsSource="{Binding Source={StaticResource DocumentTypeEnum}}" SelectionChanged="DocumentTypeComboBox_SelectionChanged"/>
+            <!-- (Editable) Name Row -->
+            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="Name:"/>
+            <TextBox x:Name="DocumentNameTextBox" Grid.Row="4" Grid.Column="1" Style="{StaticResource TextboxStyle}" TextChanged="DocumentNameTextBox_TextChanged"/>
+            <!-- (Editable) Comment Row -->
+            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="Comment:" ToolTipService.InitialShowDelay="0" ToolTip="Comments are supposed to be short, succinct and aid in searching; For long articles, use a separate document then categorized together or use embedder content editors for movies, images and nodes."/>
+            <TextBox x:Name="DocumentCommentTextBox" Grid.Row="5" Grid.Column="1" Style="{StaticResource MultiLineTextboxStyle}" MinHeight="125" TextChanged="DocumentCommentTextBox_TextChanged"/>
+            <!-- (Editable) Clues Row -->
+            <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource UIFieldStyle}" Content="Clues:"/>
+            <cc:MemoirSearchBar x:Name="DocumentCluesTextBox" Grid.Row="6" Grid.Column="1" MinHeight="75"/>
+            <!-- <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource MultiLineTextboxStyle}" AcceptsTab="False"/> -->
+            <!-- Content Preview and Editing Row -->
+            <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource ButtonStyle}" Content="Edit" Click="EditButton_Click"/>
+                <Button Grid.Column="1" Style="{StaticResource ButtonStyle}" Content="Remove" Click="RemoveButton_Click"/>
+            </Grid>
+        </Grid>
+        <!-- Document Meta Page -->
+        <Canvas x:Name="MetaPageContainerCanvas" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Canvas x:Name="MetaPageDisplayCanvas" Canvas.Right="0" Canvas.Top="0" Width="0" Height="0" ClipToBounds="True">
+                <StackPanel Canvas.Right="0" Canvas.Top="0"
+                            Width="{Binding ElementName=MetaPageContainerCanvas, Path=ActualWidth}"  
+                            Height="{Binding ElementName=MetaPageContainerCanvas, Path=ActualHeight}"
+                            Background="{StaticResource DialogBackground}">
+                    <Label Content="Document Metadata" Style="{StaticResource UITitleStyle}"/>
+                    <ItemsControl x:Name="MetaListBox">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <TextBox x:Name="MetaKeyText" Text="{Binding Key}" Width="75" Style="{StaticResource TextboxStyle}" CharacterCasing="Lower" TextChanged="Metaname_TextChanged" GotFocus="Metaname_GotFocus"/>
+                                    <TextBox Text="{Binding Value}" Style="{StaticResource TextboxStyle}" TextChanged="Metavalue_TextChanged" Tag="{Binding ElementName=MetaKeyText}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Add" Style="{StaticResource ButtonStyle}" Click="AddMetaButton_Click"/>
+                </StackPanel>
+            </Canvas>
+        </Canvas>
+        <!-- Page Swith Button-->
+        <Button Grid.Row="1" Content="Meta" HorizontalAlignment="Right"  VerticalAlignment="Top" Margin="4" Click="Button_Click" Style="{StaticResource ButtonStyle}"/>
+    </Grid>
+</Window>

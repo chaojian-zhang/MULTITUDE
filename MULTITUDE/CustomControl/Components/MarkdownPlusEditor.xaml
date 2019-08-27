@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="MULTITUDE.CustomControl.Components.MarkdownPlusEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MULTITUDE.CustomControl.Components"
+             xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
+             mc:Ignorable="d" 
+             Focusable="False" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <RichTextBox x:Name="DocumentText" Grid.Row="0" Grid.Column="0" Background="Transparent" BorderThickness="0" AcceptsReturn="True" AcceptsTab="True"
+                     TextChanged="DocumentText_TextChanged" GotFocus="DocumentText_GotFocus" PreviewKeyDown="DocumentText_PreviewKeyDown" MouseWheel="DocumentText_MouseWheel">
+            <RichTextBox.Resources>
+                <!--<Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="10" />
+                </Style>-->
+            </RichTextBox.Resources>
+        </RichTextBox>
+    </Grid>
+</UserControl>

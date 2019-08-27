@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MULTITUDE.Canvas.VirtualWorkspaceWindow">
+    <Position X="2.25" Y="1" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAaCQIEETBBgFyMBQBaABShAFAgABBZgGAIFAAkkLGA=</HashCode>
+      <FileName>Canvas\VirtualWorkspaceWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="MULTITUDE.Canvas.VWShiftDirection">
+    <Position X="8" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACACAAAEAAAI=</HashCode>
+      <FileName>Canvas\VirtualWorkspaceWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

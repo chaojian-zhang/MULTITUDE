@@ -2,6 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <UICulture>en</UICulture>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6A65A81A-335A-4105-94C5-4EC0FC793105}</ProjectGuid>
@@ -24,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,19 +36,65 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MULTITUDE.Class.StartUp</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpGL, Version=2.4.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Meta.Vlc">
+      <HintPath>C:\Users\szinu\Desktop\MetaVLC\Meta.Vlc.dll</HintPath>
     </Reference>
-    <Reference Include="SharpGL.SceneGraph, Version=2.4.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpGL.2.4.0.0\lib\net40\SharpGL.SceneGraph.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Meta.Vlc.Wpf">
+      <HintPath>C:\Users\szinu\Desktop\MetaVLC\Meta.Vlc.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="SharpGL.WPF, Version=2.4.0.0, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpGL.WPF.2.4.0.0\lib\net40\SharpGL.WPF.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -67,20 +115,448 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainCanvas.xaml">
+    <Page Include="Canvas\VirtualWorkspaceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\BatchOperationPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaces\ClueBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaces\GraphLayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\ClueBrowserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\CollectionCreatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\DaysOnEarthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\DelightulImageBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\ForgottenUniverseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\GraphEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\MarkdownPlusEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\MediaPlayerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\CanvasSpaceWindow\VoidUniverseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\FilteredClueSelectionCombo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\GraphNodeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\MarkdownPlusEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\MarkdownPlusEditorPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\MediaControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\Components\VirtualArchivePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\ArchiveDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\CommandDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\DataCollectionDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\GraphDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\ImagePlusDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\MarkdownPlusDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\OthersDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\PlainTextDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\PlayListDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\UnknownDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\VirtualArchiveDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\VirtualWorkspaceDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\DocumentIcons\WebDocumentIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ForgottenDocument.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\MemoirSearchBoxPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\ToolTray.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\IconBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\MemoirSearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\DedicatedCreditsScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialog\AboutScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\ModalDialogAura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\OpenFolderDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog\EasyImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialog\UserConfigurationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainCanvas.xaml.cs">
-      <DependentUpon>MainCanvas.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Canvas\VirtualWorkspaceWindow.xaml.cs">
+      <DependentUpon>VirtualWorkspaceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Class\DocumentTypes\Archive.cs" />
+    <Compile Include="Class\DocumentTypes\Command.cs" />
+    <Compile Include="Class\DocumentTypes\DataCollection.cs" />
+    <Compile Include="Class\DocumentTypes\GenericDocument.cs" />
+    <Compile Include="Class\DocumentTypes\Graph.cs" />
+    <Compile Include="Class\DocumentTypes\IContentAddressable.cs" />
+    <Compile Include="Class\DocumentTypes\ImagePlus.cs" />
+    <Compile Include="Class\DocumentTypes\MarkdownPlus.cs" />
+    <Compile Include="Class\DocumentTypes\PlainText.cs" />
+    <Compile Include="Class\DocumentTypes\Playlist.cs" />
+    <Compile Include="Class\DocumentTypes\Web.cs" />
+    <Compile Include="Class\Facility\ArchiveHelper.cs" />
+    <Compile Include="Class\Facility\ClueManagement\Clue.cs" />
+    <Compile Include="Class\Facility\ClueManagement\ClueFragment.cs" />
+    <Compile Include="Class\Facility\ClueManagement\ClueManager.cs" />
+    <Compile Include="Class\Facility\ClueManagement\ClueTreeNode.cs" />
+    <Compile Include="Class\Facility\ClueManagement\SmartCombo.cs" />
+    <Compile Include="Class\Facility\DataHelper.cs" />
+    <Compile Include="Class\Facility\DropRequest.cs" />
+    <Compile Include="Class\Facility\EverythingService.cs" />
+    <Compile Include="Class\Facility\FileHelper.cs" />
+    <Compile Include="Class\Facility\LogHelper.cs" />
+    <Compile Include="Class\Facility\MediaHelper.cs" />
+    <Compile Include="Class\Facility\NetworkHelper.cs" />
+    <Compile Include="Class\Facility\StringHelper.cs" />
+    <Compile Include="Class\Facility\SystemHelper.cs" />
+    <Compile Include="Class\Facility\SystemInterpService.cs" />
+    <Compile Include="Class\Home.cs" />
+    <Compile Include="Class\DocumentTypes\Document.cs" />
+    <Compile Include="Class\Package.cs" />
+    <Compile Include="Class\SingleInstanceApp.cs" />
+    <Compile Include="Class\StartUp.cs" />
+    <Compile Include="Class\VirtualWorkspace.cs" />
+    <Compile Include="CustomControl\BatchOperationPanel.xaml.cs">
+      <DependentUpon>BatchOperationPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaces\ClueBrowser.xaml.cs">
+      <DependentUpon>ClueBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaces\GraphLayer.xaml.cs">
+      <DependentUpon>GraphLayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\ClueBrowserWindow.xaml.cs">
+      <DependentUpon>ClueBrowserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\CollectionCreatorWindow.xaml.cs">
+      <DependentUpon>CollectionCreatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\DaysOnEarthWindow.xaml.cs">
+      <DependentUpon>DaysOnEarthWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\DelightulImageBrowser.xaml.cs">
+      <DependentUpon>DelightulImageBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\ForgottenUniverseWindow.xaml.cs">
+      <DependentUpon>ForgottenUniverseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\GraphEditor.xaml.cs">
+      <DependentUpon>GraphEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\MarkdownPlusEditorWindow.xaml.cs">
+      <DependentUpon>MarkdownPlusEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\MediaPlayerWindow.xaml.cs">
+      <DependentUpon>MediaPlayerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\CanvasSpaceWindow\VoidUniverseWindow.xaml.cs">
+      <DependentUpon>VoidUniverseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\ClueButton.cs" />
+    <Compile Include="CustomControl\Components\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\FilteredClueSelectionCombo.xaml.cs">
+      <DependentUpon>FilteredClueSelectionCombo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\GraphNodeControl.xaml.cs">
+      <DependentUpon>GraphNodeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\MarkdownPlusEditor.xaml.cs">
+      <DependentUpon>MarkdownPlusEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\MarkdownPlusEditorPopup.xaml.cs">
+      <DependentUpon>MarkdownPlusEditorPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\MediaControls.xaml.cs">
+      <DependentUpon>MediaControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\Components\VirtualArchivePanel.xaml.cs">
+      <DependentUpon>VirtualArchivePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\ArchiveDocumentIcon.xaml.cs">
+      <DependentUpon>ArchiveDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\CommandDocumentIcon.xaml.cs">
+      <DependentUpon>CommandDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\DataCollectionDocumentIcon.xaml.cs">
+      <DependentUpon>DataCollectionDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\GraphDocumentIcon.xaml.cs">
+      <DependentUpon>GraphDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\ImagePlusDocumentIcon.xaml.cs">
+      <DependentUpon>ImagePlusDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\MarkdownPlusDocumentIcon.xaml.cs">
+      <DependentUpon>MarkdownPlusDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\OthersDocumentIcon.xaml.cs">
+      <DependentUpon>OthersDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\PlainTextDocumentIcon.xaml.cs">
+      <DependentUpon>PlainTextDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\PlayListDocumentIcon.xaml.cs">
+      <DependentUpon>PlayListDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\UnknownDocumentIcon.xaml.cs">
+      <DependentUpon>UnknownDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\VirtualArchiveDocumentIcon.xaml.cs">
+      <DependentUpon>VirtualArchiveDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\VirtualWorkspaceDocumentIcon.xaml.cs">
+      <DependentUpon>VirtualWorkspaceDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\DocumentIcons\WebDocumentIcon.xaml.cs">
+      <DependentUpon>WebDocumentIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FanButton.cs" />
+    <Compile Include="CustomControl\ForgottenDocument.xaml.cs">
+      <DependentUpon>ForgottenDocument.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MemoirSearchBoxPopup.xaml.cs">
+      <DependentUpon>MemoirSearchBoxPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\SliderWithProgress.cs" />
+    <Compile Include="CustomControl\ToolTray.xaml.cs">
+      <DependentUpon>ToolTray.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\IconBase.xaml.cs">
+      <DependentUpon>IconBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\MemoirSearchBar.xaml.cs">
+      <DependentUpon>MemoirSearchBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\DedicatedCreditsScreen.xaml.cs">
+      <DependentUpon>DedicatedCreditsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\AboutScreen.xaml.cs">
+      <DependentUpon>AboutScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\ModalDialogAura.xaml.cs">
+      <DependentUpon>ModalDialogAura.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\OpenFolderDialog.xaml.cs">
+      <DependentUpon>OpenFolderDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\EasyImportDialog.xaml.cs">
+      <DependentUpon>EasyImportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\UserConfigurationDialog.xaml.cs">
+      <DependentUpon>UserConfigurationDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Gadget\LightWebBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gadget\RSSFeeds.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\ArchiveViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\BatchOperationPanelPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\CrashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\DocumentPropertyPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\FileDropOptionsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\PlayListContentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\SearchGuidePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Popup\StatusPromt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Styles\ComboBoxStyle2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Styles\ComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Styles\ExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Styles\ScrollViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gadget\LightWebBrowser.xaml.cs">
+      <DependentUpon>LightWebBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gadget\RSSFeeds.xaml.cs">
+      <DependentUpon>RSSFeeds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\FanButtonConverters.cs" />
+    <Compile Include="Popup\ArchiveViewer.xaml.cs">
+      <DependentUpon>ArchiveViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\BatchOperationPanelPopup.xaml.cs">
+      <DependentUpon>BatchOperationPanelPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\CrashScreen.xaml.cs">
+      <DependentUpon>CrashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\DocumentPropertyPanel.xaml.cs">
+      <DependentUpon>DocumentPropertyPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\FileDropOptionsPanel.xaml.cs">
+      <DependentUpon>FileDropOptionsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\IDocumentPropertyViewable.cs" />
+    <Compile Include="Popup\PlayListContentEditor.xaml.cs">
+      <DependentUpon>PlayListContentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\SearchGuidePopup.xaml.cs">
+      <DependentUpon>SearchGuidePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\StatusPromt.xaml.cs">
+      <DependentUpon>StatusPromt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +574,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="ClassDiagramView.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -107,6 +585,117 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DevNotes\ToDoList.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\Background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DevNotes\CurrentWorkingOn.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Settings %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Backbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\TextSmallIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resource\Sounds\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\ForgottenSpaceBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\ForgottenSpaceBackground2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\Folder%28Closed%29 Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\Folder %28Opened%29 Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\File Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\Underline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\TableSlot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\ColorWheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\GridBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\GridBackground2.png" />
+    <Resource Include="Resource\Images\GridBackground3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DevNotes\Notice.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\VolumeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\Patterns\ImageBackgroundPattern.jpg" />
+    <Resource Include="Resource\Images\Patterns\ImageBorderPattern.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\TableSlotHovered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\PlaylistIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Images\UnderlineWithBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\Abstract Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\lock-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\Handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\CanvasSpace\Archive.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Archive_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Clue.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Clue_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Collection.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Collection_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Document.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Document_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Forgotten.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Forgotten_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Graph.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Graph_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Image.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Image_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Leave.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Leave_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Media.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Media_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\QuickMatch.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\QuickMatch_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Table.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Table_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Void.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Void_Hover.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Web.png" />
+    <Resource Include="Resource\Icons\CanvasSpace\Web_Hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Dependency.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

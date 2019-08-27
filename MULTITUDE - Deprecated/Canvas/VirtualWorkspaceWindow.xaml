@@ -1,0 +1,12 @@
+﻿<Window x:Class="MULTITUDE.VirtualWorkspaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE"
+        mc:Ignorable="d"
+        Title="MULTITUDE" Foreground="{x:Null}" Background="#7F2C2C2C" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowState="Maximized" AllowDrop="True" AllowsTransparency="True" WindowStyle="None" Closing="Window_Closing" DragOver="Window_DragOver" Drop="Window_Drop">
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        
+    </Grid>
+</Window>

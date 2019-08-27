@@ -3,6 +3,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Meta.Vlc;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -10,9 +11,9 @@ using System.Windows;
 [assembly: AssemblyTitle("MULTITUDE")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("TotalImagine Group")]
 [assembly: AssemblyProduct("MULTITUDE")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Charles Chang 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -53,3 +54,7 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+// VLC
+// [assembly: VlcSettings(@"..\..\LibVlc", "-I", "dummy", "--ignore-config", "--no-video-title")]
+[assembly: VlcSettings(@"..\..\..\LibVlc", "-I", "dummy", "--ignore-config", "--no-video-title")]

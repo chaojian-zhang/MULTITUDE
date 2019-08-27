@@ -25,10 +25,10 @@ namespace Airi.TheSystem.Syntax
     ///     - <Element> WordAttribute: Enter enumeration name from "WordAttribute" and "VerbAttribute", enclosed in a pair of "<>"
     ///                 Use a "+" sign if contains multiple constriants, e.g. "Verb+Past", for verbs, if not specified VerbAttribute then it means always match as long as is a verb
     ///                 [Pending] Use <*> to indicate repeatition, when repetation is used only one attribute is allowed since it makes no sense for a repeatable attribute element to be of different types (for English)
-    ///                 [Pending] Use <any> to match any phrase
+    ///                 [Pending] Use <any> to match any phrase; <any> should be used alone as is, without * or +
     ///     - <Element> SubPattern: Enter "Pattern Name" for a previously defined pattern, enclosed in a pair of ""
     ///                 Can have white spaces
-    ///                 [Pending] Can refer to self (to cause recursive definitions) (an ending condition must be provided in the pattern by specifying this subpattern optional)
+    ///                 [Pending] Can refer to self (to cause recursive definitions) (an ending condition must be provided in the pattern by specifying this subpattern optional OR embed it inside a choice)
     ///     - <Element> [Pending] Use @ for catagorized phrases (e.g. LocationName, PeopleName), use !@ for exclusive
     ///                 These categorization information are provided by designer along with dictionary for specific usages e.g. GIS system or game NPC or other common object identification by name
     ///     - <Element> [Pending] Use # to indicate alias/Tag for specific concepts, objects or object type (definition see below)
@@ -39,9 +39,11 @@ namespace Airi.TheSystem.Syntax
     ///     - <Element> Choice: Use a pair of "[]" to enclose any one of PREVIOUSLY mentioned elements, seperated by | (we used | instead of comma because it's nicer), 
     ///                 Cannot include a secondary Choice element; Designers must be careful that choice options themselves do not overlap because during the match we return the first matched selection;
     ///                 Choice options are always optional but at least one must be selected
+    ///                 Choice returns as soon as a choice is found, thus general cases should be put in front while specific options should be put after; This is especially the case when used along with subpatterns
     ///     - <Elemenet> Punctuations can be defined in pattern definitions, we support :,.?!-
     ///     - <Element> [Pending] Use ??? for unknown phrases (by default action it will be collected as noun, or not handled)
     ///                 Notice ??? isnt' used as <any> so if the given string is indeed a phrase then we won't commit a match
+    ///                 The difference between ??? and <any> is: ??? indicates something that is UNKNOWN, i.e. not in the dictionary - thus if it's an actual phrase in the dictionary then it won't issue a match; while <any> indicates anything up to next pattern element
     ///     - <Response> Embed common responses(i.e.actions), through adding "-->"
     ///                 Actions should ideally match related function/class name, and shouldn't contain white spaces
     ///                 [Pending] Use (Label) immediately after CreateContext or AddContext or RemoveContext action to indicate a context, e.g. --> CreateContext(GEZI)
@@ -104,30 +106,81 @@ namespace Airi.TheSystem.Syntax
 
         public PatternLocale Locale { get; }
 
+        // Wrapper for below
+        public PatternInstance Match(string content, VocabularyManager vocabulary, bool bExact = true)
+        {
+            int temp = 0;
+            return Match(content, vocabulary, ref temp, bExact);
+        }
         // Interaction Interface: Return whether or not a given sentence matches given pattern: If a match is found a PatternInstance will be returned other wise null
         // Notice that patterns provide EXACT matches, this gives designers flexibility in defining general or specific matches per need/context; For subpatterns the length cannot be decided though so an option if given
         // @sentence: input sentence doesn't need to be well formed: auxiliary blanks, English or chinese, punctuations or not -- those are handled within pattern and pattern elements themselves
         // <Improvement Note> The impelmentation of this function should be language neutral and doesn't assume meaningful symbols are seperated by spaces
-        public PatternInstance Match(string content, VocabularyManager vocabulary, bool bExact = false)
+        public PatternInstance Match(string content, VocabularyManager vocabulary, ref int processedLocation, bool bExact = true)
         {
-            // Basic Formaing procesing
-            content = content.Trim();
+            processedLocation = content.IndexOf(content.Trim());
+            // Basic Format procesing
+            content = content.Trim().ToLower();
 
             // Match against elements
             PatternInstance instance = new PatternInstance(this);
             int currentLocation = 0;
-            foreach (PatternElement element in Elements)
+            for (int i = 0; i < Elements.Count; i++)
             {
+                // Get a reference
+                PatternElement element = Elements[i];
+
                 // Input string boundary check
-                if (content.Length <= currentLocation && element.bOptional == false)
-                    return null;
+                if (content.Length <= currentLocation)
+                {
+                    if (element.bOptional == false) return null;
+                    else continue;
+                }
 
                 // Skip spaces
                 while (content[currentLocation] == ' ' && content.Length <= currentLocation) currentLocation++;
 
                 // Continue checking
                 int consumed = 0;
-                PatternElementInstance eInstance = element.MatchElement(content.Substring(currentLocation), vocabulary, out consumed);  // Notice consumed only represent actual element size, not including spaces (In English)
+                // Specially handle <any> attribute
+                PatternElementInstance eInstance = null;
+                if (element.Key == "any")
+                {
+                    // Just match next element from character (be it a word or a phrase) until we find a match or not, in former case the words skipped is the <any>; in later case the pattern simply doesn't match
+                    if (i + 1 < Elements.Count)
+                    {
+                        PatternElement nextElement = Elements[i + 1];
+                        int anySize = 0;
+                        PatternElementInstance tempEInstance = null;
+                        while ( (tempEInstance = element.MatchElement(content.Substring(currentLocation + anySize), vocabulary, out consumed)) == null)
+                        {
+                            anySize++;
+                        }
+                        if (tempEInstance == null) return null;
+                        else
+                        {
+                            eInstance = new PatternElementInstance(PatternElementType.WordAttribute, content.Substring(currentLocation, anySize));
+                            consumed = anySize;
+                        }
+                    }
+                    else
+                    {
+                        eInstance = new PatternElementInstance(PatternElementType.WordAttribute, content.Substring(currentLocation));
+                        consumed = content.Length - currentLocation;
+                    }
+
+                    //// Match any untill the next element
+                    //string any = vocabulary.GetAnyPhrase(content);
+                    //if (unknownString != null)   // Commit only if we find no match
+                    //{
+                    //    consumed = unknownString.Length;
+                    //    return new PatternElementInstance(Type, unknownString);
+                    //}
+                }
+                else
+                {
+                    eInstance = element.MatchElement(content.Substring(currentLocation), vocabulary, out consumed);  // Notice consumed is language neutral, i.e. in English it contains spaces skipped, while in other languages it's only element length
+                }
                 if (eInstance != null)
                 {
                     instance.ComponentElements.Add(eInstance);
@@ -135,6 +188,9 @@ namespace Airi.TheSystem.Syntax
                 }
                 else if(element.bOptional != true) return null;
             }
+            if(currentLocation != content.Length) instance.bPartialMatch = true;
+            if (bExact && instance.bPartialMatch == true) return null;
+            processedLocation += currentLocation;
             return instance;
         }
     }
@@ -208,57 +264,68 @@ namespace Airi.TheSystem.Syntax
             switch (Type)
             {
                 case PatternElementType.SpecificWord:
-                    if(content.ToLower().IndexOf(Key.ToLower()) == 0)
+                    consumed = content.IndexOf(content.TrimStart());
+                    if (content.TrimStart().IndexOf(Key.ToLower()) == 0)
                     {
-                        consumed = Key.Length;
+                        consumed += Key.Length;
                         return new PatternElementInstance(Type, Key);
                     }
                     break;
                 case PatternElementType.VarietyWord:
-                    if(vocabulary.IsPraseVaryingFormOrSynonymUndetermined(content, Key, out consumed) == true)
+                    consumed = content.IndexOf(content.TrimStart());
+                    if (vocabulary.IsPraseVaryingFormOrSynonymUndetermined(content.TrimStart(), Key, ref consumed) == true)
                     {
                         return new PatternElementInstance(Type, content.Substring(0, consumed));
                     }
                     break;
                 case PatternElementType.WordAttribute:
-                    // Get attribtues to match; Attributes are guaranted to be valid at load time
-                    bool bInfinite = (Key.ElementAt(0) == '*');
-                    string[] attributes = content.Split(new char[] { '+', '*'});
-                    WordAttribute attribute = 0;
-                    foreach (string a in attributes)
+                    // We do not explicitly trim for this; Handling of beginning white spaces dealt with below
+                    if (Key == "any")
                     {
-                        if (string.IsNullOrWhiteSpace(a)) continue;
-                        attribute |= (WordAttribute)Enum.Parse(typeof(WordAttribute), a);
+                        throw new Exception("Any should be handled outside");
                     }
-                    consumed = 0;
-                    // The input must be recognziable so it's gonna be a phrase of some kind
-                    Phrase phrase = vocabulary.GetPhrase(content); // <Improvement> Could we be matching the shortest attribute? // <Warning> GetPhrase() trimmed, so phrase.Length might not equal actual consumed characters
-                    while(phrase != null)
+                    else
                     {
-                        // Try match against attributes
-                        if ((phrase.Attribute & attribute) == attribute || attribute == WordAttribute.any)
+                        // Get attribtues to match; Attributes are guaranted to be valid at load time
+                        bool bInfinite = (Key.ElementAt(0) == '*');
+                        string[] attributes = Key.Split(new char[] { '+', '*' });
+                        WordAttribute attribute = 0;
+                        foreach (string a in attributes)
                         {
-                            consumed += phrase.Key.Length;
-                            phrase = vocabulary.GetPhrase(content.Substring(consumed));
+                            if (string.IsNullOrWhiteSpace(a)) continue;
+                            attribute |= (WordAttribute)Enum.Parse(typeof(WordAttribute), a);
                         }
-                        if (!bInfinite) break;
-                    }
-                    if(consumed != 0)
-                    {
-                        return new PatternElementInstance(Type, content.Substring(0, consumed));    // Return that many elements as one single phrase (which by itself may not exist in the library)
-                        // <Development> This can be utilzied by action handlers for learning new expressions e.g. "big shinny red juicy" apple
+                        consumed = 0;
+                        // The input must be recognziable so it's gonna be a phrase of some kind
+                        Phrase phrase = vocabulary.GetPhrase(content); // <Improvement> Could we be matching the shortest attribute? // <Warning> GetPhrase() trimmed, so phrase.Length might not equal actual consumed characters
+                        while (phrase != null)
+                        {
+                            // Try match against attributes
+                            if ((phrase.Attribute & attribute) == attribute || attribute == WordAttribute.any)
+                            {
+                                consumed += content.IndexOf(phrase.Key) + phrase.Key.Length;    // Use content.IndexOf(phrase.Key) first to find where in the original string our phrase is is necessary for sometimes there might be some spaces in front of it
+                                phrase = vocabulary.GetPhrase(content.Substring(consumed)); // Continue with next phrase
+                            }
+                            else phrase = null;
+                            if (!bInfinite) break;
+                        }
+                        if (consumed != 0)
+                        {
+                            return new PatternElementInstance(Type, content.Substring(0, consumed).Trim());    // Return that many elements as one single phrase (which by itself may not exist in the library)
+                            // <Development> This can be utilzied by action handlers for learning new expressions e.g. "big shinny red juicy" apple
+                        }
                     }
                     break;
                 case PatternElementType.SubPattern:
-                    PatternInstance subPatternInstance = SubPattern.Match(content, vocabulary);
+                    consumed = 0;
+                    PatternInstance subPatternInstance = SubPattern.Match(content, vocabulary, ref consumed, false);
                     if (subPatternInstance != null)
                     {
-                        consumed = subPatternInstance.WordCount;
                         return new PatternElementInstance(Type, subPatternInstance);
                     }
                     break;
                 case PatternElementType.Choice:
-                    // Emitting a successful choice at the first matching
+                    // Emitting a successful choice at the first matching // <Improvement> A more accurate way would be to match all options and use the longest match, e.g. Courtesy Interrupt
                     PatternElementInstance ChoiceInstance = null;
                     foreach (PatternElement choiceElement in Choices)
                     {
@@ -271,29 +338,32 @@ namespace Airi.TheSystem.Syntax
                     // Valid if we have at least one and only one choice
                     break;
                 case PatternElementType.Tag:
-                    string tagValue = MatchTag(Key, content, vocabulary);
+                    consumed = content.IndexOf(content.TrimStart());
+                    string tagValue = MatchTag(Key, content.TrimStart(), vocabulary);
                     if(tagValue != null)
                     {
-                        consumed = tagValue.Length;
+                        consumed += tagValue.Length;
                         return new PatternElementInstance(Type, tagValue);
                     }
                     break;
                 case PatternElementType.CategoryInclude:
-                    { 
-                        string match = MatchCategory(Key, true, content, vocabulary);
+                    {
+                        consumed = content.IndexOf(content.TrimStart());
+                        string match = MatchCategory(Key, true, content.TrimStart(), vocabulary);
                         if(match != null)
                         {
-                            consumed = match.Length;
+                            consumed += match.Length;
                             return new PatternElementInstance(Type, match);
                         }
                     }
                     break;
                 case PatternElementType.CategoryExclude:
                     {
-                        string match = MatchCategory(Key, false, content, vocabulary);
+                        consumed = content.IndexOf(content.TrimStart());
+                        string match = MatchCategory(Key, false, content.TrimStart(), vocabulary);
                         if (match != null)
                         {
-                            consumed = match.Length;
+                            consumed += match.Length;
                             return new PatternElementInstance(Type, match);
                         }
                     }
@@ -333,7 +403,7 @@ namespace Airi.TheSystem.Syntax
         {
             switch (tagType)
             {
-                case "email":
+                case "Email":
                     // Extract non-phrase part
                     string unknownString = vocabulary.GetUnknownPhrase(content);
                     if(unknownString != null)
@@ -385,11 +455,13 @@ namespace Airi.TheSystem.Syntax
     {
         public Pattern Type { get; }
         public List<PatternElementInstance> ComponentElements { get; set; }
+        public bool bPartialMatch { get; set; }
 
         public PatternInstance(Pattern type)
         {
             ComponentElements = new List<PatternElementInstance>();
             Type = type;
+            bPartialMatch = false;
         }
 
         // Used by subpatterns to emit their content (by retrieving elements value)
@@ -451,13 +523,13 @@ namespace Airi.TheSystem.Syntax
                             switch (choiceElement.Type)
                             {
                                 case PatternElementType.SpecificWord:
-                                    System.Console.Write(element.Key.Contains(' ') ? ('\'' + element.Key + '\'') : element.Key);
+                                    System.Console.Write(choiceElement.Key.Contains(' ') ? ('\'' + choiceElement.Key + '\'') : choiceElement.Key);
                                     break;
                                 case PatternElementType.VarietyWord:
-                                    System.Console.Write('~' + element.Key);
+                                    System.Console.Write('~' + choiceElement.Key);
                                     break;
                                 case PatternElementType.WordAttribute:
-                                    System.Console.Write('<' + element.Key + '>');
+                                    System.Console.Write('<' + choiceElement.Key + '>');
                                     break;
                                 case PatternElementType.SubPattern:
                                     System.Console.Write(choiceElement.SubPattern.Name);
@@ -467,10 +539,10 @@ namespace Airi.TheSystem.Syntax
                                 case PatternElementType.Tag:
                                     throw new InvalidOperationException("The pattern contains choices inside choices.");
                                 case PatternElementType.CategoryInclude:
-                                    System.Console.Write('@' + element.Key);
+                                    System.Console.Write('@' + choiceElement.Key);
                                     break;
                                 case PatternElementType.CategoryExclude:
-                                    System.Console.Write("!@" + element.Key);
+                                    System.Console.Write("!@" + choiceElement.Key);
                                     break;
                                 case PatternElementType.Punctuation:
                                     throw new InvalidOperationException("The pattern contains choices inside choices.");
@@ -504,7 +576,8 @@ namespace Airi.TheSystem.Syntax
             }
 
             // Display specifci value of each element
-            System.Console.Write("\nParameters: ");
+            System.Console.WriteLine();
+            System.Console.Write("Parameters: ");
             System.Console.WriteLine(Value);
         }
     }
@@ -520,11 +593,11 @@ namespace Airi.TheSystem.Syntax
             InstanceValue = value;
         }
 
-        public PatternElementInstance(PatternElementType type, PatternInstance pattern)
+        public PatternElementInstance(PatternElementType type, PatternInstance subPattern)
         {
             // Assert ElementType == PatternElementType.SubPattern
             ElementType = type;
-            SubPattern = pattern;   
+            SubPattern = subPattern;   
         }
 
         string InstanceValue { get; }   // Display value as input by user; Valid only for Key types

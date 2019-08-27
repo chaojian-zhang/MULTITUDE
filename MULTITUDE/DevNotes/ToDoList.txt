@@ -1,0 +1,13 @@
+﻿Used Tags:
+	<development> for development related issues
+	<performance> for potential performance boosts/hurdles
+	<debug> for potential problems
+	Aync for pending implementation into aync mode
+	Also check out "throw new NotImplementedException();""
+
+Things to test on:
+	Core functionality - 
+	UI - Colors
+
+Design Goal:
+	Lightweight single-self-contained executable, otherwise we need an installer

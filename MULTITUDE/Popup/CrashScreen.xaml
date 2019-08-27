@@ -1,0 +1,71 @@
+﻿<Window x:Class="MULTITUDE.Popup.CrashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MULTITUDE.Popup"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" WindowStartupLocation="CenterScreen"
+        Title="Crash Screen" SizeToContent="WidthAndHeight" Style="{StaticResource DialogWindow}" Background="#FF292A2B">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="BackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF022D51" Offset="1"/>
+            <GradientStop Color="#725E9CD1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Border BorderThickness="2" BorderBrush="#FFA69A80" Padding="10" Background="{StaticResource BackgroundBrush}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=FeedbackPage}" Value="Visible">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <BlurEffect/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+            </Border.Style>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Content="MULTITUDE Has Crashed!" Style="{StaticResource GoldenBoldTextStyle}" FontSize="75">
+                    <Label.Effect>
+                        <DropShadowEffect ShadowDepth="0" Color="#FFFFF300"/>
+                    </Label.Effect>
+                </Label>
+                <Label Content="We are sorry for the inconvenience, but accidents happen." Style="{StaticResource GoldenBoldTextStyle}"/>
+                <Label Content="{Binding Message}" Style="{StaticResource GoldenBoldTextStyle}" />
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Source: " Style="{StaticResource UIContentStyle}" />
+                    <Label Content="{Binding Source}" Style="{StaticResource UIContentStyle}" />
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Stack Trace: " Style="{StaticResource UIContentStyle}"/>
+                    <TextBlock Text="{Binding StackTrace}" Foreground="Gray"/>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Leave a Message or Describe What Have Happened: " Style="{StaticResource UIContentStyle}" />
+                    <TextBox x:Name="UserMessage" Style="{StaticResource MultiLineTextboxStyle}" Height="150"/>
+                </StackPanel>
+                <DockPanel LastChildFill="True">
+                    <Label Content="Leave your contact information if you wish to be contacted: " Style="{StaticResource UIContentStyle}" />
+                    <TextBox x:Name="UserContact" Style="{StaticResource TextboxStyle}" Height="20"/>
+                </DockPanel>
+                <Grid>
+                    <Button HorizontalAlignment="Left" Content="Send Report" Margin="10" Click="SendReport_Click" Width="120" Style="{StaticResource ButtonStyle}"/>
+                    <Button HorizontalAlignment="Right" Content="Close" Margin="10" Click="Cancel_Click"  Width="120" Style="{StaticResource ButtonStyle}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Border x:Name="FeedbackPage" BorderThickness="0" Background="#72FFFFFF" Visibility="Collapsed">
+            <Label x:Name="FeedbackLabel" Content="Sending Message..." Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="75"/>
+        </Border>
+    </Grid>
+</Window>
