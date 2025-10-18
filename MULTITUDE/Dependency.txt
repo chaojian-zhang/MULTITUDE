@@ -1,0 +1,12 @@
+﻿1. Notice Everything32.dll, Everything86.dll are C libraries and requrie careful placement
+2. Notice Meta.Vlc.dll and Meta.Vlc.Wpf.dll are local libraries and since there is no source for them they need careful placement as well; Notice they are desingated for x32 so even though AnyCPU can work for then x64 definition doesn't work.
+2. Notice AnyCPU is no longer valid only because we are using Everything32/64.dll, for MetaVLC actually is C# based; Notice VLC can work with either 32 and 64 but when we change build configurations we need to alter AssemblyInfo.cs for make it load C library from right folder location
+
+Dream 2017090
+（年少轻狂）初中的时候就是不太顾及未来，遇到了身边的人不按照自己的意志作为则好似需要表现一下自己的情绪清晰深刻而作为一番的、不得不非得去严格的制止。我一向还算是低调，坐在最后一排从来并不如何引人注目，而刘虽然曾经与我有过过节、却也逐渐在好脾气中重新变得友善起来。这天虞靖却着实过分，不断地骚扰我，为了让他安静下来，一次警告过后我扛起椅子往他身上砸去（到好似学习了Andrew's Game里面的制敌策略——对于这些年轻不安分的心只有打到怕便在也不敢轻易逾矩）；后来赶进来的一个老师也是一样的方法，不过他防御更胜，后来发现一次跟两个人打斗还是挺费力气的、我虽然有每日的真人训练却实现这一个也是需要许多强制的躯体调动。
+后来两个白色衣服的面貌并不年轻（一个白发）的白色麻布中衫的人帮我处理了学校里面的后事，我号继续端坐然后学习；确实表现了自己的家世、道上的人物（其中一个细节是我走回到教室后面的时候颇为惊讶的发现两个人在端着椅子等我，喊我一声少爷然后坐上去之后把我连着椅子一起端回桌前）
+（女伴）（省略细节）有一个和我们身份相当、甚至更霸道一些的女生跟我们相处的十分友好，有一个教室什么的我们一起经常去进行某项活动（好像是看一些视频资料？），以及她总是爱吃某样东西
+（约会）（省略细节）Jenny还是谁要喊我一起出去，后来回到学校去到我们(我和上面那个人)常去的教室、她不在，然后去到普通的教室
+（Dream Object）我有一个十分老旧的薄薄卷轴签（类似于sushi mat）（或者称作竹简），用一根麻绳缠绕，其实却是在学校是可以伪装用来玩的一款专门玩一个古装RPG游戏的数码设备，到好似自己口袋中的另一个世界——单机、dedicated game device、long lasting content、RPG、Stable World、Complicated system的乐趣（启发来源：Cheryl在公车上有一款种树的游戏，我想起The Globe提供的类似的property owning功能、却是在一个larger scale）
+要素：Physically consistent game，time, Mulssive-online-multiplayer indepedent asset
+虽然不再需要strain brain，但是醒来后（这次为了省事和保存细节使用了电脑省的手机打字总是拼写问题）
