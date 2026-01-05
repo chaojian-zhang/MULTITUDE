@@ -872,6 +872,8 @@ namespace MULTITUDE.Class
             // Generate a blank home there if the folder isn't occupied
             if (System.IO.Directory.GetFileSystemEntries(homeLocation).Length == 0)
             {
+                throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
                 // Create a home
                 Home newHome = new(homeLocation);
                 // Save home
@@ -906,6 +908,8 @@ namespace MULTITUDE.Class
         // Serialize: Save current home data into a home data file -- normally Home decides when to save itself
         private void Save()
         {
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
             Stream fileStream = File.Create(System.IO.Path.Combine(Location, HomeDataFileName));
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
             BinaryFormatter serializer = new();

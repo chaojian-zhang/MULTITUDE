@@ -13,11 +13,11 @@ namespace MULTITUDE.Class.DocumentTypes
     {
         /// Don't use 0 for comparison needs that for failed comparison
         // Predefined Format
-        Title = 1, 
+        Title = 1,
         Heading = 2,
         Table = 4,
         Bullet = 8,
-        Hyperlink = 16, 
+        Hyperlink = 16,
         // Font Style
         Bold = 32,
         Italic = 64,
@@ -73,10 +73,10 @@ namespace MULTITUDE.Class.DocumentTypes
     class MarkdownPlus : Document, ISerializable
     {
         public MarkdownPlus(string path, string metaname)
-            :this(DocumentType.MarkdownPlus, path, metaname, System.DateTime.Now.ToString("MMMM dd, yyyy HHmmss")){ }
+            : this(DocumentType.MarkdownPlus, path, metaname, System.DateTime.Now.ToString("MMMM dd, yyyy HHmmss")) { }
         // A wrapper for underlying base
         public MarkdownPlus(DocumentType type, string path, string metaname, string date)
-            :base(type, path, metaname, date != null? date : MULTITUDE.Class.Facility.SystemHelper.CurrentTimeFileNameFriendly)
+            : base(type, path, metaname, date != null ? date : MULTITUDE.Class.Facility.SystemHelper.CurrentTimeFileNameFriendly)
         { _FlowDocument = new FlowDocument(); DistributedClonesForCurrentFlowDocument = new List<FlowDocument>(); }
 
         // Book keeper
@@ -126,7 +126,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
         #region Serialization
         public MarkdownPlus(SerializationInfo info, StreamingContext ctxt)
-            :base(info, ctxt)
+            : base(info, ctxt)
         {
             // Session-only variables
             DistributedClonesForCurrentFlowDocument = new List<FlowDocument>();
@@ -214,7 +214,9 @@ namespace MULTITUDE.Class.DocumentTypes
         // Binary serialization
         protected override void SaveDocument()
         {
-            if(bDirty)
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
+            if (bDirty)
             {
                 using (FileStream file = new(Path, FileMode.Create, System.IO.FileAccess.Write))
                 {
@@ -237,7 +239,7 @@ namespace MULTITUDE.Class.DocumentTypes
                     TextRange textRange = new(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
                     textRange.Load(file, DataFormats.Xaml);
                 }
-            }           
+            }
         }
 
         public static MarkdownPlus Import(System.IO.FileInfo target)

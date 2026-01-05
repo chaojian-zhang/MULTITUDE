@@ -602,7 +602,11 @@ namespace MULTITUDE.Class.DocumentTypes
                 // Archive Handling vs Normal file document
                 if (System.IO.Directory.Exists(this.Path))
                     System.IO.Directory.Delete(this.Path, true);
-                else System.IO.File.Delete(this.Path);
+                else
+                {
+                    throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+                    System.IO.File.Delete(this.Path);
+                }
             }
 
             // At this time nowhere in our application should have a reference to this object

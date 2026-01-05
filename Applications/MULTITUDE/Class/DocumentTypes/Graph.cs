@@ -47,7 +47,7 @@ namespace MULTITUDE.Class.DocumentTypes
     /// Simple textual graph nodes
     /// </summary>
     [Serializable]
-    class GraphNode: ISerializable
+    class GraphNode : ISerializable
     {
         #region Constructors
         public GraphNode(string title, GraphNodeView view)
@@ -92,7 +92,7 @@ namespace MULTITUDE.Class.DocumentTypes
                     MDDocument = new FlowDocument();
                     break;
                 case NodeType.Jumper:
-                    throw new InvalidOperationException("Jumper type graph nodes should call another constructor."); 
+                    throw new InvalidOperationException("Jumper type graph nodes should call another constructor.");
             }
             MDDocument = new FlowDocument();
             Ref = null;
@@ -118,7 +118,8 @@ namespace MULTITUDE.Class.DocumentTypes
 
         // Type C
         public FlowDocument _MDDocument;
-        public FlowDocument MDDocument {
+        public FlowDocument MDDocument
+        {
             get
             {
                 if (_MDDocument == null) throw new InvalidOperationException("_MDDocument is null.");
@@ -127,7 +128,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             set
             {
-                if(_MDDocument != value ) _MDDocument = value;
+                if (_MDDocument != value) _MDDocument = value;
             }
         }
 
@@ -256,7 +257,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             set
             {
-                if(_Data != value) _Data = value;
+                if (_Data != value) _Data = value;
             }
         }
 
@@ -269,7 +270,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
         #region Serialization
         public Graph(SerializationInfo info, StreamingContext ctxt)
-            :base(info, ctxt)
+            : base(info, ctxt)
         {
             // Load properties
             // Nothing to load
@@ -291,7 +292,9 @@ namespace MULTITUDE.Class.DocumentTypes
 
         protected override void SaveDocument()
         {
-            if(bDirty)
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
+            if (bDirty)
             {
                 // Save data into a file
                 Stream fileStream = File.Create(Path);

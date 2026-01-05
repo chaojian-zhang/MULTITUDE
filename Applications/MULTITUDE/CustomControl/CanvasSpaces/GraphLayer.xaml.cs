@@ -238,6 +238,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         // Should be called during closing
         public void SaveGraphData()
         {
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
             // Overriding existing doc
             Graph.SaveData(Nodes, Connections, Bookmarks);
             // Close popups if not already done so
