@@ -28,14 +28,14 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         }
 
         #region Configurations
-        public static string InvalidClueCharacters = "+*/\\~`{}\"[]:?!;|<>,=";
+        public static string InvalidClueCharacters = "+*/\\~`{}\"[]:?!;|<>";
         #endregion
 
         public Clue(string clueString)
         {
             // Also validate tag: No special symbols like punctuation and special characters are allowed; no OS invalid characters are allowed for maximum file system compatibility; clue chain symbol - is allowed
-            if (ValidateString(clueString) == false) 
-                throw new InvalidOperationException("Clue string contains invalid characters.");    // Might want to be less strict, at least don't raise an exception immediately; I.e. the caller can call the validation function and do a replacement first, then if it's still illegal we should raise an exception here
+            if (clueString.IndexOfAny(InvalidClueCharacters.ToCharArray()) != -1) // Ref: https://support.microsoft.com/en-us/help/905231/information-about-the-characters-that-you-cannot-use-in-site-names,-folder-names,-and-file-names-in-sharepoint, https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
+                throw new InvalidOperationException("Clue string contains invalid characters.");
 
             this._Fragments = SeperateClueFragments(clueString).ToArray();
         }
@@ -162,27 +162,11 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         #endregion
 
         #region Static Members
-        public static readonly string dashEscapeSymbol = "~%D&!";  // This isn't necessary for clues normally won't contain escape (if its generated automatically), but we should support it anyway
-
-        // Fragments can be just a fragment or exsiting chained fragments
-        public static string Concatenate(params string[] fragments)
-        {
-            return string.Join("-", fragments);
-        }
-
-        public Clue Concatenate(params Clue[] Clues)
-        {
-            List<string> fragments = new List<string>();
-            foreach (Clue clue in Clues)
-            {
-                fragments.AddRange(clue.Fragments);
-            }
-            return new Clue(string.Join("-", fragments));
-        }
+        static public readonly string dashEscapeSymbol = "~%D&!";  // This isn't necessary for clues normally won't contain escape (if its generated automatically), but we should support it anyway
 
         // Seperate a clue into different phrases (or "tags" or "key phrases" -- for consistency we will call it a tag, and ideally a tag is just a word, not a phrase, but allowable to be a phrase)
         // With -- escaped; Also does a ToLower() operation.
-        public static List<string> SeperateClueFragments(string clue)
+        static public List<string> SeperateClueFragments(string clue)
         {
             string escaped = clue.ToLower().Replace("--", dashEscapeSymbol);
             string[] fragments = escaped.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
@@ -209,12 +193,6 @@ namespace MULTITUDE.Class.Facility.ClueManagement
                 clues.Add(new Clue(line));
             }
             return clues;
-        }
-
-        // Ref: https://support.microsoft.com/en-us/help/905231/information-about-the-characters-that-you-cannot-use-in-site-names,-folder-names,-and-file-names-in-sharepoint, https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
-        public static bool ValidateString(string clueString)
-        {
-            return clueString.IndexOfAny(InvalidClueCharacters.ToCharArray()) == -1;
         }
         #endregion
     }

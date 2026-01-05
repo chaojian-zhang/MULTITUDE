@@ -5,118 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace MULTITUDE.Class.Facility.ClueManagement
 {
-    public class PrimaryClueInfo : INotifyPropertyChanged
-    {
-        public PrimaryClueInfo(string name, bool primary, PrimaryClueInfo parent)
-        {
-            _Name = name;
-            _Parent = parent;
-            if (primary) _Clues = new ObservableCollection<PrimaryClueInfo>();
-            else _Clues = null;
-            _IsSelected = false;
-            _IsExpanded = false;
-        }
-
-        public List<PrimaryClueInfo> Match(string text)
-        {
-            List<PrimaryClueInfo> found = new List<PrimaryClueInfo>();
-            if (_Name .Contains(text)) found.Add(this);
-            if(_Clues != null && _Clues.Count != 0)
-            {
-                foreach (PrimaryClueInfo clue in _Clues)
-                {
-                    if (clue._Name.Contains(text)) found.Add(clue);    // No recursing is needed because we have only two layers
-                }
-            }
-            return found;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private string _Name;
-        private ObservableCollection<PrimaryClueInfo> _Clues;      // Though defined as PrimaryClueInfo, we only just want to use its IsSelected property, and we have only two layers
-        private PrimaryClueInfo _Parent;    // For primary clue, parent is null
-        private bool _IsSelected;
-        private bool _IsExpanded;
-
-        public string Name
-        {
-            get { return this._Name; }
-            set
-            {
-                if (value != this._Name)
-                {
-                    this._Name = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public ObservableCollection<PrimaryClueInfo> Clues
-        {
-            get { return this._Clues; }
-            set
-            {
-                if (value != this._Clues)
-                {
-                    this._Clues = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public bool IsSelected
-        {
-            get { return this._IsSelected; }
-            set
-            {
-                if (value != this._IsSelected)
-                {
-                    this._IsSelected = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public bool IsExpanded
-        {
-            get { return this._IsExpanded; }
-            set
-            {
-                if (value != this._IsExpanded)
-                {
-                    this._IsExpanded = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public PrimaryClueInfo Parent
-        {
-            get { return this._Parent; }
-            set
-            {
-                if (value != this._Parent)
-                {
-                    this._Parent = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-    }
-
     /// <summary>
     /// A helper construct to facilitate in document categorization and searching; Does not store clues and their relations to documents directly (unaware of underlying clue storage structure) because the strucutre(implementation) is likely to change in the furture, so we use generic interface to perform such operations
-    /// General usage guidance: Generally our user interaction should only do exact clue search, and we somehow work around that to enable users to have some ambiguity
     /// </summary>
     [Serializable]
     internal class ClueManager
@@ -126,447 +19,235 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public ClueManager()
         {
+            Clues = new Clues();
             Manager = this;
-            ClueTree = new Dictionary<string, ClueTreeNode>();
+            
         }
-        public Dictionary<string, ClueTreeNode> ClueTree { get; set; }
 
-        // Allows for partial searching: both for ambiguity, and for begin at center of a clue (this support will greatly increase the complexity of existing algorithms because a subclue can belong to many primary clues and this makes giving suggestions complicated; It can also cause confusion since which primary clue do we use anyway?)
-        // public MultiDictSet<string, ClueTreeNode> Fragments { get; set; }
+        public Clues Clues { get; set; }    // Defines clue retrieving and adding
         #endregion
 
-        #region Clue Management Interface: Notice we only manage clues themselves, not taking care of updating documents
+        #region Clue Management Interface
         // Record a clue
-        public void AddClue(Clue clue, Document doc)
+        public void AddDocumentToClues(Clue clue, Document doc)
         {
-            string[] fragments = clue.Fragments;
-
-            if (ClueTree.ContainsKey(fragments[0]) == false) ClueTree[fragments[0]] = new ClueTreeNode(fragments[0], null); 
-
-            ClueTree[fragments[0]].AddDocument(fragments, 0, doc);
+            Clues.AddDocument(clue, doc);
         }
 
-        public void AddAllClues(Document doc)
+        public void RemoveDocumentFromClues(Clue clue, Document doc)
+        {
+            Clues.RemoveDocument(clue, doc);
+        }
+        // Remove document from all clues
+        public void RemoveDocumentFromClues(Document doc)
         {
             foreach (Clue clue in doc.Clues)
             {
-                AddClue(clue, doc);
-            }
-        }
-
-        public void AddClue(Clue clue, List<Document> docs)
-        {
-            string[] fragments = clue.Fragments;
-
-            if (ClueTree.ContainsKey(fragments[0]) == false) ClueTree[fragments[0]] = new ClueTreeNode(fragments[0], null);
-
-            ClueTree[fragments[0]].AddDocument(fragments, 0, docs);
-        }
-
-        // Return affected documents: Notice for alias affected documents is only up until current node, not children nodes
-        public List<Document> AddClueAlias(Clue oldClue, Clue newAlias)
-        {
-            List<Document> documents = GetDocuments(oldClue);
-            AddClue(newAlias, documents);
-
-            return documents;
-        }
-
-        public void RemoveClue(Clue clue, Document doc)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) throw new InvalidOperationException("The specified document hasn't been categorized under this clue");
-            ClueTree[fragments[0]].RemoveDocument(fragments, 0, doc);
-        }
-
-        // Remove all cllues of a document from Clue manager, the clues of document itself is, naturally, managed by document itself, not by ClueManager
-        public void RemoveAllClues(Document doc)
-        {
-            foreach (Clue clue in doc.Clues)
-            {
-                RemoveClue(clue, doc);
-            }
-        }
-
-        /// <summary>
-        /// Clue can begin with primary fragment or be subclue (i.e. middle or trailing sections) of any primary clue
-        /// </summary>
-        /// <param name="clue"></param>
-        /// <returns>return empty not null if not found</returns>
-        public List<Document> GetDocuments(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) return new List<Document>();
-            else return ClueTree[fragments[0]].GetDocuments(fragments, 0);
-        }
-
-        public List<Document> GetDocuments(List<Clue> clues)
-        {
-            List<Document> documents = new List<Document>();
-            foreach (Clue clue in clues)
-            {
-                documents.AddRange(GetDocuments(clue));
-            }
-            return documents.Distinct().ToList();
-        }
-
-        public void ChangeClue(Clue oldClue, Clue newClue, Document doc)
-        {
-            RemoveClue(oldClue, doc);
-            AddClue(newClue, doc);
-        }
-        // Return affected documents: only immediate documents, i.e. those who are actually specified under that exact clue is affected
-        public List<Document> ChangeClue(Clue oldClue, Clue newClue)
-        {
-            // <Development> Multithread it and I believe the speech will be moderate; Consider parallel LInq
-
-            // Remove documents from old node
-            ClueTreeNode node = GetTreeNode(oldClue);
-            List<Document> temp = node.Documents;
-            node.Documents = new List<Document>();
-
-            // Remove old node from parent if it's empty
-            if(node.Branches.Count == 0)
-            {
-                if (node.Parent == null) ClueTree.Remove(node.Name); 
-                else node.Parent.Branches.Remove(node.Name);
-            }
-
-            // Move those documents to a new node
-            ClueTreeNode newNode = CreateTreeNode(newClue);
-            newNode.Documents = temp;
-            
-            return temp;
-        }
-
-        public ClueTreeNode GetTreeNode(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) return null;
-            return ClueTree[fragments[0]].GetTreeNode(fragments, 0);
-        }
-
-        public ClueTreeNode CreateTreeNode(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) ClueTree[fragments[0]] = new ClueTreeNode(fragments[0], null);
-            return ClueTree[fragments[0]].CreateTreeNode(fragments, 0);
-        }
-
-        public ClueTreeNode GetParentTreeNode(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) return null;
-            return ClueTree[fragments[0]].GetParentTreeNode(fragments, 0);
-        }
-
-        /// <summary>
-        /// Exclusive
-        /// </summary>
-        /// <param name="clue"></param>
-        /// <returns></returns>
-        public List<string> GetPossibleFragments(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (fragments.Length == 1)
-                return ClueTree.Keys.Where(item => item.Contains(fragments[0]) && item != fragments[0]).ToList();
-            else
-            {
-                if (ClueTree.ContainsKey(fragments[0])) return ClueTree[fragments[0]].GetPossibleFragments(fragments, 0);
-                else return null;
-            }
-        }
-
-        /// <summary>
-        /// Exclusive
-        /// </summary>
-        /// <param name="clue"></param>
-        /// <returns></returns>
-        public List<ClueFragment> GetPossibleClueFragments(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (fragments.Length == 1)
-            {
-                string[] possibleFragments = ClueTree.Keys.Where(item => item.Contains(fragments[0]) && item != fragments[0]).ToArray();
-                List<ClueFragment> results = new List<ClueFragment>();
-                foreach (string frag in possibleFragments)
-                {
-                    results.Add(new ClueFragment(frag, ClueTree[frag].Documents.Count, ClueTree[frag].Documents));
-                }
-                return results;
-            }
-            else
-            {
-                if (ClueTree.ContainsKey(fragments[0])) return ClueTree[fragments[0]].GetPossibleClueFragments(fragments, 0);
-                else return null;
+                RemoveDocumentFromClues(clue, doc);
             }
         }
         #endregion
 
-        #region Search Interface - General Search Functions
-        public List<string> GetAllPrimaryFragments()
-        {
-            return ClueTree.Keys.ToList();
-        }
-
-        public List<string> GetAllClueStrings()
-        {
-            List<Clue> results = new List<Clue>();
-            Home home = (App.Current as App).CurrentHome;
-            foreach (Document doc in home.Documents)
-            {
-                results.AddRange(doc.Clues);
-            }
-
-            return results.Distinct().Select(item => item.ToString()).ToList();
-        }
-
-        public ObservableCollection<PrimaryClueInfo> GetPrimaryClueInfo()
-        {
-            ObservableCollection<PrimaryClueInfo> primaryClues = new ObservableCollection<PrimaryClueInfo>();
-
-            foreach (string primaryFragment in ClueTree.Keys)
-            {
-                PrimaryClueInfo newPrimaryClue = new PrimaryClueInfo(primaryFragment, true, null);
-                primaryClues.Add(newPrimaryClue);
-                foreach (string clue in ClueTree[primaryFragment].GetAllClues())
-                {
-                    if(clue != primaryFragment) // GetAllClues() can return just self if that's all it has (i.e. the fragment has no branches, i.e. the primary fragments themselves)
-                        newPrimaryClue.Clues.Add(new PrimaryClueInfo(clue, false, newPrimaryClue));
-                }
-            }
-
-            return primaryClues;
-        }
-
+        #region Search Functions
         /// <summary>
-        /// Get all document with specific type under that clue
+        /// Given a sequence of fragments, find all clues that partially contain or equal to the sequence, return all documents under those clues
         /// </summary>
-        /// <param name="clue"></param>
-        /// <param name="type"></param>
+        /// <param name="clueString"></param>
         /// <returns></returns>
-        public List<Document> GetDocumentsFilterByType(Clue clue, DocumentType type)
+        private List<Document> GetPartialMatchingClueDocuments(string clueString)
         {
-            return GetDocuments(clue).Where(a => a.Type == type).ToList();
+            return Clues.GetUnion(Clues.GetLargerClues(new Clue(clueString)));
         }
 
-        public List<Document> GetDocumentsFilterByType(Clue clue, List<DocumentType> types)
-        {
-            return GetDocuments(clue).Where(a => types.Any(type => type == a.Type)).ToList();
-        }
+        ///// <summary>
+        ///// Given a seuqnece of phrases, generate suggestions about potential fragments that can together form a valid fragment group
+        ///// An almost exactly the same implimentation as above, but with added return values
+        ///// </summary>
+        ///// <param name="keyPhrases"></param>
+        ///// <param name="nextFragments"></param>
+        ///// <param name="foundDocuments"></param>
+        //public void FindPotentialGroupFragments(string[] keyPhrases, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
+        //{
+        //    nextFragments = new List<ClueFragment>();
+        //    foundDocuments = new List<Document>();
 
-        public List<Document> GetDocumentsFilterByType(List<DocumentType> types)
-        {
-            return Home.Current.Documents.Where(a => types.Any(type => type == a.Type)).ToList();
-        }
-
-        public List<Document> GetDocumentsFilterByType(List<Clue> clues, DocumentType type)
-        {
-            return GetDocuments(clues).Where(a => a.Type == type).ToList();
-        }
-
-
-        public List<Document> GetDocumentsFilterByType(List<Clue> clues, List<DocumentType> types)
-        {
-            return GetDocuments(clues).Where(a => types.Any(type => type == a.Type)).ToList();
-        }
-
-        public List<Document> GetDocumentsAndCluesFilterByType(out List<Clue> clues, DocumentType type)
-        {
-            List<Document> Documents = Home.Current.Documents.Where(a => a.Type == type).ToList();
-            clues = new List<Clue>();
-            foreach (Document doc in Documents)
-            {
-                clues.AddRange(doc.Clues);
-            }
-            clues = clues.Distinct().ToList();
-            return Documents;
-        }
+        //    List<Clue> foundClues = GetContainingClues(keyPhrases);
+        //    // Return all suggestions
+        //    List<string> suggestions = new List<string>();
+        //    foreach (Clue c in foundClues)
+        //    {
+        //        suggestions.AddRange(c.Fragments);
+        //    }
+        //    suggestions = suggestions.Distinct().ToList();
+        //    foreach (string suggestion in suggestions)
+        //    {
+        //        List<Document> relatedDocuments = GetPartialMatchingClueDocuments(suggestion);  // <Debug> Cautious this can be very expensive
+        //        nextFragments.Add(new ClueFragment(suggestion, relatedDocuments.Count, relatedDocuments.ToList()));
+        //    }
+        //    // If we have an exact match (i.e. 1. we find some clue, 2. there is no more fragment to show) then show foundDocuments
+        //    if(foundClues.Count != 0 && suggestions.Count == 0)
+        //    {
+        //        foundDocuments = Clues[foundClues[0]].ToList();
+        //    }
+        //}
 
         /// <summary>
-        /// Get documents that satisfies all clues
+        /// An advanced version of FindPotentialGroupFragments, with support for ambiguous inputs at some keyphrase location
         /// </summary>
-        /// <param name="clues"></param>
-        /// <returns></returns>
-        public List<Document> GetUnion(List<Clue> clues)
-        {
-            List<Document> documents = new List<Document>();
-            foreach (Clue clue in clues)
-            {
-                documents.AddRange(GetDocuments(clue));
-            }
-            return documents.Distinct().ToList();
-        }
-
-        public List<Document> GetIntersect(List<Clue> clues)
-        {
-            IEnumerable<Document> documents = new List<Document>();
-            documents = GetDocuments(clues[0]);
-            for (int i = 1; i < clues.Count; i++)
-            {
-                documents = documents.Intersect(GetDocuments(clues[i]));
-            }
-            
-            return documents.ToList();
-        }
-
-        internal void GetSiblings(Clue clue, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) throw new IndexOutOfRangeException("The partial clue doesn't exit.");
-
-            // Retrieve
-            foundDocuments = ClueTree[fragments[0]].GetDocuments(fragments, 0);
-            ClueTreeNode note = GetParentTreeNode(clue);
-            nextFragments = note.GetClueFraments();
-        }
-
-        internal void GetBranches(Clue clue, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) throw new IndexOutOfRangeException("The partial clue doesn't exit.");
-
-            // Retrieve
-            foundDocuments = ClueTree[fragments[0]].GetDocuments(fragments, 0);
-            ClueTreeNode note = GetTreeNode(clue);
-            nextFragments = note.GetClueFraments();
-        }
-
-        internal List<ClueFragment> GetBranches(Clue clue)
-        {
-            string[] fragments = clue.Fragments;
-            if (ClueTree.ContainsKey(fragments[0]) == false) throw new IndexOutOfRangeException("The partial clue doesn't exit.");
-
-            // Retrieve
-            ClueTreeNode note = GetTreeNode(clue);
-            return note.GetClueFraments();
-        }
-        #endregion
-
-        #region Search Functions - Return results for UI display
-        // Search GUID form (Absolute Addressing): ID0000[ContentElement]
-        // CA can be null
-        public void SearchByID(int ID, string CA, out List<Document> foundDocuments)
-        {
-            if(CA == null)
-            {
-                Document doc = (App.Current as App).CurrentHome.GetDocument(ID);
-                foundDocuments = new List<Document>();
-                foundDocuments.Add(doc);
-            }
-            else
-            {
-                // <Development> When CA is not null, do a deep search
-                throw new NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Given a bunch of keyphrases, suggest found documents and next steps
-        /// </summary>
+        /// <param name="cursorLocation">Which keyPhrase is current cursor on, this is used for more intelligent auto-complete</param>
         /// <param name="keyPhrases"></param>
         /// <param name="nextFragments"></param>
         /// <param name="foundDocuments"></param>
-        public void SearchForClueFragments(Clue clue, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
+        /// <param name="bExactPhrase">If true then don't do partial match for phrase at cursor location</param>
+        public void SearchForClueFragments(int cursorLocation, string[] keyPhrases, out List<ClueFragment> nextFragments, out List<Document> foundDocuments, bool bExactPhrase)
         {
-            // If we have an exact match, then foundDocuments are results of that match, and nextFragments are sibglings of that match
-            ClueTreeNode node = GetTreeNode(clue);
-            if(node != null)
+            // Do an exact match first
+            FindPotentialGroupFragments(keyPhrases, out nextFragments, out foundDocuments);
+            // If we find nothing, do an ambiguous search
+            if(foundDocuments.Count == 0 && bExactPhrase == false)
             {
-                foundDocuments = node.Documents;
-                nextFragments = node.GetClueFraments();
-            }
-            // If we don't have an exact match, then foundDocuments are none, and nextFragmetns are possible fragments to use
-            else
-            {
-                foundDocuments = null;  // Or empty
-                nextFragments = GetPossibleClueFragments(clue);
-            }
-        }
-
-        // Search Shorthand clue form
-        public void SearchBySimpleClue(Clue clue, string CA, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
-        {
-            if (CA == null)
-            {
-                // Do a first order search
-                SearchForClueFragments(clue, out nextFragments, out foundDocuments);
-                if((nextFragments == null || nextFragments.Count == 0) &&
-                    (foundDocuments == null || foundDocuments.Count == 0))
+                // Do a partial match, without the keyphrase at cursor location
+                List<string> partialKeyPhrase = keyPhrases.ToList();
+                partialKeyPhrase.RemoveAt(cursorLocation);
+                List<ClueFragment> newFragments;
+                FindPotentialGroupFragments(partialKeyPhrase.ToArray(), out newFragments, out foundDocuments);
+                // If we find anything, partially match with the phrase current cursor location is entring
+                nextFragments.Clear();
+                if(newFragments.Count != 0)
                 {
-                    // Do a second order search
-                    List<string> temp = clue.Fragments.ToList();
-                    temp.RemoveAt(clue.Fragments.Length - 1);
-                    Clue trimmed = new Clue(temp.ToArray());
-                    SearchForClueFragments(trimmed, out nextFragments, out foundDocuments);
-
-                    // Do a third order search
-                    string lastFragment = clue.Fragments[clue.Fragments.Length - 1];
-                    if (foundDocuments == null || foundDocuments.Count == 0) nextFragments = nextFragments.Where(item => item.Name.IndexOf(lastFragment) == 0).ToList();
-                    else foundDocuments = foundDocuments.Where(item => item.IsPartialMetaNameOrValue(lastFragment)).ToList();
-                }
-            }
-            else
-            {
-                // <Development> When CA is not null, do a deep search
-                throw new NotImplementedException();
-            }
-        }
-
-        // Search Constriant form (Conditional Match): A-B-C;A-B;…#metaname#metaname(=partial)@metavalue[ContentElement]"keyword" Where for meta section order doesn’t matter; "keyword" means non-specified location; =partial defines a keyword for mata, otherwise existence is enough (exact)
-        public void SearchByGeneralConstraints(string[] clueStrings, string CA, string keyword, string[] metakeys, string[] metavalues, out List<ClueFragment> nextClues, out List<Document> foundDocuments)
-        {
-            if(CA == null)
-            {
-                if (CA == null && keyword == null && metakeys == null && metavalues == null)
-                {
-                    IEnumerable<Document> totalFound = new List<Document>();
-                    List<ClueFragment> foundClues = null;
-                    foreach (string clue in clueStrings)
+                    foreach (ClueFragment frag in newFragments)
                     {
-                        SearchForClueFragments(new Clue(clue), out foundClues, out foundDocuments);
-                        totalFound = totalFound.Intersect(foundDocuments);
+                        if (frag.Name.Contains(keyPhrases[cursorLocation])) nextFragments.Add(frag);
                     }
-                    foundDocuments = totalFound.ToList();
-                    nextClues = foundClues;
                 }
-                else
-                {
-                    nextClues = null;
-                    foundDocuments = GetIntersect(clueStrings.Select(item => new Clue(item)).ToList()).
-                                           Where(item => item.IsMetanamePresent(metakeys) && item.IsPartialMetaValue(metavalues)).
-                                           Where(item => item.IsValueAnywherePresent(keyword)).ToList();
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
             }
         }
 
-        // Provding some suggestions on possible clues to use
+        // Search Constriant form (Conditional Match): A-B-C;A-B;…#metaname#metaname(=partial)@metavalue[ContentElement]"keyword" Where for meta section order doesn’t matter; "keyword" means non-specified location; =partial defines a keyword for mata, otherwise existence is enough
+        public void SearchByGeneralConstraints(string[] clues, string[] metakeys, string[] metavalues, out List<ClueFragment> nextClues, out List<Document> foundDocuments, bool bDeep = false)
+        {
+            throw new NotImplementedException();
+
+            //// Try again by generating partial clues match return
+            //if (nextClues == null && foundDocuments == null)
+            //{
+            //    List<ClueNode> partialMatches = GetClueNodeFromPartialPhrase(keyPhrases);
+            //    currentClueString = currentClueString.Substring(0, currentClueString.LastIndexOf('-'));
+            //    // Next clues will be a combination of all
+            //    nextClues = new List<ClueFragment>();
+            //    foreach (ClueNode node in partialMatches)
+            //    {
+            //        foreach (KeyValuePair<string, ClueNode> entry in node.Children)
+            //        {
+            //            List<Document> clueDocuments = entry.Value.References;
+            //            nextClues.Add(new ClueFragment(entry.Key, clueDocuments.Count, currentClueString + '-' + entry.Key, clueDocuments));
+            //        }
+            //    }
+
+            //    // There shall be no found documents so far
+            //}
+        }
+
+        // Search GUID form (Absolute Addressing): ID0000[ContentElement]
+        // CA can be null
+        public void SearchByID(int ID, string CA, out List<Document> foundDocuments, bool bDeep = false)
+        {
+            Document doc = (App.Current as App).CurrentHome.GetDocument(ID);
+            foundDocuments = new List<Document>();
+            foundDocuments.Add(doc);
+        }
+        
+        // Search Shorthand clue form
+        // Notice this search is similar to SearchForClueFragments() in form but detials (expesially conditions) differ
+        public void SearchBySimpleClue(int cursorLocation, string[] keyPhrases, out List<ClueFragment> nextFragments, out List<Document> foundDocuments, bool bDeep = false)
+        {
+            // Do an exact match first
+            FindPotentialGroupFragments(keyPhrases, out nextFragments, out foundDocuments);
+            // If we find nothing, do a search with less keyphrases, and treat last one as a meta
+            if (foundDocuments.Count == 0)
+            {
+                // Do a partial match, without the last keyphrase
+                List<string> partialKeyPhrase = keyPhrases.ToList();
+                partialKeyPhrase.RemoveAt(partialKeyPhrase.Count - 1);
+                List<Document> potentiallyDocuments;
+                FindPotentialGroupFragments(partialKeyPhrase.ToArray(), out nextFragments, out potentiallyDocuments);
+                // If we find anything, restrict scope using last meta
+                foundDocuments.Clear();
+                if (potentiallyDocuments.Count != 0)
+                {
+                    foreach (Document doc in potentiallyDocuments)
+                    {
+                        if (doc.IsPartialMetaNameOrValue(keyPhrases.Last())) foundDocuments.Add(doc);
+                    }
+                }
+            }
+
+            // If we still find nothing, do an ambiguous search with less keyphrases, removing the keyphrase at cursor location
+            if (foundDocuments.Count == 0)
+            {
+                // Do a partial match, without the keyphrase at cursor location
+                List<string> partialKeyPhrase = keyPhrases.ToList();
+                partialKeyPhrase.RemoveAt(cursorLocation);
+                List<ClueFragment> newFragments;
+                FindPotentialGroupFragments(partialKeyPhrase.ToArray(), out newFragments, out foundDocuments);
+                // If we find anything, partially match with fragments with the phrase current cursor location is entring
+                nextFragments.Clear();
+                if (foundDocuments.Count != 0)  // Notice the condition
+                {
+                    foreach (ClueFragment frag in newFragments)
+                    {
+                        if (frag.Name.Contains(keyPhrases[cursorLocation])) nextFragments.Add(frag);
+                    }
+                }
+            }
+        }
+
+        // Provding some suggestions on possible clues to use; aLso randomly throw some documents depending on hit rate?
         // Condition: (input.Contains('-') == false && input.Contains(' ') == false, i.e. beginning entry of a word
         // Rule: treat as a part of a clue, then treat as a name or meta
         public void GetInitialSuggestion(string beginningText, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
         {
-            Clue clue = new Clue(beginningText);
-            foundDocuments = null;
-            if (ClueTree.ContainsKey(beginningText)) foundDocuments = GetDocuments(clue);
-            if (foundDocuments == null || foundDocuments.Count == 0) AmbiguousSearch(new string[] { beginningText }, out foundDocuments);
+            List<Clue> foundClues = new List<Clue>();
+            foreach (KeyValuePair<Clue, HashSet<Document>> clue in Clues)
+            {
+                if (clue.Key.Overlaps(beginningText))
+                {
+                    foundClues.Add(clue.Key);
+                }
+            }
+            // Return all suggestions
+            List<string> suggestions = new List<string>();
+            foreach (Clue c in foundClues)
+            {
+                suggestions.AddRange(c.Fragments);
+            }
+            suggestions = suggestions.Distinct().ToList();
+            nextFragments = new List<ClueFragment>();
+            foundDocuments = new List<Document>();
+            foreach (string suggestion in suggestions)
+            {
+                List<Document> relatedDocuments = GetPartialMatchingClueDocuments(suggestion);  // <Debug> Cautious this can be very expensive
+                foundDocuments.AddRange(relatedDocuments); // Return all founddocuments
+                nextFragments.Add(new ClueFragment(suggestion, relatedDocuments.Count, relatedDocuments.ToList()));
+            }
 
-            if (ClueTree.ContainsKey(beginningText)) nextFragments = GetBranches(clue);
-            else nextFragments = GetPossibleClueFragments(clue);
+            // If we didn't find any matches
+            if (foundDocuments.Count == 0)
+            {
+                // Do ambiguous serach
+                AmbiguousSearch(new string[] { beginningText }, out nextFragments, out foundDocuments);
+            }
         }
 
-        // Search Ambiguous: a space demilited list of key words; Search into clues, names and comment; not searching other meta
-        // Functions just like Quick Match, with a bit more flexibilily provided by keywords
-        // When CA is not null, it searches content as well
-        // Strategy: count hit points and order all available documents that has gained any hit point
-        // Users should be really assured that unless a must match is specified, we might produce results that makes no sense
-        public void AmbiguousSearch(string[] keywords, out List<Document> foundDocuments)
+        // Search Ambiguous: a space demilited list of key words; Search into clues, names and comment; not searching other meta; Provide suggestedKeywords about clues, when there are some documents matching current input keywords
+        // Just like Quick Match
+        public void AmbiguousSearch(string[] keywords, out List<ClueFragment> suggestedConstraintClues, out List<Document> foundDocuments, bool bDeep = false)
         {
+            // Strategy: count hit points and order all available documents that has gained any hit point
+
             // Get must match keywords
-            List<string> mustMatches = new List<string>(), optionalMatches = new List<string>();
+            List<string> mustMatches = new List<string>();
+            List<string> optionalMatches = new List<string>();
             foreach (string keyword in keywords)
             {
                 if (keyword[0] == '!')
@@ -575,33 +256,62 @@ namespace MULTITUDE.Class.Facility.ClueManagement
                     optionalMatches.Add(keyword);
             }
 
-            // First we get an array of all documents that matches the must match keywords (if any) - compare clues, metas(names, comment etc.) and content
+            // First we get an array of all documents that matches the must match keywords (if any) - compare clues, names, and comment; potentially content if we are in deep mode <pending>
             Home home = (App.Current as App).CurrentHome;
-            List<Document> satisfyingDocuments;
-            if (mustMatches.Count > 0) satisfyingDocuments = home.Documents.Where(item => item.IsValueAnywherePresent(mustMatches.ToArray())).ToList();
-            else satisfyingDocuments = home.Documents;  // Notice search doesn't count those in forgotten universe, also ignoring void universe.
-
-            // Then we compare the result of the keywords and order by hit count (notice optionalmatches can be absent, so we cannot just select)
-            foreach (string match in optionalMatches)
+            List<Document> porentialMatches = new List<Document>();
+            foreach (string must in mustMatches)
             {
-                foreach (Document doc in satisfyingDocuments)
+                // if(bDeep) ....
+                foreach (Document doc in home.Documents)
                 {
-                    if (doc.IsValueAnywherePresent(match)) doc.KeywordOccurences++;
-                    else doc.KeywordMisses++;
+                    if (doc.IsPartialCLue(must) == true || doc.IsPartialMetaNameOrValue(must) == true)
+                    {
+                        porentialMatches.Add(doc);
+                        break;
+                    }
                 }
             }
-            // Generate final list
-            List<Document> orderedList = (satisfyingDocuments.OrderByDescending(x => (x.KeywordOccurences - x.KeywordMisses)).ToList());
 
+            // Filter out documents that failed mustMatches test
+            if (mustMatches.Count != 0)
+            {
+                if (porentialMatches.Count == 0)
+                {
+                    foundDocuments = null;
+                    suggestedConstraintClues = null;
+                    return;
+                }
+            }
+            else
+                porentialMatches = home.Documents;
+
+            // Then we compare the result of the keywords and order by hit count
+            foreach (string match in optionalMatches)
+            {
+                foreach (Document doc in porentialMatches)
+                {
+                    // if(bDeep) ...
+                    if (doc.IsPartialCLue(match) || doc.IsPartialMetaNameOrValue(match))
+                        doc.KeywordOccurences++;
+                    else
+                        doc.KeywordMisses++;
+                }
+                // Strategy: To improve searching accuracy using heuristics - ....
+            }
+            // Find priority list
+            List<Document> finalMatches = porentialMatches.Where(p => p.KeywordOccurences > 0).ToList();
+            List<Document> orderedList = (finalMatches.OrderByDescending(x => (x.KeywordOccurences - x.KeywordMisses)).ToList());
             // Clean search state
-            foreach (Document doc in satisfyingDocuments)
+            foreach (Document doc in porentialMatches)
             {
                 doc.KeywordOccurences = 0;
                 doc.KeywordMisses = 0;
             }
 
-            // Return search result (only the former 30)
-            foundDocuments = orderedList.GetRange(0, orderedList.Count > 30 ? 30 : orderedList.Count);
+            // Return search result (only the former 10)
+            // foundDocuments = orderedList.GetRange(0, 10);
+            foundDocuments = orderedList;
+            suggestedConstraintClues = null;    // <development> don't return suggested clues for now because I don't feel the need
         }
         #endregion
     }

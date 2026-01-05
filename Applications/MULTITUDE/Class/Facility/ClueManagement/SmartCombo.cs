@@ -1,5 +1,4 @@
-﻿using MULTITUDE.Class.DocumentTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,30 +13,17 @@ namespace MULTITUDE.Class.Facility.ClueManagement
     {
         static List<Clue> GetComboBoxChoices(DocumentType docType)
         {
-            Home home = (App.Current as App).CurrentHome;
+            // Automatically filter using Document-definged all recognizable format suffixes
 
-            List<Clue> results = new List<Clue>();
-
-            // Automatically filter using Document-definged all recognizable formats
-            // <Development> Multithread it and it will be very fast
-            foreach (Document doc in home.Documents)
-            {
-                if (doc.Type == docType) results.AddRange(doc.Clues);
-            }
-
-            return results.Distinct().ToList();
+            throw new NotImplementedException();
         }
 
-        static List<Document> GetSatisfyingDocuments(List<Clue> clues)
+        // Beginning clue should end with -; E.g. in VW wallpaper
+        static List<Clue> GetComboBoxChoices(string beginningClue)
         {
-            List<Document> results = new List<Document>();
+            // Automatically filter out all clues satisfying that beginning clue
 
-            foreach (Clue clue in clues)
-            {
-                results.AddRange(ClueManager.Manager.GetDocuments(clue));
-            }
-
-            return results.Distinct().ToList();
+            throw new NotImplementedException();
         }
     }
 }

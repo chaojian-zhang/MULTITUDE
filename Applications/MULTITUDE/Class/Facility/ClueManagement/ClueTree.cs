@@ -45,7 +45,8 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         {
             foreach (string fragment in clue.Fragments)
             {
-                if (Nodes.ContainsKey(fragment)) return Nodes[fragment].
+                if (Nodes.ContainsKey(fragment)) 
+                    return Nodes[fragment].Documents;
             }
         }
         public void AddDocument(Clue clue) { }
