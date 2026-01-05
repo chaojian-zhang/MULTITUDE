@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordNetLibrary;
 
 // Coding schedule: Checkout our researched new libraries first before attemping to merging previous contents using WordNet, e.g. we might use other lirbaries or even other languages (e.g. Python) to do this

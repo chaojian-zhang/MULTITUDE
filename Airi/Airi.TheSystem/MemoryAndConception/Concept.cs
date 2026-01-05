@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// Comprehension is defined as:
 /// 1. Mapping from symbols to conceptual objects (in terms of pooled instances)

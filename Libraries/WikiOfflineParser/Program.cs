@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WikiOfflineParser
+﻿namespace WikiOfflineParser
 {
     /// <summary>
     /// This class parses downloaded offline wiki dump and outputs a file in a format suitable for off-line querying of useful information

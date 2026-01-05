@@ -13,14 +13,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Airi.TheSystem.Memory;
-using Airi.TheSystem.Instruction;
 using System.IO;
 using System.Text.RegularExpressions;
 using Airi.TheSystem.Syntax;
-using System.Threading;
 
 /* This namespace is reponsible for handling learning and generating memory for Airi-The System Core;
  * This namespace is also the interaction interface for querying and communication with Airi-The System.

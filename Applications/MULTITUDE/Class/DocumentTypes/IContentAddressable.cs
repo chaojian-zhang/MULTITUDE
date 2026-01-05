@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MULTITUDE.Class.DocumentTypes
+﻿namespace MULTITUDE.Class.DocumentTypes
 {
     /// <summary>
     /// Defines an interface for documents that provide addressing of their contents

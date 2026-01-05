@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airi.Facility
+﻿namespace Airi.Facility
 {
     /// <summary>
     /// Provides an interface designed specifically for Airi, including functions like: 

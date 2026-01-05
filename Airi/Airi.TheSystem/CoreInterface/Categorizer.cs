@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airi.TheSystem.CoreInterface
+﻿namespace Airi.TheSystem.CoreInterface
 {
     /// <summary>
     /// A facility to fit any document into a designer specified structure (the more detailed the structure definition the better)

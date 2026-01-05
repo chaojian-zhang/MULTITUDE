@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Airi.TheSystem;
 using System.IO;
-using Airi.TheSystem.Memory;
 
 namespace AiriTheSystemTest
 {

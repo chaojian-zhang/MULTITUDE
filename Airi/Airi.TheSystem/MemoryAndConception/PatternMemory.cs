@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Airi.TheSystem.Syntax;
-using Airi.TheSystem.Instruction;
 using System.Reflection;
 
 namespace Airi.TheSystem.Memory

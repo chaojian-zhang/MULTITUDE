@@ -1,18 +1,9 @@
 ﻿using MULTITUDE.Class.DocumentTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MULTITUDE.CustomControl.DocumentIcons;
 
 // + IcojBase small icon hover animation: Type on upper left corner, creation date on upper right corner, document name on surface (lower section), with a shadowy cast

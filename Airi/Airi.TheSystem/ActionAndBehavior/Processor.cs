@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airi.TheSystem.Processor
+﻿namespace Airi.TheSystem.Processor
 {
     /// <summary>
     /// Provides higher level interception for user input to embed "meta-accessor"

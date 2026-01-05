@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airi.TheVoice
+﻿namespace Airi.TheVoice
 {
     /// <summary>
     /// TheVoice has synthesization and recognition components; TheVoice isn't targeted to be light weight but accurate and realistic and in real-time

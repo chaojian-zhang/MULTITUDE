@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.IO;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using MULTITUDE.Class.Facility;
 
 // MVVM: https://stackoverflow.com/questions/1131937/how-to-make-listview-update-itself-in-wpf

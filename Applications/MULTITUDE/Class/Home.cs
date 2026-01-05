@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MULTITUDE.Class.DocumentTypes;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MULTITUDE.Class.Facility;
-using System.Collections;
 using MULTITUDE.Class.Facility.ClueManagement;
 
 namespace MULTITUDE.Class
