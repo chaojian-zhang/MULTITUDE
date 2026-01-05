@@ -215,7 +215,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
         // https://stackoverflow.com/questions/1064901/random-number-between-2-double-numbers
         private static double RandomDouble(Random generator, double minValue, double maxValue)
         {
-            var next = generator.NextDouble();
+            double next = generator.NextDouble();
 
             return minValue + (next * (maxValue - minValue));
         }
@@ -240,7 +240,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
                         {
                             List<Document> replaceList = ForgottenDocumentsRef.Where(p => !CurrentDisplayedDocuments.Any(p2 => p2.Doc == p)).ToList();
                             replaceList.Add(element.Doc);
-                            FadingElement replaceElement = new FadingElement(replaceList[rnd.Next(0, replaceList.Count - 1)], rnd, element.Canvas.ActualWidth, element.Canvas.ActualHeight, element.Canvas);
+                            FadingElement replaceElement = new(replaceList[rnd.Next(0, replaceList.Count - 1)], rnd, element.Canvas.ActualWidth, element.Canvas.ActualHeight, element.Canvas);
                             CurrentDisplayedDocuments.RemoveAt(index);
                             CurrentDisplayedDocuments.Add(replaceElement);
                             CurrentAnimatedElements[i] = replaceElement;

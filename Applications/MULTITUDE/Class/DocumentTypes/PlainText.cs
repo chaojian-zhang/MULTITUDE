@@ -74,14 +74,14 @@ namespace MULTITUDE.Class.DocumentTypes
         {
             if (file.Extension == FileSuffix)
             {
-                PlainText newDoc = new PlainText(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name), file.LastWriteTime.ToString("MMMM dd, yyyy HHmmss"));
+                PlainText newDoc = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name), file.LastWriteTime.ToString("MMMM dd, yyyy HHmmss"));
                 // newDoc.LoadDocument();   // Don't load, causes import slow down and is not necessary since Deep Search not enabled now
                 return newDoc;
             }
             else if (MULTITUDE.Class.Facility.StringHelper.ExtensionContains(Extensions, file.Extension))
             {
                 // Need to do some extra content conversion or maybe sometime later
-                PlainText newDoc = new PlainText(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name), file.LastWriteTime.ToString("MMMM dd, yyyy HHmmss"));
+                PlainText newDoc = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name), file.LastWriteTime.ToString("MMMM dd, yyyy HHmmss"));
                 // newDoc.LoadDocument();
                 return newDoc;
             }

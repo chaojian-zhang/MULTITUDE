@@ -66,7 +66,7 @@ namespace MULTITUDE.CustomControl.Components
                 // List
                 if (cluesSetup != null) // Select available clues only if we have a solid target; otherwise there might be too many things to load
                 {
-                    ListBoxItem item = new ListBoxItem();
+                    ListBoxItem item = new();
                     item.Content = clue.Name;
                     SelectedClues.Items.Add(item);
                 }
@@ -87,7 +87,7 @@ namespace MULTITUDE.CustomControl.Components
                 if ((string)item.Content == selectedClue) return;
             }
             // Add
-            ListBoxItem newItem = new ListBoxItem();
+            ListBoxItem newItem = new();
             newItem.Content = selectedClue;
             SelectedClues.Items.Add(newItem);
 
@@ -105,7 +105,7 @@ namespace MULTITUDE.CustomControl.Components
         private void SearchUsingSelectedClues()
         {
             // Invoke External Handlers to do an update
-            List<Clue> availableClues = new List<Clue>();
+            List<Clue> availableClues = new();
             foreach (ListBoxItem item in SelectedClues.Items)
             {
                 availableClues.Add(new Clue(item.Content as string));

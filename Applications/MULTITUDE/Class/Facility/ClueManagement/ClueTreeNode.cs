@@ -187,7 +187,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public List<ClueFragment> GetClueFraments()
         {
-            List<ClueFragment> results = new List<ClueFragment>();
+            List<ClueFragment> results = new();
             List<string> siblings = Branches.Keys.ToList();
             foreach (string candidate in siblings)
             {
@@ -213,7 +213,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
             if (currentIndex == fragments.Length - 1)
             {
                 string[] possibleFragments = Branches.Keys.Where(item => item.Contains(fragments[fragments.Length - 1]) && item != fragments[fragments.Length - 1]).ToArray();
-                List<ClueFragment> results = new List<ClueFragment>();
+                List<ClueFragment> results = new();
                 foreach (string frag in possibleFragments)
                 {
                     results.Add(new ClueFragment(frag, Branches[frag].GetDocumentsCount(), Branches[frag].Documents));
@@ -230,7 +230,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public List<string> GetAllClues()
         {
-            List<string> clues = new List<string>();
+            List<string> clues = new();
 
             if (this.Branches.Count == 0)
                 clues.Add(this.Name);

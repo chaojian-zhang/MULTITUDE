@@ -123,7 +123,7 @@ namespace Airi.TheSystem.Syntax
             content = content.Trim().ToLower();
 
             // Match against elements
-            PatternInstance instance = new PatternInstance(this);
+            PatternInstance instance = new(this);
             int currentLocation = 0;
             for (int i = 0; i < Elements.Count; i++)
             {
@@ -408,7 +408,7 @@ namespace Airi.TheSystem.Syntax
                     string unknownString = vocabulary.GetUnknownPhrase(content);
                     if(unknownString != null)
                     {
-                        try { MailAddress m = new MailAddress(unknownString); return unknownString; }
+                        try { MailAddress m = new(unknownString); return unknownString; }
                         catch (FormatException) { break; }
                     }
                 break;

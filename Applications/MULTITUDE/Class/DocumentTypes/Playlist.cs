@@ -89,11 +89,11 @@ namespace MULTITUDE.Class.DocumentTypes
 
         #region Sessional State
         private bool bMediaLoaded = false;
-        private Dictionary<string, List<Document>> PlayDocuments = new Dictionary<string, List<Document>>();    // Not serialized, used during playing; Refreshed each time
+        private Dictionary<string, List<Document>> PlayDocuments = new();    // Not serialized, used during playing; Refreshed each time
         private Dictionary<string, List<Document>>.Enumerator CurrentPlayClue;
         private List<Document>.Enumerator CurrentPlayListMedia;
-        private Random rnd = new Random();
-        private List<Document> AlreadyPlayedDocuments = new List<Document>();
+        private Random rnd = new();
+        private List<Document> AlreadyPlayedDocuments = new();
         private int revisionIndex = -1; // -1 not in revision mode; Otherwise points into PlayedDocuments;
         private static readonly string JustPlayModeCategory = "JustPlayMode";
         #endregion
@@ -108,7 +108,7 @@ namespace MULTITUDE.Class.DocumentTypes
             PlayDocuments.Clear();
 
             // Depending on setting
-            List<DocumentType> searchTypes = new List<DocumentType>() { DocumentType.ImagePlus, DocumentType.Sound, DocumentType.Video };
+            List<DocumentType> searchTypes = new() { DocumentType.ImagePlus, DocumentType.Sound, DocumentType.Video };
             if (_bJustPlay)
             {
                 PlayDocuments[JustPlayModeCategory] = ClueManager.Manager.GetDocumentsFilterByType(searchTypes);
@@ -242,7 +242,7 @@ namespace MULTITUDE.Class.DocumentTypes
         public List<Document> GetAllMediasList()
         {
             if (bMediaLoaded == false) LoadMedia();
-            List<Document> allMedias = new List<Document>();
+            List<Document> allMedias = new();
             foreach (KeyValuePair<string, List<Document>> category in PlayDocuments)
             {
                 allMedias.AddRange(category.Value);
@@ -290,7 +290,7 @@ namespace MULTITUDE.Class.DocumentTypes
             {
                 string filePath = Path;
                 // Save data into a text file
-                using (StreamWriter outputFile = new StreamWriter(filePath))
+                using (StreamWriter outputFile = new(filePath))
                 {
                     // Write basic configuration
                     outputFile.WriteLine("ImageDisplayDuration: " + _ImageDisplayDuration);
@@ -354,7 +354,7 @@ namespace MULTITUDE.Class.DocumentTypes
             else if (MULTITUDE.Class.Facility.StringHelper.ExtensionContains(SoundExtensions, file.Extension) ||
                 MULTITUDE.Class.Facility.StringHelper.ExtensionContains(VideoExtensions, file.Extension))
             {
-                Playlist newPlaylist = new Playlist(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                Playlist newPlaylist = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
                 return newPlaylist;
             }
             else

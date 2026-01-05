@@ -36,7 +36,7 @@ namespace MULTITUDE.CustomControl
             {
                 case DocumentType.PlainText:
                     // Extract Content
-                    Label label = new Label();
+                    Label label = new();
                     string docContent = (doc as PlainText).Content;
                     if (docContent.Length > 50) label.Content = docContent.Substring(0, 50) + "...";
                     else label.Content = docContent;

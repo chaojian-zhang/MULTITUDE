@@ -503,7 +503,7 @@ namespace MULTITUDE.CustomControl
             if (e.LeftButton == MouseButtonState.Pressed && (sender as FrameworkElement).DataContext == DocumentSelectionPane.SelectedItem)
             {
                 // Package the data.
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(Document.DragDropFormatString, (sender as FrameworkElement).DataContext);
 
                 // Inititate the drag-and-drop operation.
@@ -620,7 +620,7 @@ namespace MULTITUDE.CustomControl
                     // Extract meta contraints: #metaname#metaname@metavalue, where for meta section order doesn’t matter
                     if (metaStrings != null)
                     {
-                        List<string> metavaluesList = new List<string>();
+                        List<string> metavaluesList = new();
                         metakeys = metaStrings.Split(new char[] { ' ', '#' }, StringSplitOptions.RemoveEmptyEntries);
                         for (int i = 0; i < metakeys.Length; i++)
                         {

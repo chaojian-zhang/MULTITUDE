@@ -59,7 +59,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             else if(MULTITUDE.Class.Facility.StringHelper.ExtensionContains(Extensions, file.Extension))
             {
-                Web newWeb = new Web(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                Web newWeb = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
                 return newWeb;
             }
             else

@@ -35,12 +35,12 @@ namespace NotyPC
             StatusLabel.Content = "Loading...";
 
             // Send Request and Get Content
-            FormUrlEncodedContent postContent = new FormUrlEncodedContent(new[]
+            FormUrlEncodedContent postContent = new(new[]
             {
                 new KeyValuePair<string, string>("username", App.username),
                 new KeyValuePair<string, string>("password", App.password)
             });
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             HttpResponseMessage response = await client.PostAsync(App.RESTServiceAddress, postContent);
 
             string responseString = response.Content.ReadAsStringAsync().Result;
@@ -65,7 +65,7 @@ namespace NotyPC
                 CleanupFolders(JTempRootFolder);
 
                 // Update View
-                List<JFolder> Roots = new List<JFolder>();
+                List<JFolder> Roots = new();
                 Roots.Add(JTempRootFolder);
                 ChangesList.ItemsSource = Roots;
             }

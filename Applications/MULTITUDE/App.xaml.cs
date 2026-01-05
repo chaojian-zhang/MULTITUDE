@@ -96,7 +96,7 @@ namespace MULTITUDE
         {
             // Bring window to front, open file, etc.
             // Example:
-            var main = Current.MainWindow;
+            Window main = Current.MainWindow;
             if (main != null)
             {
                 if (main.WindowState == WindowState.Minimized)
@@ -117,10 +117,10 @@ namespace MULTITUDE
             // See whether we are open from file/folder directly
             string[] activationData = [];//AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null ? AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData : null;
             string homeLocation = string.Empty;
-            if(activationData != null && activationData.Length > 0) 
+            if (activationData != null && activationData.Length > 0)
             {
                 string homeFilePath;
-                Uri uri = new Uri(activationData[0]);
+                Uri uri = new(activationData[0]);
                 homeFilePath = uri.LocalPath;
             }
             else
@@ -132,7 +132,7 @@ namespace MULTITUDE
                 // Load Home Indepdent Data
                 homeLocation = LoadHomeLocation();
             }
-                        
+
             // Load Home or generate one: Home data, home configurations -- everything user ever specify stores in a home, except home location
             if (!bSavingOrLoading)
                 CurrentHome = Home.Load(homeLocation);  // Should be very light and fast, or async if disk reading is required, actual VW initialization are deferred
@@ -144,7 +144,7 @@ namespace MULTITUDE
         private void SetupEverythingService()
         {
             // Check already running
-            if(EverythingService.IsEverythingRunning() == true)
+            if (EverythingService.IsEverythingRunning() == true)
             {
                 // Notify user but don't do anything
                 (MainWindow as VirtualWorkspaceWindow).UpdateStatus("Everything service is not started due to conflict with currently running Everything instance. Close any running Everything before opening MULTITUDE to enable Everything service inside MULTITUDE.");
@@ -190,8 +190,8 @@ namespace MULTITUDE
         {
             // Write current user home locations
             IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
-            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(IsolatedStorageName, FileMode.Create, f))
-            using (StreamWriter writer = new StreamWriter(stream))
+            using (IsolatedStorageFileStream stream = new(IsolatedStorageName, FileMode.Create, f))
+            using (StreamWriter writer = new(stream))
             {
                 writer.WriteLine(Home.Location);
             }
@@ -214,8 +214,8 @@ namespace MULTITUDE
             IsolatedStorageFile f = IsolatedStorageFile.GetUserStoreForAssembly();
             try
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(IsolatedStorageName, FileMode.Open, f))
-                using (StreamReader reader = new StreamReader(stream))
+                using (IsolatedStorageFileStream stream = new(IsolatedStorageName, FileMode.Open, f))
+                using (StreamReader reader = new(stream))
                 {
                     HomeLocation = reader.ReadLine();
                 }
@@ -227,7 +227,7 @@ namespace MULTITUDE
             }
 
             // Make sure the directory can be accessible, i.e. on a mounted drive
-            try{ System.IO.Directory.CreateDirectory(HomeLocation);}
+            try { System.IO.Directory.CreateDirectory(HomeLocation); }
             catch (DirectoryNotFoundException) { HomeLocation = DefaultHomeLocation; }
 
             return HomeLocation;
@@ -262,7 +262,7 @@ namespace MULTITUDE
         // App Shutdown: https://stackoverflow.com/questions/2820357/how-to-exit-a-wpf-app-programmatically
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MULTITUDE.Popup.CrashScreen crashScreen = new Popup.CrashScreen(e.Exception);
+            MULTITUDE.Popup.CrashScreen crashScreen = new(e.Exception);
             crashScreen.Show();
             App.Current.MainWindow.Close();
             e.Handled = true;

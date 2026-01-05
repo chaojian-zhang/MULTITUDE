@@ -16,7 +16,7 @@ namespace Airi.TheSystem.Syntax
         static void GenerateDefaultPatternSet(string outputFilePath, bool bBinary)
         {
             // Pattern Definitions
-            PatternDefinition Def = new PatternDefinition();
+            PatternDefinition Def = new();
             // Pattern: "Good [Morning Night Afternoon]"
             //Def.BeginPattern();
             //Def.AddConstant("Good");

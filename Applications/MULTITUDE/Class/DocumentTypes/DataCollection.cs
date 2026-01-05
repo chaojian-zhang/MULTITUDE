@@ -42,7 +42,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             for (int i = 0; i < rowCount; i++)
             {
-                List<string> row = new List<string>();
+                List<string> row = new();
                 for (int j = 0; j < headerCount; j++)
                 {
                     row.Add("Content");
@@ -109,7 +109,7 @@ namespace MULTITUDE.Class.DocumentTypes
         public void AddNewRow(params string[] values)
         {
             if (values.Length > Headers.Count) throw new ArgumentOutOfRangeException("More cell values than existing headers.");
-            List<string> newRow = new List<string>();
+            List<string> newRow = new();
             for (int i = 0; i < Headers.Count; i++)
             {
                 if (i < values.Length) newRow.Add(values[i]);
@@ -186,7 +186,7 @@ namespace MULTITUDE.Class.DocumentTypes
             // Load if not already
             if (Data == null) LoadDocument();
 
-            FlowDocument flowDocument = new FlowDocument();
+            FlowDocument flowDocument = new();
             // Insert a default table
             flowDocument.Blocks.Add(MarkdownPlusEditor.CreateTable(this.Data));   // We have only one block and it's a table
             // Add to reference
@@ -199,14 +199,14 @@ namespace MULTITUDE.Class.DocumentTypes
             if (document.Blocks.First() is System.Windows.Documents.Table == false) throw new InvalidOperationException("FlowDocument doesn't representat a table of data.");
 
             // Generate a new table from document - also deduce its mode
-            Table newTable = new Table(DataType.Table);   // <Pending> Deduce its mode
+            Table newTable = new(DataType.Table);   // <Pending> Deduce its mode
             System.Windows.Documents.Table flowTable = document.Blocks.First() as System.Windows.Documents.Table;
             // Our flow document table will have a header row and then content rows
             // Header row
             TableRow headerRow = flowTable.RowGroups[0].Rows[0];
             foreach (TableCell cell in headerRow.Cells)
             {
-                TextRange textRange = new TextRange(cell.ContentStart, cell.ContentEnd);
+                TextRange textRange = new(cell.ContentStart, cell.ContentEnd);
                 newTable.Headers.Add(textRange.Text);
             }
             // Content rows
@@ -266,7 +266,7 @@ namespace MULTITUDE.Class.DocumentTypes
                 // Save Table Data
                 Stream fileStream = File.Create(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter serializer = new BinaryFormatter();
+                BinaryFormatter serializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 serializer.Serialize(fileStream, Data);
                 fileStream.Close();
@@ -283,7 +283,7 @@ namespace MULTITUDE.Class.DocumentTypes
                 // Load Table data
                 Stream fileStream = File.OpenRead(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter deserializer = new BinaryFormatter();
+                BinaryFormatter deserializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Data = (Table)deserializer.Deserialize(fileStream);
                 fileStream.Close();

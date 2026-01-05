@@ -56,14 +56,14 @@ namespace MULTITUDE.Class.DocumentTypes
         // Ref: https://stackoverflow.com/questions/729629/sharing-flowdocuments-between-multiple-richtextboxes
         public static FlowDocument CloneDocument(FlowDocument origin)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new())
             {
-                TextRange range = new TextRange(origin.ContentStart, origin.ContentEnd);
+                TextRange range = new(origin.ContentStart, origin.ContentEnd);
                 System.Windows.Markup.XamlWriter.Save(range, stream);   // Xaml Header
                 range.Save(stream, DataFormats.XamlPackage);
 
-                FlowDocument clone = new FlowDocument();
-                TextRange cloneRange = new TextRange(clone.ContentStart, clone.ContentEnd);
+                FlowDocument clone = new();
+                TextRange cloneRange = new(clone.ContentStart, clone.ContentEnd);
                 cloneRange.Load(stream, DataFormats.XamlPackage);
                 return clone;
             }
@@ -120,7 +120,7 @@ namespace MULTITUDE.Class.DocumentTypes
             get
             {
                 FlowDocument docuemntClone = GetFlowDocument();
-                TextRange textRange = new TextRange(docuemntClone.ContentStart, docuemntClone.ContentEnd);
+                TextRange textRange = new(docuemntClone.ContentStart, docuemntClone.ContentEnd);
                 return textRange.Text;
             }
         }
@@ -221,9 +221,9 @@ namespace MULTITUDE.Class.DocumentTypes
         {
             if(bDirty)
             {
-                using (FileStream file = new FileStream(Path, FileMode.Create, System.IO.FileAccess.Write))
+                using (FileStream file = new(Path, FileMode.Create, System.IO.FileAccess.Write))
                 {
-                    TextRange tRange = new TextRange(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
+                    TextRange tRange = new(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
                     tRange.Save(file, DataFormats.Xaml, false);    // Notice DataFormats.Rtf doesn't preserve paragraph formats
                 }
 
@@ -236,10 +236,10 @@ namespace MULTITUDE.Class.DocumentTypes
             string path = Path;
             if (System.IO.File.Exists(path))
             {
-                using (FileStream file = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                using (FileStream file = new(Path, FileMode.Open, FileAccess.Read))
                 {
                     _FlowDocument = new FlowDocument();
-                    TextRange textRange = new TextRange(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
+                    TextRange textRange = new(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
                     textRange.Load(file, DataFormats.Xaml);
                 }
             }           
@@ -249,10 +249,10 @@ namespace MULTITUDE.Class.DocumentTypes
         {
             if (target.Extension == FileSuffix)
             {
-                MarkdownPlus mdp = new MarkdownPlus(target.FullName, target.Name);  // Notice we have no way to fetch its document name and creation data since that is stored with relavent Home which might not even be present at import time
-                using (FileStream file = new FileStream(target.FullName, FileMode.Open, FileAccess.Read))
+                MarkdownPlus mdp = new(target.FullName, target.Name);  // Notice we have no way to fetch its document name and creation data since that is stored with relavent Home which might not even be present at import time
+                using (FileStream file = new(target.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    TextRange textRange = new TextRange(mdp._FlowDocument.ContentStart, mdp._FlowDocument.ContentEnd);
+                    TextRange textRange = new(mdp._FlowDocument.ContentStart, mdp._FlowDocument.ContentEnd);
                     textRange.Load(file, DataFormats.Xaml);
                 }
                 return mdp;

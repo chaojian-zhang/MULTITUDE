@@ -125,7 +125,7 @@ namespace Airi.TheSystem
         public List<string> Speak(string input, string instigator, string themeContext = null)
         {
             // Stage 1: Break input into meaningful words
-            List<string> words = new List<string>();    // This is for ease of organization, we might speed things up a bit by not generating a new list
+            List<string> words = new();    // This is for ease of organization, we might speed things up a bit by not generating a new list
             string[] tempWords = input.Split(new char[] { ' ', ',', '.', '?', '!' });
             foreach (string word in tempWords)
             {
@@ -136,7 +136,7 @@ namespace Airi.TheSystem
             }
 
             // Stage 2: Accumulating points of similarity: For each word, find all its related sentences; Then for each sentence evaluate how involved it is with other words
-            List<Sentence> RelatedSentences = new List<Sentence>();
+            List<Sentence> RelatedSentences = new();
             foreach (string word in words)
             {
                 // If the word exst, then collect all its related sentences into the bigger list; If not exist, that is perfectly normal
@@ -169,7 +169,7 @@ namespace Airi.TheSystem
             Sentence bestMatch = (RelatedSentences.OrderByDescending(x => x.MatchMarks).ToList())[0];   // <Debug> This raises an exception
             // http://stackoverflow.com/questions/3801748/select-method-in-listt-collection
             List<Sentence> allMatches = RelatedSentences.Where(s => s.MatchMarks == bestMatch.MatchMarks).ToList();
-            Random rnd = new Random();
+            Random rnd = new();
             bestMatch = allMatches[rnd.Next(0, allMatches.Count)];
             // http://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
 
@@ -187,7 +187,7 @@ namespace Airi.TheSystem
             }
 
             // Stage 6: Potentially generate a smooth, fluid multi-conversation
-            List<string> speeches = new List<string>();
+            List<string> speeches = new();
             speeches.Add(reply);
 
             // Stage 7: Also learn from the input for next time communication
@@ -234,7 +234,7 @@ namespace Airi.TheSystem
             // Seperate all contents into lines
             string[] lines = dialogContent.Split(new char[] { '\n', '\r', '{', '}', '[', ']'});
             // Generate a new theme
-            Theme newTheme = new Theme(themeName);
+            Theme newTheme = new(themeName);
             AiriMemory.Themes[themeName] = newTheme;
 
             // Stage 2: Extract useful lines
@@ -276,7 +276,7 @@ namespace Airi.TheSystem
             // Add those setences to theme
             if (sentence != "")
             {
-                Sentence newSentence = new Sentence(sentence, theme);
+                Sentence newSentence = new(sentence, theme);
                 theme.Sentences.Add(newSentence);
 
                 // Catagorize and organize information
@@ -294,7 +294,7 @@ namespace Airi.TheSystem
                         }
                         else
                         {
-                            Word newWord = new Word(word);
+                            Word newWord = new(word);
                             AiriMemory.Words[word] = newWord;
                             newWord.RelatedSentences.Add(newSentence);
                         }

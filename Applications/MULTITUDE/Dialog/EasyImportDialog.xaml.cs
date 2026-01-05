@@ -25,7 +25,7 @@ namespace MULTITUDE.Dialog
             {
                 string fullText = drive.Name + drive.VolumeLabel;
 
-                TreeFolderInfo rootFolder = new TreeFolderInfo(fullText, new DirectoryInfo(drive.Name));
+                TreeFolderInfo rootFolder = new(fullText, new DirectoryInfo(drive.Name));
                 rootFolder.Folders.Add(new TreeFolderInfo(true));
                 RootFoldersList.Add(rootFolder);
             }

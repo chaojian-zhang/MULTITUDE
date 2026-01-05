@@ -99,7 +99,7 @@ namespace MULTITUDE.Dialog
         private void GenerateAndAddButtons(string displayText, string fullText, DirectoryInfo dir)
         {
             // Generate a new button
-            Button newButton = new Button();
+            Button newButton = new();
             newButton.Content = displayText;
             newButton.ToolTip = fullText;
             newButton.Style  = (Style)this.FindResource("CircularFolderButton");

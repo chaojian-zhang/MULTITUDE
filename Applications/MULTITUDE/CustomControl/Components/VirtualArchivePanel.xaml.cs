@@ -239,8 +239,8 @@ namespace MULTITUDE.CustomControl.Components
             if (e.LeftButton == MouseButtonState.Pressed && bIsDragging)
             {
                 Point newPosition = e.GetPosition(this.Parent as FrameworkElement);
-                Point prevLocation = new Point((double)this.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)this.GetValue(System.Windows.Controls.Canvas.TopProperty));
-                Point newLocation = new Point(prevLocation.X + newPosition.X - currentPosition.X, prevLocation.Y + newPosition.Y - currentPosition.Y);
+                Point prevLocation = new((double)this.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)this.GetValue(System.Windows.Controls.Canvas.TopProperty));
+                Point newLocation = new(prevLocation.X + newPosition.X - currentPosition.X, prevLocation.Y + newPosition.Y - currentPosition.Y);
                 System.Windows.Controls.Canvas.SetLeft(this, newLocation.X);
                 System.Windows.Controls.Canvas.SetTop(this, newLocation.Y);
 

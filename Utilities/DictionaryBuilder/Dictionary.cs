@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -72,7 +73,7 @@ namespace Airi.TheSystem.DictionaryBuilder
             string OutputVocabularyFile = @"H:\Projects\按项目分类 - 执行和创造用\-- Productions\SIS\Libraries\Wikipedia and Wikidict\VocabularyList\ProcessedWordsList.txt";
 
             // <Debug> Timing
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
 
             // Initialize writer
             OutputFile = new StreamWriter(OutputVocabularyFile);
@@ -86,7 +87,7 @@ namespace Airi.TheSystem.DictionaryBuilder
 
             // Timing
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
+            long elapsedMs = watch.ElapsedMilliseconds;
             System.Console.WriteLine("Parsing took: " + elapsedMs + "ms for " + nItems + " items.");
 
             // Close writer

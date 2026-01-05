@@ -144,7 +144,7 @@ namespace MULTITUDE.CustomControl.Components
 
         private static BitmapImage LoadImage(ImagePlus image)
         {
-            BitmapImage newImage = new BitmapImage(new Uri(image.Path));    // Not using OnLoad Cache Option for optimization
+            BitmapImage newImage = new(new Uri(image.Path));    // Not using OnLoad Cache Option for optimization
             // newImage.Freeze();
             return newImage;
         }
@@ -163,7 +163,7 @@ namespace MULTITUDE.CustomControl.Components
         public static Style ImageNodeHighLightStyle;
         public static Style JumperNodeStyle;
         public static Style JumperNodeHighlightStyle;
-        public static readonly BitmapImage JumperNodeIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        public static readonly BitmapImage JumperNodeIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
         #endregion
 
         #region Interactions

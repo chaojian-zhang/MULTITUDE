@@ -70,7 +70,7 @@ namespace MULTITUDE.CustomControl.DocumentIcons
             if (list != null)
             {
                 // Show playlist content popup
-                PlayListContentEditor popup = new PlayListContentEditor(list);
+                PlayListContentEditor popup = new(list);
                 popup.Show();
             }
         }

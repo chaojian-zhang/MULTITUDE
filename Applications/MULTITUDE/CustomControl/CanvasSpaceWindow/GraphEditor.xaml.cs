@@ -64,7 +64,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
 
         #region Data Setup and Update
         private GraphLayer ActiveLayer;
-        private static List<GraphLayer> _StackedLayers = new List<GraphLayer>();
+        private static List<GraphLayer> _StackedLayers = new();
         private static Graph CurrentDocument;
         internal void Setup(Document target = null)
         {
@@ -84,7 +84,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
         internal void OpenLayer(Graph doc)
         {
             // Create new
-            GraphLayer newLayer = new GraphLayer(this, doc);
+            GraphLayer newLayer = new(this, doc);
             _StackedLayers.Add(newLayer);
             // Open for editing
             GraphGrid.Children.Clear();
@@ -130,7 +130,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
             {
                 int indentation = 0;
                 ObservableCollection<string> returnValue = 
-                    new ObservableCollection<string>(_StackedLayers.Select(item => new String('\t', indentation++) + "-" + item.DocumentName));
+                    new(_StackedLayers.Select(item => new String('\t', indentation++) + "-" + item.DocumentName));
                 if(returnValue.Count > 0) returnValue.Insert(0, "Opened Graph Stacks: ");
                 return returnValue;
             }

@@ -34,7 +34,7 @@ namespace MULTITUDE.CustomControl.DocumentIcons
             // Feed content
             Archive archive = doc as Archive;
             if (archive.IsReal == false) throw new InvalidOperationException("VA cannot be displayed in real archive preview icon.");
-            System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(archive.Path);
+            System.IO.DirectoryInfo info = new(archive.Path);
             List1 = ListFileInfo.PopulateContents(info);
 
             // Bookeeping
@@ -125,11 +125,11 @@ namespace MULTITUDE.CustomControl.DocumentIcons
             TranslateTransform rightList = (current == PageList1) ? PageList2Translate : PageList1Translate;
 
             // Move current to left, move spare one to center
-            DoubleAnimation translateXCenterToLeft = new DoubleAnimation();
+            DoubleAnimation translateXCenterToLeft = new();
             translateXCenterToLeft.From = 0;
             translateXCenterToLeft.To = -translateDistance;
             translateXCenterToLeft.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
-            DoubleAnimation translateXRightToCenter = new DoubleAnimation();
+            DoubleAnimation translateXRightToCenter = new();
             translateXRightToCenter.From = translateDistance;
             translateXRightToCenter.To = 0;
             translateXRightToCenter.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
@@ -150,11 +150,11 @@ namespace MULTITUDE.CustomControl.DocumentIcons
             TranslateTransform leftList = (current == PageList1) ? PageList2Translate : PageList1Translate;
 
             // Move current to left, move spare one to center
-            DoubleAnimation translateXCenterToRight = new DoubleAnimation();
+            DoubleAnimation translateXCenterToRight = new();
             translateXCenterToRight.From = 0;
             translateXCenterToRight.To = translateDistance;
             translateXCenterToRight.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
-            DoubleAnimation translateXLeftToCenter = new DoubleAnimation();
+            DoubleAnimation translateXLeftToCenter = new();
             translateXLeftToCenter.From = -translateDistance;
             translateXLeftToCenter.To = 0;
             translateXLeftToCenter.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
@@ -176,7 +176,7 @@ namespace MULTITUDE.CustomControl.DocumentIcons
             if (box != null && e.LeftButton == MouseButtonState.Pressed && box.SelectedItem != null)
             {
                 // Package the data: path of the file/folder
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(DropRequest.DropRequestDropDataFormatString, new DropRequest(DropRequestType.SimpleClueReference, (box.SelectedItem as ListFileInfo).Path));
 
                 // Inititate the drag-and-drop operation.

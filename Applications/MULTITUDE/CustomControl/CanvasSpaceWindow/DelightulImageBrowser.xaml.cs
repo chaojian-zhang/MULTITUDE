@@ -156,8 +156,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
                 if (bw.CancellationPending) return false;
                 try
                 {
-                    BitmapImage newImage = new BitmapImage();
-                    using (var fs = new FileStream(newImages[i].Path, FileMode.Open))
+                    BitmapImage newImage = new();
+                    using (FileStream fs = new(newImages[i].Path, FileMode.Open))
                     {
                         newImage.BeginInit();
                         newImage.StreamSource = fs;

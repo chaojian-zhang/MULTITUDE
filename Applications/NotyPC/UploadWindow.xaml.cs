@@ -15,6 +15,7 @@ using System.Net.Http;
 using Ookii.Dialogs.Wpf;
 using System.IO;
 using Newtonsoft.Json;
+using Unicode;
 
 // A bunch of other helper comments e.g. how UTF is checed see original archieved version of this code
 
@@ -30,11 +31,11 @@ namespace NotyPC
             InitializeComponent();
 
             // Load all drives and populate the directory view
-            List<JFolder> drivesList = new List<JFolder>();
+            List<JFolder> drivesList = new();
             DriveInfo[] drivesInfo = DriveInfo.GetDrives();
             foreach (DriveInfo drive in drivesInfo)
             {
-                JFolder driveFolder = new JFolder(drive.ToString());
+                JFolder driveFolder = new(drive.ToString());
                 driveFolder.Folders.Add(new JFolder(TempLoadingFolderString));
                 drivesList.Add(driveFolder);
             }
@@ -58,7 +59,7 @@ namespace NotyPC
                     string FolderName = elementPath.Substring(elementPath.LastIndexOf("\\") + 1);
 
                     // Generate JFolders
-                    JFolder elementFolder = new JFolder(FolderName);
+                    JFolder elementFolder = new(FolderName);
                     elementFolder.Parent = currentFolder;
                     elementFolder.bSelected = currentFolder.bSelected;  // Let Children share the same status of selection as parent
                     elementFolder.Folders.Add(new JFolder(TempLoadingFolderString));
@@ -75,7 +76,7 @@ namespace NotyPC
                     string FileName = System.IO.Path.GetFileName(elementPath);
 
                     // Generate JFiles
-                    JFile elementFile = new JFile(FileName);
+                    JFile elementFile = new(FileName);
                     elementFile.Parent = currentFolder;
                     currentFolder.Files.Add(elementFile);
                 }
@@ -102,20 +103,20 @@ namespace NotyPC
 
             // QuickMatch® (1/4): Append a folder for QuickMatch usage
             // Make a copy of JRootFolder to add something interseting to it: QuickMatch® Folders
-            JFolder JRootFolderCopy = new JFolder(JUnifiedFolder.FolderName);  // I am not providing a copy constructor in wish that we won't need to use it anywhere else
+            JFolder JRootFolderCopy = new(JUnifiedFolder.FolderName);  // I am not providing a copy constructor in wish that we won't need to use it anywhere else
             JRootFolderCopy.Files = JUnifiedFolder.Files;  // Shallow Copy
             JRootFolderCopy.Folders = JUnifiedFolder.Folders.ToList(); // Semi-Deep Copy because we will add new items
             JRootFolderCopy.Folders.Add(new JFolder(App.QuickMatchFolderName)); // Add a blank folder
 
             // Send Request and Get Content
-            MyFormUrlEncodedContent postContent = new MyFormUrlEncodedContent(new[]
+            MyFormUrlEncodedContent postContent = new(new[]
             {
                 new KeyValuePair<string, string>("username", App.username),
                 new KeyValuePair<string, string>("password", App.password),
                 new KeyValuePair<string, string>("filecontent", JsonConvert.SerializeObject(JRootFolderCopy, Formatting.Indented))  // Notice that we are only adding this folder here for uploading purpose, for HTML and Local saving we don't do that
             });
 
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             HttpResponseMessage response = await client.PostAsync(App.RESTServiceAddress, postContent);
 
             // Status Update accordingly
@@ -139,7 +140,7 @@ namespace NotyPC
 
             // Get all drives we have loaded
             List<JFolder> DisplayDrivesList = DirectoryView.ItemsSource as List<JFolder>;
-            List<JFolder> JSONDrivesTree= new List<JFolder>();
+            List<JFolder> JSONDrivesTree= new();
 
             // For each drive, create a tree of all selected folders and their subitems; If folder not completely loaded yet then load it, to not interfering with display, we need to deep copy a new tree from drive down
             // Optimization: This part might be multi-threaded in the future
@@ -207,10 +208,10 @@ namespace NotyPC
         //  Bug2: For a folder when its children are not expanded they are not uploaded
         private JFolder ExpandFolderRecursive(JFolder currentFolder)
         {
-            JFolder currentFolderCopy = new JFolder(currentFolder.FolderName);    // Notice we are still not using a copy constructor because the function is very specific and we are not copying all children items at this step
+            JFolder currentFolderCopy = new(currentFolder.FolderName);    // Notice we are still not using a copy constructor because the function is very specific and we are not copying all children items at this step
             currentFolderCopy.Parent = currentFolder.Parent;
 
-            JFolder phatom = new JFolder(currentFolder.FolderName);
+            JFolder phatom = new(currentFolder.FolderName);
             phatom.Parent = currentFolder.Parent;
             phatom.bSelected = currentFolder.bSelected; // @Bug2: This line is crucial otherwise later  FolderGenerator(phatom); generates incomplete result
 
@@ -284,7 +285,7 @@ namespace NotyPC
             }
 
             // Select Path To Save File
-            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog();
+            VistaSaveFileDialog saveFileDialog = new();
             saveFileDialog.DefaultExt = ".json";
             saveFileDialog.FileName = App.DefaultJSONFileName;
             saveFileDialog.Filter = "JSON Files(*.json) | *.json";
@@ -337,7 +338,7 @@ namespace NotyPC
             HTMLContent += HTMLStringEnd;
 
             // Select Path To Save File
-            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog();
+            VistaSaveFileDialog saveFileDialog = new();
             saveFileDialog.DefaultExt = ".html";
             saveFileDialog.FileName = "Folder Structure";
             saveFileDialog.Filter = "HTML Files(*.html) | *.html";
@@ -394,7 +395,7 @@ namespace NotyPC
             RecursiveText(JUnifiedFolder, indentation);
 
             // Select Path To Save File
-            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog();
+            VistaSaveFileDialog saveFileDialog = new();
             saveFileDialog.DefaultExt = ".txt";
             saveFileDialog.FileName = "Folder Structure";
             saveFileDialog.Filter = "Text Files(*.txt) | *.txt";
@@ -534,7 +535,7 @@ namespace NotyPC
                 string filePath = App.GetParentFolderPath(file.Parent) + file.FileName;
 
                 // Convert it to UTF8, then add content to JSON
-                var checker = new Unicode.Utf8Checker();
+                Utf8Checker checker = new();
                 // If UTF8 BOM
                 if (checker.Check(filePath) == true)
                 {

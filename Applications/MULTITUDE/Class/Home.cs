@@ -105,7 +105,7 @@ namespace MULTITUDE.Class
             bImportFinished = false;
 
             // A list of newly generated documents
-            List<Document> virtualArchives = new List<Document>();
+            List<Document> virtualArchives = new();
             newlyImportedUnorganizedDocuments = new List<Document>();
             lastImportAction = action;
 
@@ -152,7 +152,7 @@ namespace MULTITUDE.Class
         // virtualArchive is assigned only when we are importing a VR
         private List<Document> ImportFolder(string path, ImportMode mode, out Document virtualArchive)
         {
-            List<Document> list = new List<Document>();
+            List<Document> list = new();
             DirectoryInfo source;
             virtualArchive = null;
             switch (mode)
@@ -163,8 +163,8 @@ namespace MULTITUDE.Class
                     return list;
                 case ImportMode.GenerateVirtualArchive:
                     // Create a virtual archive
-                    DirectoryInfo vardir = new DirectoryInfo(path);
-                    Archive var = new Archive(false, null, vardir.Name, vardir.CreationTime.ToString("MMMM dd, yyyy HHmmss"));  // Notice the VA doesn't have a path assigned
+                    DirectoryInfo vardir = new(path);
+                    Archive var = new(false, null, vardir.Name, vardir.CreationTime.ToString("MMMM dd, yyyy HHmmss"));  // Notice the VA doesn't have a path assigned
                     source = new DirectoryInfo(path);
                     RecursiveGenerateDocument(list, source, source, false, var.Roots[0]);
                     // Materialize: unlike other three methods, import as VA will involve creating a new document that has its unique storage (unlike real archive which just refers to a real folder)
@@ -180,7 +180,7 @@ namespace MULTITUDE.Class
                     RecursiveGenerateDocument(list, source, source);
                     return list;
                 case ImportMode.UseAsArchive:
-                    DirectoryInfo ardir = new DirectoryInfo(path);
+                    DirectoryInfo ardir = new(path);
                     Document newDocument;
                     newDocument = new Archive(true, path, ardir.Name, ardir.CreationTime.ToString("MMMM dd, yyyy HHmmss"));
                     // Add to home state
@@ -237,7 +237,7 @@ namespace MULTITUDE.Class
         internal /*async Task or call as a task*/ void ImportFolderSelective(TreeFolderInfo folder)
         {
             // Prepare holders
-            List<Document> list = new List<Document>();
+            List<Document> list = new();
 
             // Recusrive process
             RecursiveGenerateDocumentSelective(list, folder);
@@ -474,7 +474,7 @@ namespace MULTITUDE.Class
         {
             // Ref: https://stackoverflow.com/questions/25154701/how-to-replace-any-of-these-characters-in-a-strin
             // Ref: https://stackoverflow.com/questions/7265315/replace-multiple-characters-in-a-string
-            var pattern = Clue.InvalidClueCharacters;
+            string pattern = Clue.InvalidClueCharacters;
             return new string(originalClueString.Where(ch => !pattern.Contains(ch)).ToArray());
         }
         // Register an imported/created document by: 1. Adding it to list 2. Giving it a GUID
@@ -631,7 +631,7 @@ namespace MULTITUDE.Class
                 return vw;
             }
 
-            VirtualWorkspace newVW = new VirtualWorkspace(location);
+            VirtualWorkspace newVW = new(location);
             VirtualWorkspaces.Add(newVW);
             return newVW;
         }
@@ -647,7 +647,7 @@ namespace MULTITUDE.Class
             if (VirtualWorkspaces.Contains(beingReplaced) == false) throw new IndexOutOfRangeException("Specified VW isn't part of VW space");
 
             // Generate a new substitute at current location
-            VirtualWorkspace newVW = new VirtualWorkspace(beingReplaced.VWCoordinate);
+            VirtualWorkspace newVW = new(beingReplaced.VWCoordinate);
             beingReplaced.VWCoordinate = null;
             VirtualWorkspaces.Remove(beingReplaced);
             VirtualWorkspaces.Add(newVW);
@@ -660,7 +660,7 @@ namespace MULTITUDE.Class
             if (VirtualWorkspaces.Contains(beingReplaced) == false) throw new IndexOutOfRangeException("Specified VW isn't part of VW space");
 
             // Generate a new substitute at current location
-            VirtualWorkspace newVW = new VirtualWorkspace(beingReplaced.VWCoordinate);
+            VirtualWorkspace newVW = new(beingReplaced.VWCoordinate);
             beingReplaced.VWCoordinate = null;
             VirtualWorkspaces.Remove(beingReplaced);
             VirtualWorkspaces.Add(newVW);
@@ -772,7 +772,7 @@ namespace MULTITUDE.Class
         // Return coverted VA
         public Archive ConvertVWToVAAndRegister(VirtualWorkspace vw)
         {
-            Archive archive = new Archive(vw);
+            Archive archive = new(vw);
 
             // Register
             RegisterDocument(archive);
@@ -853,7 +853,7 @@ namespace MULTITUDE.Class
                 // Load serialized data
                 Stream fileStream = File.OpenRead(homeFile);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter deserializer = new BinaryFormatter();
+                BinaryFormatter deserializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Home home = (Home)deserializer.Deserialize(fileStream);
                 // b = (Home)deserializer.Deserialize(fileStream);
@@ -876,7 +876,7 @@ namespace MULTITUDE.Class
             if (System.IO.Directory.GetFileSystemEntries(homeLocation).Length == 0)
             {
                 // Create a home
-                Home newHome = new Home(homeLocation);
+                Home newHome = new(homeLocation);
                 // Save home
                 newHome.Save();
                 // Return home
@@ -911,7 +911,7 @@ namespace MULTITUDE.Class
         {
             Stream fileStream = File.Create(System.IO.Path.Combine(Location, HomeDataFileName));
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-            BinaryFormatter serializer = new BinaryFormatter();
+            BinaryFormatter serializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             serializer.Serialize(fileStream, this);
             // serializer.Serialize(TestFileStream, b);

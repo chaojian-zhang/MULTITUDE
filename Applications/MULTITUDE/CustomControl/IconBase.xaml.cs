@@ -35,25 +35,25 @@ namespace MULTITUDE.CustomControl
         public static readonly double DefaultCanvasIconSize = 128;  // For display purpose in Canvas
         public static readonly double DefaultBigIconDimension = (DefaultCanvasIconSize * 2);
         // Small Icons
-        internal static readonly BitmapImage PlainTextSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/TextSmallIcon.png"));
-        internal static readonly BitmapImage MarkdownPlusSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage ArchiveSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage VirtualArchiveSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage DataCollectionSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage GraphSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage CommandSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage WebSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage PlayListSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage ImagePlusSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage SoundSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage VideoSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage OthersSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
-        internal static readonly BitmapImage UnkownSmallIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage PlainTextSmallIcon = new(new Uri("pack://application:,,,/Resource/Icons/TextSmallIcon.png"));
+        internal static readonly BitmapImage MarkdownPlusSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage ArchiveSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage VirtualArchiveSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage DataCollectionSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage GraphSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage CommandSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage WebSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage PlayListSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage ImagePlusSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage SoundSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage VideoSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage OthersSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
+        internal static readonly BitmapImage UnkownSmallIcon = new(new Uri("pack://application:,,,/Resource/Backbutton.png"));
         // Abstract Icons
-        internal static readonly BitmapImage TextVirtualIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/Abstract Icon.png"));
-        internal static readonly BitmapImage ArchiveVirtualIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/Folder(Closed) Icon.png"));
-        internal static readonly BitmapImage MediaVirtualIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/PlaylistIcon.png"));
-        internal static readonly BitmapImage GeneralVirtualIcon = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/File Icon.png"));
+        internal static readonly BitmapImage TextVirtualIcon = new(new Uri("pack://application:,,,/Resource/Icons/Abstract Icon.png"));
+        internal static readonly BitmapImage ArchiveVirtualIcon = new(new Uri("pack://application:,,,/Resource/Icons/Folder(Closed) Icon.png"));
+        internal static readonly BitmapImage MediaVirtualIcon = new(new Uri("pack://application:,,,/Resource/Icons/PlaylistIcon.png"));
+        internal static readonly BitmapImage GeneralVirtualIcon = new(new Uri("pack://application:,,,/Resource/Icons/File Icon.png"));
         #endregion
 
         #region Construction and Data

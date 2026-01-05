@@ -128,11 +128,11 @@ namespace MULTITUDE.Popup
             // Play animation to show hiden canvas, click again to hide
             if(bInMetaPage == false)
             {
-                DoubleAnimation revealWidth = new DoubleAnimation();
+                DoubleAnimation revealWidth = new();
                 revealWidth.From = 0;
                 revealWidth.To = MetaPageContainerCanvas.ActualWidth;
                 revealWidth.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
-                DoubleAnimation revealHeight = new DoubleAnimation();
+                DoubleAnimation revealHeight = new();
                 revealHeight.From = 0;
                 revealHeight.To = MetaPageContainerCanvas.ActualHeight;
                 revealHeight.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
@@ -147,7 +147,7 @@ namespace MULTITUDE.Popup
             }
             else
             {
-                DoubleAnimation hide = new DoubleAnimation();
+                DoubleAnimation hide = new();
                 hide.To = 0;
                 hide.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
 

@@ -19,7 +19,7 @@ namespace MULTITUDE.Class.Facility
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             TreeFolderInfo input = value as TreeFolderInfo;
-            CompositeCollection collection = new CompositeCollection();
+            CompositeCollection collection = new();
             collection.Add(new CollectionContainer() { Collection = input.Folders });
             collection.Add(new CollectionContainer() { Collection = input.Files });
             return collection;
@@ -110,7 +110,7 @@ namespace MULTITUDE.Class.Facility
                 foreach (DirectoryInfo subInfo in currentFolder.Info.EnumerateDirectories())
                 {
                     // Generate Folders
-                    TreeFolderInfo subFolder = new TreeFolderInfo(null, subInfo);
+                    TreeFolderInfo subFolder = new(null, subInfo);
                     subFolder.bSelected = currentFolder.bSelected;  // Let Children share the same status of selection as parent
                     subFolder.Folders.Add(new TreeFolderInfo(true));
                     currentFolder.Folders.Add(subFolder);
@@ -124,7 +124,7 @@ namespace MULTITUDE.Class.Facility
                 foreach (FileInfo file in currentFolder.Info.EnumerateFiles())
                 {
                     // Generate Files
-                    TreeFileInfo fileInfo = new TreeFileInfo(file);
+                    TreeFileInfo fileInfo = new(file);
                     fileInfo.bSelected = currentFolder.bSelected;
                     currentFolder.Files.Add(fileInfo);
                 }
@@ -287,8 +287,8 @@ namespace MULTITUDE.Class.Facility
             Type = type;
         }
 
-        internal static readonly BitmapImage FolderImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/Folder(Closed) Icon.png"));
-        internal static readonly BitmapImage FileImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Icons/File Icon.png"));
+        internal static readonly BitmapImage FolderImage = new(new Uri("pack://application:,,,/Resource/Icons/Folder(Closed) Icon.png"));
+        internal static readonly BitmapImage FileImage = new(new Uri("pack://application:,,,/Resource/Icons/File Icon.png"));
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -348,7 +348,7 @@ namespace MULTITUDE.Class.Facility
         }
         public static ObservableCollection<ListFileInfo> PopulateContents(DirectoryInfo dir)
         {
-            ObservableCollection<ListFileInfo> contents = new ObservableCollection<ListFileInfo>();
+            ObservableCollection<ListFileInfo> contents = new();
 
             // Get folders
             try
@@ -382,8 +382,8 @@ namespace MULTITUDE.Class.Facility
             }
             catch (System.IO.IOException)   // Cannot move dir across different drives
             {
-                System.IO.DirectoryInfo source = new DirectoryInfo(oldPath);
-                System.IO.DirectoryInfo dest = new DirectoryInfo(newPath);
+                System.IO.DirectoryInfo source = new(oldPath);
+                System.IO.DirectoryInfo dest = new(newPath);
 
                 // Target already exist
                 if (dest.Exists) throw new InvalidOperationException("Target directory already exists and I don't know how to handle it.");

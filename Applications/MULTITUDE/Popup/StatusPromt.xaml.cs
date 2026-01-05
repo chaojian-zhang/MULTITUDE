@@ -144,7 +144,7 @@ namespace MULTITUDE.Popup
             dispatcherTimer.Start();
 
             // Set window location
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             switch (placement)
             {
                 case PlacementEnum.UpperRight:

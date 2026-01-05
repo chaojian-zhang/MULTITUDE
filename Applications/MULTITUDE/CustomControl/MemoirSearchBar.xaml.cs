@@ -132,7 +132,7 @@ namespace MULTITUDE.CustomControl
             // Set default text with bound documents common sets
             if (boundDocuments != null && boundDocuments.Count != 0)
             {
-                List<Clue> commonClues = new List<Clue>();
+                List<Clue> commonClues = new();
                 foreach (Document doc in boundDocuments)
                 {
                     commonClues.AddRange(doc.Clues);

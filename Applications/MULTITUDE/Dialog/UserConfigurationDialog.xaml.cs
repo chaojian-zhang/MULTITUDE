@@ -183,12 +183,12 @@ namespace MULTITUDE.Dialog
         private void OpenFolderButton_Click(object sender, RoutedEventArgs e)
         {
             // Open an aura first
-            ModalDialogAura modalAura = new ModalDialogAura(this);
+            ModalDialogAura modalAura = new(this);
             modalAura.Show();
 
             string CurrentFolderPath = null;
             if (HomeLocationTextBox.Text != HomeDefaultText) CurrentFolderPath = HomeLocationTextBox.Text;
-            OpenFolderDialog dialog = new OpenFolderDialog(this, CurrentFolderPath);
+            OpenFolderDialog dialog = new(this, CurrentFolderPath);
             if (dialog.ShowDialog() == true)
             {
                 HomeLocationTextBox.Text = dialog.ChosenDirectoryPath;
@@ -244,12 +244,12 @@ namespace MULTITUDE.Dialog
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             // Open an aura first
-            ModalDialogAura modalAura = new ModalDialogAura(this);
+            ModalDialogAura modalAura = new(this);
             modalAura.Show();
 
             // Show desktop folder path
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            OpenFolderDialog dialog = new OpenFolderDialog(this, path);
+            OpenFolderDialog dialog = new(this, path);
             if (dialog.ShowDialog() == true)
             {
                 path = dialog.ChosenDirectoryPath;

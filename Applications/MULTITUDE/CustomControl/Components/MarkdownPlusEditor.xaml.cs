@@ -123,7 +123,7 @@ namespace MULTITUDE.CustomControl.Components
         }
         public void HighlightSelection(string searchString)
         {
-            TextRange range = new TextRange(DocumentText.Document.ContentStart, DocumentText.Document.ContentEnd);
+            TextRange range = new(DocumentText.Document.ContentStart, DocumentText.Document.ContentEnd);
             int index = range.Text.ToLower().IndexOf(searchString.ToLower());
             if (index == -1) throw new IndexOutOfRangeException("Specified searchstring doesn't exist in the document.");
             TextPointer start = DocumentText.Document.ContentStart.GetPositionAtOffset(index);
@@ -360,7 +360,7 @@ namespace MULTITUDE.CustomControl.Components
         }
         public static System.Windows.Documents.Table CreateTable(int x, int y, bool bTitle = true, bool bHeader = true)
         {
-            System.Windows.Documents.Table newTable = new System.Windows.Documents.Table();
+            System.Windows.Documents.Table newTable = new();
             // Notice it's not possible to let tables auto-fit to content width, but it will always stretch to whole width by design
             // Ref: https://social.msdn.microsoft.com/Forums/vstudio/en-US/98348085-a1cb-414f-b082-5a9342ed174c/flowdocument-table-columns-autowidth?forum=wpf
             // Ref: https://stackoverflow.com/questions/1491285/wpf-flowdocument-table-autofit-option -- Using grid obviously doesn't solve the problem since that just makes things complicated
@@ -423,7 +423,7 @@ namespace MULTITUDE.CustomControl.Components
         }
         internal static System.Windows.Documents.Table CreateTable(MULTITUDE.Class.DocumentTypes.Table table)
         {
-            System.Windows.Documents.Table newTable = new System.Windows.Documents.Table();
+            System.Windows.Documents.Table newTable = new();
 
             #region Column Definitions
             // Generate columns

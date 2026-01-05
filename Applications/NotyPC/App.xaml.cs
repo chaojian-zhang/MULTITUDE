@@ -159,7 +159,7 @@ namespace NotyPC
             }
 
             // First we get an array of all JFiles that matches the last keyword
-            List<JFile> potentialEndPoints = new List<JFile>();
+            List<JFile> potentialEndPoints = new();
             KeywordIterator(rootFolder, potentialEndPoints, keywordsArray.First());
 
             // If we have found only one element, then all good to go; if none was found, then also we end our job; if multiple files are found, we do a second level comparison
@@ -180,7 +180,7 @@ namespace NotyPC
                     // If no keywords left for comparison, then the user is just looking for all potential matches
                     /// ****** Notice Hacking ****** To save effort and resource we use a trick: Since The user will only display the folder structure, and when user clicks the file image to open the file it will iterate from file to parents to find its path, so we will generate a phatom folder to hold temporary files, without showing detailed structure of each one
                     /// But notice that in this case the folder itself cannot be clicked to open any specific folder
-                    JFolder newFolder = new JFolder("Search Results");
+                    JFolder newFolder = new("Search Results");
                     // Expand Folder
                     newFolder.bExpanded = true;
                     foreach (JFile file in potentialEndPoints)
@@ -229,7 +229,7 @@ namespace NotyPC
                     // Return only one file or return multiple ones depending on option
                     if(bMultiReturn)
                     {
-                        JFolder newFolder = new JFolder("Search Results");
+                        JFolder newFolder = new("Search Results");
                         // Expand Folder
                         newFolder.bExpanded = true;
                         foreach (JFile file in orderedList)
@@ -265,7 +265,7 @@ namespace NotyPC
             }
 
             // First we get an array of all JFolders that matches the last keyword
-            List<JFolder> potentialEndPoints = new List<JFolder>();
+            List<JFolder> potentialEndPoints = new();
             KeywordIteratorForFolder(rootFolder, potentialEndPoints, keywordsArray.First());
 
             // If we have found only one element, then all good to go; if none was found, then also we end our job; if multiple files are found, we do a second level comparison
@@ -284,7 +284,7 @@ namespace NotyPC
                 if (keywordsArray.Length == 1)   // No extra keywords left, we return all we have found
                 {
                     // If no keywords left for comparison, then the user is just looking for all potential matches
-                    JFolder newFolder = new JFolder("Search Results");
+                    JFolder newFolder = new("Search Results");
                     // Expand Folder
                     newFolder.bExpanded = true;
                     foreach (JFolder folder in potentialEndPoints)
@@ -328,7 +328,7 @@ namespace NotyPC
                     // Return only one folder or return multiple folder depending on option
                     if (bMultiFolder)
                     {
-                        JFolder newFolder = new JFolder("Search Results");
+                        JFolder newFolder = new("Search Results");
                         // Expand Folder
                         newFolder.bExpanded = true;
                         foreach (JFolder folder in orderedList)
@@ -352,7 +352,7 @@ namespace NotyPC
         private static JFolder JBuildRootFromFile(JFile file)
         {
             // This is a bit complicated: We first constrct a string of all folder paths
-            List<string> folderNames = new List<string>();
+            List<string> folderNames = new();
             JFolder parent = file.Parent;
             while (parent != null)
             {
@@ -361,7 +361,7 @@ namespace NotyPC
             }
             folderNames.Reverse();  // Revese order so things are logical
             // Then we add all those paths to our newly created JFolder
-            JFolder representativeFolder = new JFolder(folderNames[0]);
+            JFolder representativeFolder = new(folderNames[0]);
             JFolder currentFolder = representativeFolder;
             // Expand Root Folder
             currentFolder.bExpanded = true;
@@ -374,7 +374,7 @@ namespace NotyPC
                 currentFolder.bExpanded = true;
             }
             // Finally we add our JFile
-            JFile newFile = new JFile(file.FileName);
+            JFile newFile = new(file.FileName);
             newFile.TextContent = file.TextContent;
             newFile.Appendix = file.Appendix;
             currentFolder.Files.Add(newFile);  // Notice we are NOT just referencing the old - we are creating a complete replicate
@@ -390,7 +390,7 @@ namespace NotyPC
         private static JFolder JBuildRootFromFolder(JFolder folder)
         {
             // This is a bit complicated: We first constrct a string of all folder paths
-            List<string> folderNames = new List<string>();
+            List<string> folderNames = new();
             JFolder parent = folder;
             while (parent != null)
             {
@@ -399,7 +399,7 @@ namespace NotyPC
             }
             folderNames.Reverse();  // Revese order so things are logical
             // Then we add all those paths to our newly created JFolder
-            JFolder representativeFolder = new JFolder(folderNames[0]);
+            JFolder representativeFolder = new(folderNames[0]);
             JFolder currentFolder = representativeFolder;
             // Expand Root Folder
             currentFolder.bExpanded = true;
@@ -476,8 +476,8 @@ namespace NotyPC
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var input = value as JFolder;
-            CompositeCollection collection = new CompositeCollection();
+            JFolder? input = value as JFolder;
+            CompositeCollection collection = new();
             collection.Add(new CollectionContainer() { Collection = input.Folders });
             collection.Add(new CollectionContainer() { Collection = input.Files });
             return collection;
@@ -493,7 +493,7 @@ namespace NotyPC
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var input = value as JFolder;
+            JFolder? input = value as JFolder;
             return (input.Folders.Count + input.Files.Count).ToString();
         }
 
@@ -695,7 +695,7 @@ namespace NotyPC
             {
                 throw new ArgumentNullException("nameValueCollection");
             }
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             foreach (KeyValuePair<string, string> current in nameValueCollection)
             {
                 if (stringBuilder.Length > 0)

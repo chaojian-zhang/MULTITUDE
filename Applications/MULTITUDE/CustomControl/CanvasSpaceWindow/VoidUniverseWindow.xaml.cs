@@ -46,7 +46,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
 
         private  List<Document> CloneItems(System.Collections.IList items)
         {
-            List<Document> clone = new List<Document>();
+            List<Document> clone = new();
             foreach (Document doc in items)
             {
                 clone.Add(doc);

@@ -172,7 +172,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public Clue Concatenate(params Clue[] Clues)
         {
-            List<string> fragments = new List<string>();
+            List<string> fragments = new();
             foreach (Clue clue in Clues)
             {
                 fragments.AddRange(clue.Fragments);
@@ -202,7 +202,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         /// <returns></returns>
         public static List<Clue> CreateCluesFromText(string text)
         {
-            List<Clue> clues = new List<Clue>();
+            List<Clue> clues = new();
             string[] lines = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
             {

@@ -62,7 +62,7 @@ namespace NotyPC
             this.SearchKeywordBox.GotFocus += (sender, e) => Caret.Visibility = Visibility.Visible;
 
             // Register Global Hotkeys
-            HotKey _hotKey = new HotKey(Key.Q, KeyModifier.Shift | KeyModifier.Ctrl, ShowWindow);
+            HotKey _hotKey = new(Key.Q, KeyModifier.Shift | KeyModifier.Ctrl, ShowWindow);
 
             // Simple Implementation for keyboard shortcuts
             // http://stackoverflow.com/questions/813389/how-to-capture-ctrl-tab-and-ctrl-shift-tab-in-wpf
@@ -72,7 +72,7 @@ namespace NotyPC
             voiceEngine.updateGrammar(new List<string>() { "tell me about weather", "thank you" }, SpeechHandler);
         }
 
-        Airi.TheSystem.Perception.Voice voiceEngine = new Airi.TheSystem.Perception.Voice();
+        Airi.TheSystem.Perception.Voice voiceEngine = new();
 
         void SpeechHandler(Airi.TheSystem.Perception.Voice.SpeechStatus status, List<string> messages)
         {
@@ -98,7 +98,7 @@ namespace NotyPC
 
         private void MoveCustomCaret()
         {
-            var caretLocation = SearchKeywordBox.GetRectFromCharacterIndex(SearchKeywordBox.CaretIndex).Location;
+            Point caretLocation = SearchKeywordBox.GetRectFromCharacterIndex(SearchKeywordBox.CaretIndex).Location;
 
             if (!double.IsInfinity(caretLocation.X))
             {
@@ -326,8 +326,8 @@ namespace NotyPC
         private JFolder JRootFolder_Filtered;
 
         // MultiThreading
-        private List<Task> searchingTaskList = new List<Task>();
-        private List<CancellationTokenSource> searchingTaskTokenSourceList = new List<CancellationTokenSource>(); // Current Deployed Tokens: The first being oldest, the last being newest
+        private List<Task> searchingTaskList = new();
+        private List<CancellationTokenSource> searchingTaskTokenSourceList = new(); // Current Deployed Tokens: The first being oldest, the last being newest
         // private List<string> historyKeywordsList = new List<string>();   // Not neeeded and might cause IndexOutofRange if not used properly
 
         private void OpenFileForEditing(JFile file)
@@ -385,7 +385,7 @@ namespace NotyPC
             SearchForContent();
         }
 
-        List<JFolder> updatedFolders = new List<JFolder>();
+        List<JFolder> updatedFolders = new();
         void SearchForContent()
         {
             // Return to normal if no text in search box
@@ -422,7 +422,7 @@ namespace NotyPC
                 }
 
                 // Revert back to display
-                List<JFolder> Roots = new List<JFolder>();
+                List<JFolder> Roots = new();
                 Roots.Add(JRootFolder);
                 DirectoryView.ItemsSource = Roots;
 
@@ -476,7 +476,7 @@ namespace NotyPC
                     bool? bFolderMode = FolderCheckBox.IsChecked;
                     // historyKeywordsList.Add(keywords);
                     // Create tokens
-                    CancellationTokenSource tokenSource = new CancellationTokenSource();
+                    CancellationTokenSource tokenSource = new();
                     searchingTaskTokenSourceList.Add(tokenSource);
                     // http://stackoverflow.com/questions/8127316/passing-a-method-parameter-using-task-factory-startnew
                     searchingTask = Task.Factory.StartNew(() => FileFilter(keywords, tokenSource.Token, bFolderMode), tokenSource.Token);
@@ -488,7 +488,7 @@ namespace NotyPC
             catch (TaskCanceledException) { return; }
 
             // After Everything is done without being cancelled we fetch our search results and show it
-            List<JFolder> Roots = new List<JFolder>();
+            List<JFolder> Roots = new();
             Roots.Add(JRootFolder_Filtered);
             DirectoryView.ItemsSource = Roots;
 
@@ -497,7 +497,7 @@ namespace NotyPC
         }
 
         // http://stackoverflow.com/questions/7343211/cancelling-a-task-is-throwing-an-exception
-        private Object newLocker = new Object();
+        private Object newLocker = new();
         private void FileFilter(string keywrods, CancellationToken token, bool? bSearchFolder)
         {
             try
@@ -551,7 +551,7 @@ namespace NotyPC
         private void LoadJSONFile_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Select and open a file
-            VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog();
+            VistaOpenFileDialog openFileDialog = new();
             openFileDialog.DefaultExt = ".json";
             openFileDialog.DefaultExt = "JSON Files(*.json) | *.json";
             openFileDialog.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -596,7 +596,7 @@ namespace NotyPC
             JFile.StatisticAmount = 0;
 
             // Render Objects
-            List<JFolder> Roots = new List<JFolder>();
+            List<JFolder> Roots = new();
             Roots.Add(JRootFolder);
             DirectoryView.ItemsSource = Roots;
 
@@ -932,7 +932,7 @@ namespace NotyPC
             await Task.Factory.StartNew(() => UpdateFolderContent(folder));
 
             // Render Objects 
-            List<JFolder> Roots = new List<JFolder>();
+            List<JFolder> Roots = new();
             Roots.Add(JRootFolder);
             DirectoryView.ItemsSource = Roots;
             // Automatically scroll to previous location
@@ -978,7 +978,7 @@ namespace NotyPC
                     string FolderName = elementPath.Substring(elementPath.LastIndexOf("\\") + 1);
 
                     // Generate JFolders
-                    JFolder elementFolder = new JFolder(FolderName);
+                    JFolder elementFolder = new(FolderName);
                     elementFolder.Parent = currentFolder;
                     FolderGeneratorRecursive(elementFolder);
                     currentFolder.Folders.Add(elementFolder);
@@ -994,7 +994,7 @@ namespace NotyPC
                     string FileName = System.IO.Path.GetFileName(elementPath);
 
                     // Generate JFiles
-                    JFile elementFile = new JFile(FileName);
+                    JFile elementFile = new(FileName);
                     elementFile.Parent = currentFolder;
                     currentFolder.Files.Add(elementFile);
                 }

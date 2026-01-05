@@ -83,13 +83,13 @@ namespace MULTITUDE.Popup
         private void LocationLabel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Open an aura first
-            ModalDialogAura modalAura = new ModalDialogAura(this);
+            ModalDialogAura modalAura = new(this);
             modalAura.Show();
 
             // Open folder browser
             string path = null;
             if (Archive != null) path = Archive.Path;
-            OpenFolderDialog dialog = new OpenFolderDialog(this, path);
+            OpenFolderDialog dialog = new(this, path);
             if (dialog.ShowDialog() == true)
             {
                 LocationText = dialog.ChosenDirectoryPath;

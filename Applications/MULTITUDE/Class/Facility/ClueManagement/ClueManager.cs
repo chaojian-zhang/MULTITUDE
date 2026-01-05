@@ -25,7 +25,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public List<PrimaryClueInfo> Match(string text)
         {
-            List<PrimaryClueInfo> found = new List<PrimaryClueInfo>();
+            List<PrimaryClueInfo> found = new();
             if (_Name .Contains(text)) found.Add(this);
             if(_Clues != null && _Clues.Count != 0)
             {
@@ -202,7 +202,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public List<Document> GetDocuments(List<Clue> clues)
         {
-            List<Document> documents = new List<Document>();
+            List<Document> documents = new();
             foreach (Clue clue in clues)
             {
                 documents.AddRange(GetDocuments(clue));
@@ -288,7 +288,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
             if (fragments.Length == 1)
             {
                 string[] possibleFragments = ClueTree.Keys.Where(item => item.Contains(fragments[0]) && item != fragments[0]).ToArray();
-                List<ClueFragment> results = new List<ClueFragment>();
+                List<ClueFragment> results = new();
                 foreach (string frag in possibleFragments)
                 {
                     results.Add(new ClueFragment(frag, ClueTree[frag].Documents.Count, ClueTree[frag].Documents));
@@ -311,7 +311,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public List<string> GetAllClueStrings()
         {
-            List<Clue> results = new List<Clue>();
+            List<Clue> results = new();
             Home home = (App.Current as App).CurrentHome;
             foreach (Document doc in home.Documents)
             {
@@ -323,11 +323,11 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         public ObservableCollection<PrimaryClueInfo> GetPrimaryClueInfo()
         {
-            ObservableCollection<PrimaryClueInfo> primaryClues = new ObservableCollection<PrimaryClueInfo>();
+            ObservableCollection<PrimaryClueInfo> primaryClues = new();
 
             foreach (string primaryFragment in ClueTree.Keys)
             {
-                PrimaryClueInfo newPrimaryClue = new PrimaryClueInfo(primaryFragment, true, null);
+                PrimaryClueInfo newPrimaryClue = new(primaryFragment, true, null);
                 primaryClues.Add(newPrimaryClue);
                 foreach (string clue in ClueTree[primaryFragment].GetAllClues())
                 {
@@ -390,7 +390,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         /// <returns></returns>
         public List<Document> GetUnion(List<Clue> clues)
         {
-            List<Document> documents = new List<Document>();
+            List<Document> documents = new();
             foreach (Clue clue in clues)
             {
                 documents.AddRange(GetDocuments(clue));
@@ -497,7 +497,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
                     // Do a second order search
                     List<string> temp = clue.Fragments.ToList();
                     temp.RemoveAt(clue.Fragments.Length - 1);
-                    Clue trimmed = new Clue(temp.ToArray());
+                    Clue trimmed = new(temp.ToArray());
                     SearchForClueFragments(trimmed, out nextFragments, out foundDocuments);
 
                     // Do a third order search
@@ -549,7 +549,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         // Rule: treat as a part of a clue, then treat as a name or meta
         public void GetInitialSuggestion(string beginningText, out List<ClueFragment> nextFragments, out List<Document> foundDocuments)
         {
-            Clue clue = new Clue(beginningText);
+            Clue clue = new(beginningText);
             foundDocuments = null;
             if (ClueTree.ContainsKey(beginningText)) foundDocuments = GetDocuments(clue);
             if (foundDocuments == null || foundDocuments.Count == 0) AmbiguousSearch(new string[] { beginningText }, out foundDocuments);
@@ -566,7 +566,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         public void AmbiguousSearch(string[] keywords, out List<Document> foundDocuments)
         {
             // Get must match keywords
-            List<string> mustMatches = new List<string>(), optionalMatches = new List<string>();
+            List<string> mustMatches = new(), optionalMatches = new();
             foreach (string keyword in keywords)
             {
                 if (keyword[0] == '!')

@@ -97,7 +97,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
         #region Playback Interaction
         private void SliderWithProgress_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var value = (float)(e.GetPosition(PlayProgressSlider).X / PlayProgressSlider.ActualWidth);
+            float value = (float)(e.GetPosition(PlayProgressSlider).X / PlayProgressSlider.ActualWidth);
             PlayProgressSlider.Value = value;
             e.Handled = true;
         }
