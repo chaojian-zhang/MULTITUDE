@@ -202,12 +202,6 @@
   <ItemGroup>
     <Resource Include="Resources\T Symbol_NoShadow.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AiriTheSystem\AiriTheSystem.csproj">
-      <Project>{c46c8337-d394-4c6e-bbea-5599ddb3282f}</Project>
-      <Name>AiriTheSystem</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
