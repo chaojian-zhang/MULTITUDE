@@ -1,7 +1,7 @@
-﻿<Application x:Class="MULTITUDE.App"
+﻿<Application x:Class="NotyPC.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MULTITUDE"
+             xmlns:local="clr-namespace:NotyPC"
              StartupUri="MagicWindow.xaml">
     <Application.Resources>
     </Application.Resources>

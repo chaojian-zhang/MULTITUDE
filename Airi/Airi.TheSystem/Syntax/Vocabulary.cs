@@ -50,7 +50,7 @@ namespace Airi.TheSystem.Syntax
             StreamReader reader;
             try
             {
-                reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(Airi.Properties.Resources.VocabularySheetPath));
+                reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(Properties.VocabularySheetPath));
                 if (reader != null)
                 {
                     string fileContent = reader.ReadToEnd();

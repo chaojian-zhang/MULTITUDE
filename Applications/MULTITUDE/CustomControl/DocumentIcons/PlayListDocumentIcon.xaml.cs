@@ -1,5 +1,4 @@
-﻿using Meta.Vlc.Wpf;
-using MULTITUDE.Canvas;
+﻿using MULTITUDE.Canvas;
 using MULTITUDE.Class.DocumentTypes;
 using MULTITUDE.Popup;
 using System;

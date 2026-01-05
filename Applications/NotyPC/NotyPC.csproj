@@ -10,6 +10,17 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Airi\Airi.TheSystem\Airi.TheSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Unicode">
+      <HintPath>Unicode.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

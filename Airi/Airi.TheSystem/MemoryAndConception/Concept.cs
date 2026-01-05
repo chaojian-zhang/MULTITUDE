@@ -32,6 +32,11 @@ namespace Airi.TheSystem.Memory
     class ConceptObject : Concept
     {
         private string ObjectSymbols { get; set; }
+
+        public override string AddSymbol(string symbol)
+        {
+            throw new NotImplementedException();
+        }
     }
     // E.g. Remax = BuildingA + BuildingB + BuildingC
 
@@ -45,6 +50,11 @@ namespace Airi.TheSystem.Memory
     class ConceptAction : Concept
     {
         private string ActionSymbols { get; set; }
+
+        public override string AddSymbol(string symbol)
+        {
+            throw new NotImplementedException();
+        }
     }
     // E.g. Danger = Touch/Hear/Smell/Think -> Death/Hurt/Harm/Damage
 
@@ -56,6 +66,11 @@ namespace Airi.TheSystem.Memory
     class ConceptOwnership : Concept
     {
         Dictionary<string, string> Relations { get; set; }
+
+        public override string AddSymbol(string symbol)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

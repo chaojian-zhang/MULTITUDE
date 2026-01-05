@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MULTITUDE.Canvas"
         xmlns:localc="clr-namespace:MULTITUDE.Class"
         xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
+        xmlns:placeholder="clr-namespace:MULTITUDE.Placeholders"
         mc:Ignorable="d" d:DesignWidth="1366" d:DesignHeight="768" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="MULTITUDE" Foreground="{x:Null}" WindowStartupLocation="CenterScreen"  WindowState="Maximized" AllowDrop="True" 
@@ -227,7 +228,7 @@
                Width="{Binding ActualWidth, ElementName=MainCanvas}"
                Height="{Binding ActualHeight, ElementName=MainCanvas}"/>
             <!-- Background: Shared Player -->
-            <wpf:VlcPlayer xmlns:wpf="clr-namespace:Meta.Vlc.Wpf;assembly=Meta.Vlc.Wpf" x:Name="vlcPlayer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" Height="0" Background="{x:Null}" Visibility="Collapsed"/>
+            <placeholder:VlcPlayer x:Name="vlcPlayer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" Height="0" Background="{x:Null}" Visibility="Collapsed"/>
             <!-- Absolute positioned UI items -->
             <Grid x:Name="AbosolutePositionedUI" Width="{Binding ActualWidth, ElementName=MainCanvas}">
                 <Grid.RowDefinitions>

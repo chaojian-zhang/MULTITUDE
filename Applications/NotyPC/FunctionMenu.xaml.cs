@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MULTITUDE
+namespace NotyPC
 {
     /// <summary>
     /// Interaction logic for FunctionMenu.xaml

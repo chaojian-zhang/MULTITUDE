@@ -1,5 +1,5 @@
-﻿using Meta.Vlc.Wpf;
-using MULTITUDE.Class.DocumentTypes;
+﻿using MULTITUDE.Class.DocumentTypes;
+using MULTITUDE.Placeholders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -72,7 +72,7 @@ namespace MULTITUDE.CustomControl.Components
             AssociatedPlayer.Stop();
         }
 
-        private void _AssociatedPlayer_StateChanged(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
+        private void _AssociatedPlayer_StateChanged(object sender, VlcEventArgs e)
         {
             // In case of shared player, e.g. in VW
             if (PlayingDocument == null || (sender as VlcPlayer).Tag as Document != PlayingDocument) // PlayingDocument can be null if it's a play list
@@ -81,13 +81,13 @@ namespace MULTITUDE.CustomControl.Components
                 return;
             }
 
-            if(e.Value == Meta.Vlc.Interop.Media.MediaState.Ended || 
-                e.Value == Meta.Vlc.Interop.Media.MediaState.Paused ||
-                e.Value == Meta.Vlc.Interop.Media.MediaState.Stopped)
+            if(e.Value == VlcMediaState.Ended || 
+                e.Value == VlcMediaState.Paused ||
+                e.Value == VlcMediaState.Stopped)
                 PlayButtonIcon.Source = PlayButtonPlayIcon;
             else PlayButtonIcon.Source = PlayButtonPauseIcon; 
 
-            if(e.Value == Meta.Vlc.Interop.Media.MediaState.Ended)
+            if(e.Value == VlcMediaState.Ended)
             {
                 GetNextPlayMedia();
 
@@ -172,17 +172,17 @@ namespace MULTITUDE.CustomControl.Components
             }
 
             // Check current play state
-            if (AssociatedPlayer.State == Meta.Vlc.Interop.Media.MediaState.Playing)
+            if (AssociatedPlayer.State == VlcMediaState.Playing)
             {
                 AssociatedPlayer.Pause();
             }
-            else if (AssociatedPlayer.State == Meta.Vlc.Interop.Media.MediaState.Stopped
-                || AssociatedPlayer.State == Meta.Vlc.Interop.Media.MediaState.Ended
-                || AssociatedPlayer.State == Meta.Vlc.Interop.Media.MediaState.NothingSpecial)
+            else if (AssociatedPlayer.State == VlcMediaState.Stopped
+                || AssociatedPlayer.State == VlcMediaState.Ended
+                || AssociatedPlayer.State == VlcMediaState.NothingSpecial)
             {
                 AssociatedPlayer.Play();
             }
-            else if (AssociatedPlayer.State == Meta.Vlc.Interop.Media.MediaState.Paused)
+            else if (AssociatedPlayer.State == VlcMediaState.Paused)
             {
                 AssociatedPlayer.Resume();
             }

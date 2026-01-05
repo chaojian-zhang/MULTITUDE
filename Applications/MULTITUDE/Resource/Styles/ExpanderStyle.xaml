@@ -154,7 +154,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
-                            <Setter TargetName="ContentRow" Property="Height" Value="{Binding DesiredHeight, ElementName=Content}" />
+                            <Setter TargetName="ContentRow" Property="Height" Value="{Binding DesiredSize.Height, ElementName=Content}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -7,6 +7,7 @@
         xmlns:cs="clr-namespace:MULTITUDE.CustomControl.CanvasSpaces"
         xmlns:cc="clr-namespace:MULTITUDE.CustomControl"
         xmlns:com="clr-namespace:MULTITUDE.CustomControl.Components"
+        xmlns:placeholder="clr-namespace:MULTITUDE.Placeholders"
         mc:Ignorable="d" 
         Title="Media Player" Closing="Window_Closing" Closed="Window_Closed"
         d:DesignWidth="1366" d:DesignHeight="768" 
@@ -20,7 +21,7 @@
         </Grid.Background>
         <!-- Default setting is for music playback -->
         <!-- Background: Shared Player -->
-        <wpf:VlcPlayer xmlns:wpf="clr-namespace:Meta.Vlc.Wpf;assembly=Meta.Vlc.Wpf" x:Name="vlcPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Visibility="Collapsed"/>
+        <placeholder:VlcPlayer x:Name="vlcPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Visibility="Collapsed"/>
         <!-- MidGround: Music and Sound Related -->
         <ItemsControl x:Name="MusicLyricListBox" MouseMove="MusicLyricListBox_MouseMove" Visibility="Visible">
 

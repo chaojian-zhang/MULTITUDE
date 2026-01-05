@@ -25,8 +25,8 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using MULTITUDE.CustomControl.CanvasSpaceWindow;
 using System.Windows.Media.Animation;
-using Meta.Vlc.Wpf;
 using MULTITUDE.CustomControl.DocumentIcons;
+using MULTITUDE.Placeholders;
 
 namespace MULTITUDE.Canvas
 {
@@ -422,7 +422,6 @@ namespace MULTITUDE.Canvas
 
                 // Release non-managed resources
                 vlcPlayer.Dispose();
-                Meta.Vlc.Wpf.ApiManager.ReleaseAll();
             }
         }
         #endregion
@@ -470,7 +469,7 @@ namespace MULTITUDE.Canvas
 
         public void RestoreCanvasSpace()
         {
-            if(vlcPlayer.State == Meta.Vlc.Interop.Media.MediaState.Paused && bShowCanvasSpacePauseReason == true)
+            if (vlcPlayer.State == VlcMediaState.Paused && bShowCanvasSpacePauseReason == true)
             {
                 vlcPlayer.Resume();
                 bShowCanvasSpacePauseReason = false;
@@ -1715,9 +1714,7 @@ namespace MULTITUDE.Canvas
             if (foundDocuments != null && foundDocuments.Count > 0)
             {
                 foreach (Document doc in foundDocuments)
-                {
                     BackgroundPlayMediaFilesLocation.Add(doc.Path);
-                }
             }
             else BackgroundPlayMediaFilesLocation.Clear();
             CurrentPlayBackgroundMedia = BackgroundPlayMediaFilesLocation.GetEnumerator();
@@ -1730,9 +1727,9 @@ namespace MULTITUDE.Canvas
         {
             return vlcPlayer;
         }
-        private void VlcPlayer_StateChanged(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
+        private void VlcPlayer_StateChanged(object sender, VlcEventArgs e)
         {
-            if(e.Value == Meta.Vlc.Interop.Media.MediaState.Ended)
+            if (e.Value == VlcMediaState.Ended)
             {
                 // Schedule next play
                 backgroundMediaRestartTimer.Start();

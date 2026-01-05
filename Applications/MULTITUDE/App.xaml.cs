@@ -92,16 +92,30 @@ namespace MULTITUDE
         #endregion
 
         #region Event Handling
-        internal void NewStartRequest(ReadOnlyCollection<string> commandLine)
+        public void NewStartRequest(IEnumerable<string> args)
         {
-            throw new NotImplementedException();
+            // Bring window to front, open file, etc.
+            // Example:
+            var main = Current.MainWindow;
+            if (main != null)
+            {
+                if (main.WindowState == WindowState.Minimized)
+                    main.WindowState = WindowState.Normal;
+
+                main.Activate();
+                main.Topmost = true;  // optional
+                main.Topmost = false; // optional
+                main.Focus();
+            }
+
+            // Use args as needed...
         }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             // See whether we are open from file/folder directly
-            string[] activationData = AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null ? AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData : null;
+            string[] activationData = [];//AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null ? AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData : null;
             string homeLocation = string.Empty;
             if(activationData != null && activationData.Length > 0) 
             {

@@ -16,7 +16,7 @@ using System.Net;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace MULTITUDE
+namespace NotyPC
 {
     /// <summary>
     /// Interaction logic for DownloadWindow.xaml

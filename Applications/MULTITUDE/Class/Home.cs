@@ -852,7 +852,9 @@ namespace MULTITUDE.Class
             {
                 // Load serialized data
                 Stream fileStream = File.OpenRead(homeFile);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 BinaryFormatter deserializer = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Home home = (Home)deserializer.Deserialize(fileStream);
                 // b = (Home)deserializer.Deserialize(fileStream);
                 // c = (List<TestClass>)deserializer.Deserialize(fileStream);
@@ -908,7 +910,9 @@ namespace MULTITUDE.Class
         private void Save()
         {
             Stream fileStream = File.Create(System.IO.Path.Combine(Location, HomeDataFileName));
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
             BinaryFormatter serializer = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
             serializer.Serialize(fileStream, this);
             // serializer.Serialize(TestFileStream, b);
             // serializer.Serialize(TestFileStream, c);

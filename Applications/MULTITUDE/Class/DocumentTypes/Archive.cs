@@ -110,7 +110,9 @@ namespace MULTITUDE.Class.DocumentTypes
             {
                 // Save data into a file
                 Stream fileStream = File.Create(Path);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 BinaryFormatter serializer = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 serializer.Serialize(fileStream, Roots);
                 fileStream.Close();
 
@@ -124,7 +126,9 @@ namespace MULTITUDE.Class.DocumentTypes
             {
                 // Load from a file
                 Stream fileStream = File.OpenRead(Path);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
                 BinaryFormatter deserializer = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Roots = (List<ArchiveNode>)deserializer.Deserialize(fileStream);
                 fileStream.Close();
 

@@ -37,7 +37,7 @@ namespace Airi.TheSystem.Memory
             StreamReader reader;
             // try
             {
-                reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(Airi.Properties.Resources.PatternDefinitionPath));
+                reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(Properties.PatternDefinitionPath));
                 if(reader != null)
                 {
                     string fileContent = reader.ReadToEnd();

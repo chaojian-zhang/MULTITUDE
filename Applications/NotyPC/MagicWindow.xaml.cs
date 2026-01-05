@@ -14,7 +14,7 @@ using UnManaged;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace MULTITUDE
+namespace NotyPC
 {
     // Notice in this window QuickMatch isn't used for specific QuickMatch folders and as a matter of fact we don't even recognize it, but used for searching
     public partial class MagicWindow : Window
@@ -102,12 +102,12 @@ namespace MULTITUDE
 
             if (!double.IsInfinity(caretLocation.X))
             {
-                Canvas.SetLeft(Caret, caretLocation.X);
+                System.Windows.Controls.Canvas.SetLeft(Caret, caretLocation.X);
             }
 
             if (!double.IsInfinity(caretLocation.Y))
             {
-                Canvas.SetTop(Caret, caretLocation.Y);
+                System.Windows.Controls.Canvas.SetTop(Caret, caretLocation.Y);
             }
         }
 

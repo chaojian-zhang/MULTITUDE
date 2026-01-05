@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 // A bunch of other helper comments e.g. how UTF is checed see original archieved version of this code
 
-namespace MULTITUDE
+namespace NotyPC
 {
     /// <summary>
     /// Interaction logic for UploadWindow.xaml

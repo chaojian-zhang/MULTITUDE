@@ -27,7 +27,7 @@ using System.Diagnostics;
  * 5. UI design, animation, and window communication is really a serious problem and non-trivial task
  */
 
-namespace MULTITUDE
+namespace NotyPC
 {
     /// <summary>
     /// Interaction logic for App.xaml

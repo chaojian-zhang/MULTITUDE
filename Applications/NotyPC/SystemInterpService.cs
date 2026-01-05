@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MULTITUDE
+namespace NotyPC
 {
     class SystemInterpService
     {
