@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 
@@ -49,8 +47,8 @@ namespace Airi.TheSystem.Perception
         }
 
         // Voice engine components
-        private SpeechRecognitionEngine SpeechRecEngine = new SpeechRecognitionEngine();
-        SpeechSynthesizer SpeechSynthesizer = new SpeechSynthesizer();
+        private SpeechRecognitionEngine SpeechRecEngine = new();
+        SpeechSynthesizer SpeechSynthesizer = new();
 
         // Envent Handling
         Grammar newGrammar = null;
@@ -96,11 +94,11 @@ namespace Airi.TheSystem.Perception
         {
             // Create a new grammar for the engine
             /// Gramar defines how speeches are defined
-            Choices elements = new Choices();
+            Choices elements = new();
             elements.Add(choices.ToArray());
-            GrammarBuilder builder = new GrammarBuilder(); // Interface for setting up speech engine
+            GrammarBuilder builder = new(); // Interface for setting up speech engine
             builder.Append(elements);
-            Grammar grammar = new Grammar(builder);
+            Grammar grammar = new(builder);
             grammar.Name = "Commands";
 
             // Setup engine
@@ -122,11 +120,11 @@ namespace Airi.TheSystem.Perception
         {
             // Create a new grammar for the engine
             /// Gramar defines how speeches are defined
-            Choices commands = new Choices();
+            Choices commands = new();
             commands.Add(choices.ToArray());
-            GrammarBuilder builder = new GrammarBuilder(); // Interface for setting up speech engine
+            GrammarBuilder builder = new(); // Interface for setting up speech engine
             builder.Append(commands);
-            Grammar grammar = new Grammar(builder);
+            Grammar grammar = new(builder);
             grammar.Name = "Commands";
 
             // Setup engine
@@ -167,7 +165,7 @@ namespace Airi.TheSystem.Perception
         // Utilize PromptRate, PromptVolume, PromptEmphasis, Voice, and Pause(break) when appropriate, according to sentence structure, tone, phrase type (Content type, SayAa()) and other information
         public void BuildSpeech(List<Tuple<string, SpeechTone>> sentences)
         {
-            PromptBuilder builder = new PromptBuilder();
+            PromptBuilder builder = new();
             builder.StartVoice(VoiceGender.Female, VoiceAge.Adult);
 
             foreach (Tuple<string, SpeechTone> sentence in sentences)

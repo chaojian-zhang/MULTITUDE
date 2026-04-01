@@ -14,8 +14,8 @@ namespace MULTITUDE.Class.Facility
     static class NetworkHelper
     {
         #region Email Service
-        private static MailAddress fromAddress = new MailAddress("mailagent@totalimagine.com", "TI Mail Agent");
-        private static MailAddress toAddress = new MailAddress("contact@totalimagine.com", "User Service");
+        private static MailAddress fromAddress = new("mailagent@totalimagine.com", "TI Mail Agent");
+        private static MailAddress toAddress = new("contact@totalimagine.com", "User Service");
         private const string fromPassword = "123!Qw23";
         static bool bSendingMessage = false;
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
@@ -68,7 +68,7 @@ namespace MULTITUDE.Class.Facility
             }
             string body = Message;
 
-            using (SmtpClient smtp = new SmtpClient
+            using (SmtpClient smtp = new()
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
@@ -77,7 +77,7 @@ namespace MULTITUDE.Class.Facility
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             })
-            using (MailMessage message = new MailMessage(fromAddress, toAddress)
+            using (MailMessage message = new(fromAddress, toAddress)
             {
                 Subject = subject,
                 Body = body
@@ -111,7 +111,7 @@ namespace MULTITUDE.Class.Facility
             }
             string body = Message;
 
-            SmtpClient smtp = new SmtpClient
+            SmtpClient smtp = new()
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
@@ -120,7 +120,7 @@ namespace MULTITUDE.Class.Facility
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
             };
-            MailMessage message = new MailMessage(fromAddress, toAddress)
+            MailMessage message = new(fromAddress, toAddress)
             {
                 Subject = subject,
                 Body = body

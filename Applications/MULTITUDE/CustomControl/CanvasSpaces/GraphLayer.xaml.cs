@@ -7,17 +7,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl.CanvasSpaces
 {
@@ -100,7 +94,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
                 case NodeType.Link:
                     return Home.Current.GetDocument(Node.LinkGUID).IsValueAnywherePresent(searchString.ToLower());
                 case NodeType.RichFlowText:
-                    TextRange range = new TextRange(Node._MDDocument.ContentStart, Node._MDDocument.ContentEnd);
+                    TextRange range = new(Node._MDDocument.ContentStart, Node._MDDocument.ContentEnd);
                     return range.Text.ToLower().Contains(searchString.ToLower());
                 case NodeType.Jumper:
                     return Node.Ref.View.Contains(searchString);
@@ -120,7 +114,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
                     case NodeType.Link:
                         return string.Format("[{0}] {1}", Node.Type.ToString(), Home.Current.GetDocument(Node.LinkGUID).ShortDescription);
                     case NodeType.RichFlowText:
-                        TextRange range = new TextRange(Node._MDDocument.ContentStart, Node._MDDocument.ContentEnd);
+                        TextRange range = new(Node._MDDocument.ContentStart, Node._MDDocument.ContentEnd);
                         return string.Format("[{0}] {1}...", Node.Type.ToString(), range.Text.Substring(0, 20 < range.Text.Length ? 20 : range.Text.Length));
                     case NodeType.Jumper:
                         return string.Format("[{0}] To: {1}", Node.Type.ToString(), Node.Ref.View.Description);
@@ -205,7 +199,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             foreach (GraphNode node in nodes)
             {
                 // Create Node
-                GraphNodeView newNode = new GraphNodeView(node, this);
+                GraphNodeView newNode = new(node, this);
                 Nodes.Add(newNode);
                 // Add UI
                 if (node.Type == NodeType.Link && Home.Current.IsDocumentOfType(node.LinkGUID,DocumentType.ImagePlus) == true) GraphLayerImageCanvas.Children.Add(newNode.VisualElement);
@@ -225,8 +219,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             foreach (GraphConnection connection in connections)
             {
                 // Create
-                LineGeometry line = new LineGeometry();
-                GraphNodeConnection newConnection = new GraphNodeConnection(connection.NodeA.View, connection.NodeB.View, line);
+                LineGeometry line = new();
+                GraphNodeConnection newConnection = new(connection.NodeA.View, connection.NodeB.View, line);
                 Connections.Add(newConnection);
                 // Update
                 UpdateLine(newConnection);
@@ -244,6 +238,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         // Should be called during closing
         public void SaveGraphData()
         {
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
             // Overriding existing doc
             Graph.SaveData(Nodes, Connections, Bookmarks);
             // Close popups if not already done so
@@ -267,9 +263,9 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         internal void CreateNewLine(GraphNodeView start, GraphNodeView end)
         {
             // Create
-            LineGeometry line = new LineGeometry();
+            LineGeometry line = new();
             Connectors.Children.Add(line);
-            GraphNodeConnection newConnection = new GraphNodeConnection(start, end, line);
+            GraphNodeConnection newConnection = new(start, end, line);
             Connections.Add(newConnection);
 
             // Update
@@ -542,7 +538,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             // Destination Scale
             double destScale = Math.Max(0.1, Math.Min(GraphLayerGrid.ActualWidth / (xmax - xmin), GraphLayerGrid.ActualHeight / (ymax - ymin)));
             if (destScale > 1) destScale = 1;    // Do not zoom too in
-            Point trans = new Point((xmax + xmin) / 2 * destScale, (ymax + ymin) / 2 * destScale);
+            Point trans = new((xmax + xmin) / 2 * destScale, (ymax + ymin) / 2 * destScale);
             // Zoom to
             CanvasScale.ScaleX = CanvasScale.ScaleY = destScale;
             CanvasTranslation.X = GraphLayerGrid.ActualWidth / 2 - trans.X;
@@ -702,7 +698,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             Nodes.Remove(node);
 
             // Delete Connections
-            List<GraphNodeConnection> toRemove = new List<GraphNodeConnection>();
+            List<GraphNodeConnection> toRemove = new();
             foreach (GraphNodeConnection item in Connections)
             {
                 if (item.Start == node || item.End == node) toRemove.Add(item);
@@ -732,7 +728,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         }
         private void DeleteSelections()
         {
-            List<GraphNodeView> toRemove = new List<GraphNodeView>(SelectedNodes);
+            List<GraphNodeView> toRemove = new(SelectedNodes);
             SelectedNodes.Clear();
             foreach (GraphNodeView item in toRemove)
             {
@@ -745,7 +741,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         private void CreateTextNodeAtCanvasLocation(Point location)
         {
             // Create Node
-            GraphNodeView newNode = new GraphNodeView(NodeType.SimpleText, location, this);
+            GraphNodeView newNode = new(NodeType.SimpleText, location, this);
             Nodes.Add(newNode);
             // Selete Node
             UnselectAll();
@@ -756,7 +752,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         private void CreateRichTextNodeAtCanvasLocation(Point location)
         {
             // Create Node
-            GraphNodeView newNode = new GraphNodeView(NodeType.RichFlowText, location, this);
+            GraphNodeView newNode = new(NodeType.RichFlowText, location, this);
             Nodes.Add(newNode);
             // Selete Node
             UnselectAll();
@@ -767,7 +763,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         private void CreateReferenceNodeAtCanvasLocation(Point location, Document doc, string searchString)
         {
             // Create Node
-            GraphNodeView newNode = new GraphNodeView(doc, searchString, location, this);
+            GraphNodeView newNode = new(doc, searchString, location, this);
             Nodes.Add(newNode);
             // Selete Node
             UnselectAll();
@@ -782,7 +778,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         private void CreateJumperNodeAtCanvasLocation(Point location, GraphNodeView refNode)
         {
             // Create Node
-            GraphNodeView newNode = new GraphNodeView(refNode, location, this);
+            GraphNodeView newNode = new(refNode, location, this);
             Nodes.Add(newNode);
             // Selete Node
             UnselectAll();
@@ -918,7 +914,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             if (e.LeftButton == MouseButtonState.Pressed && listBox.SelectedItem != null)
             {
                 // Package the data.
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(GraphNodeView.DragDropFormatString, listBox.SelectedItem);
 
                 // Inititate the drag-and-drop operation.
@@ -999,7 +995,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
         #region Content Search
         int CurrentFoundNodeIndex = 0;
         string SearchString;
-        List<GraphNodeView> FoundNodes = new List<GraphNodeView>();
+        List<GraphNodeView> FoundNodes = new();
         private void SearchTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
@@ -1107,18 +1103,18 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             // Select Nodes using drag area
             if (DragArea.Width != 0 && DragArea.Height != 0)
             {
-                Point dragAreaLocation = new Point(System.Windows.Controls.Canvas.GetLeft(DragArea), System.Windows.Controls.Canvas.GetTop(DragArea));
+                Point dragAreaLocation = new(System.Windows.Controls.Canvas.GetLeft(DragArea), System.Windows.Controls.Canvas.GetTop(DragArea));
                 // Convert drag area rect to GraphLayerCanvas space
-                Rect dragArearect = new Rect(dragAreaLocation.X, dragAreaLocation.Y, DragArea.ActualWidth, DragArea.ActualHeight);
+                Rect dragArearect = new(dragAreaLocation.X, dragAreaLocation.Y, DragArea.ActualWidth, DragArea.ActualHeight);
 
                 // Add to new selection
-                List<GraphNodeView> intersectNodes = new List<GraphNodeView>();
+                List<GraphNodeView> intersectNodes = new();
                 foreach (GraphNodeView item in Nodes)
                 {
                     FrameworkElement view = item.VisualElement;
 
                     Point nodeLocation = view.TransformToVisual(GraphLayerGrid).Transform(new Point(0, 0));
-                    Rect nodeRect = new Rect(nodeLocation.X, nodeLocation.Y, view.ActualWidth * CanvasScale.ScaleX, view.ActualHeight * CanvasScale.ScaleX);  // Notice RenderSize is calculated only for the visual itself's render transform, not after its parents
+                    Rect nodeRect = new(nodeLocation.X, nodeLocation.Y, view.ActualWidth * CanvasScale.ScaleX, view.ActualHeight * CanvasScale.ScaleX);  // Notice RenderSize is calculated only for the visual itself's render transform, not after its parents
                     if (dragArearect.Contains(nodeRect))
                     {
                         intersectNodes.Add(item);

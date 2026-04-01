@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.IO;
 
 namespace MULTITUDE.Dialog
@@ -99,7 +90,7 @@ namespace MULTITUDE.Dialog
         private void GenerateAndAddButtons(string displayText, string fullText, DirectoryInfo dir)
         {
             // Generate a new button
-            Button newButton = new Button();
+            Button newButton = new();
             newButton.Content = displayText;
             newButton.ToolTip = fullText;
             newButton.Style  = (Style)this.FindResource("CircularFolderButton");

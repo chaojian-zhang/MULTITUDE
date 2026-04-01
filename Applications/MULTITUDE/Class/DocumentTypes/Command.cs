@@ -1,10 +1,6 @@
 ﻿using MULTITUDE.Class.Facility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.DocumentTypes
 {
@@ -75,7 +71,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             else if (MULTITUDE.Class.Facility.StringHelper.ExtensionContains(Extensions, file.Extension))
             {
-                Command newCommand = new Command(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                Command newCommand = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
                 return newCommand;
             }
             else

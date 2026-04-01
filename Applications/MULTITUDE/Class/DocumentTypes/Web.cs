@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.DocumentTypes
 {
@@ -59,7 +55,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             else if(MULTITUDE.Class.Facility.StringHelper.ExtensionContains(Extensions, file.Extension))
             {
-                Web newWeb = new Web(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                Web newWeb = new(file.FullName, System.IO.Path.GetFileNameWithoutExtension(file.Name));
                 return newWeb;
             }
             else

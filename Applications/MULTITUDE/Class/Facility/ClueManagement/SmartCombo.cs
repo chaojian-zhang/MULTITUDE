@@ -1,9 +1,6 @@
 ﻿using MULTITUDE.Class.DocumentTypes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.Facility.ClueManagement
 {
@@ -16,7 +13,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
         {
             Home home = (App.Current as App).CurrentHome;
 
-            List<Clue> results = new List<Clue>();
+            List<Clue> results = new();
 
             // Automatically filter using Document-definged all recognizable formats
             // <Development> Multithread it and it will be very fast
@@ -30,7 +27,7 @@ namespace MULTITUDE.Class.Facility.ClueManagement
 
         static List<Document> GetSatisfyingDocuments(List<Clue> clues)
         {
-            List<Document> results = new List<Document>();
+            List<Document> results = new();
 
             foreach (Clue clue in clues)
             {

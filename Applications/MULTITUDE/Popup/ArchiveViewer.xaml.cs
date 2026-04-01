@@ -2,22 +2,13 @@
 using MULTITUDE.Class.Facility;
 using MULTITUDE.Dialog;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.Popup
 {
@@ -83,13 +74,13 @@ namespace MULTITUDE.Popup
         private void LocationLabel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Open an aura first
-            ModalDialogAura modalAura = new ModalDialogAura(this);
+            ModalDialogAura modalAura = new(this);
             modalAura.Show();
 
             // Open folder browser
             string path = null;
             if (Archive != null) path = Archive.Path;
-            OpenFolderDialog dialog = new OpenFolderDialog(this, path);
+            OpenFolderDialog dialog = new(this, path);
             if (dialog.ShowDialog() == true)
             {
                 LocationText = dialog.ChosenDirectoryPath;

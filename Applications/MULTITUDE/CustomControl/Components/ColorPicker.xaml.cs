@@ -28,7 +28,7 @@ namespace MULTITUDE.CustomControl.Components
         {
             Point position = Mouse.GetPosition(ColorImage);
             BitmapSource image = ColorImage.Source as BitmapSource;
-            CroppedBitmap cb = new CroppedBitmap(image,
+            CroppedBitmap cb = new(image,
                 new Int32Rect((int)(position.X / ColorImage.ActualWidth * image.PixelWidth), (int)(position.Y / ColorImage.ActualHeight * image.PixelHeight), 1, 1));
             byte[] pixels = new byte[4];
             cb.CopyPixels(pixels, 4, 0);
@@ -62,7 +62,7 @@ namespace MULTITUDE.CustomControl.Components
         {
             Point position = Mouse.GetPosition(ColorImage);
             BitmapSource image = ColorImage.Source as BitmapSource;
-            CroppedBitmap cb = new CroppedBitmap(image,
+            CroppedBitmap cb = new(image,
                 new Int32Rect((int)(position.X / ColorImage.ActualWidth * image.PixelWidth), (int)(position.Y / ColorImage.ActualHeight * image.PixelHeight), 1, 1));
             byte[] pixels = new byte[4];
             cb.CopyPixels(pixels, 4, 0);

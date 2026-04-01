@@ -1,10 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.Facility
 {
@@ -44,7 +41,7 @@ namespace MULTITUDE.Class.Facility
         private const uint SEE_MASK_INVOKEIDLIST = 12;
         public static bool ShowFileProperties(string Filename)  // Filename can be a file or a folder
         {
-            SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+            SHELLEXECUTEINFO info = new();
             info.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(info);
             info.lpVerb = "properties";
             info.lpFile = Filename;
@@ -99,7 +96,7 @@ namespace MULTITUDE.Class.Facility
         // Return short path format of a file name
         private static string ToShortPathName(string longName)
         {
-            StringBuilder s = new StringBuilder(1000);
+            StringBuilder s = new(1000);
             uint iSize = (uint)s.Capacity;
             uint iRet = GetShortPathName(longName, s, iSize);
             return s.ToString();
@@ -116,10 +113,10 @@ namespace MULTITUDE.Class.Facility
 
                 // Create progid subkey
                 string assemblyFullPath = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("/", @"\");
-                StringBuilder sbShellEntry = new StringBuilder();
+                StringBuilder sbShellEntry = new();
                 sbShellEntry.AppendFormat("\"{0}\" \"%1\"", assemblyFullPath);
                 SetValue(Registry.ClassesRoot, progID + @"\shell\open\command", sbShellEntry.ToString());
-                StringBuilder sbDefaultIconEntry = new StringBuilder();
+                StringBuilder sbDefaultIconEntry = new();
                 sbDefaultIconEntry.AppendFormat("\"{0}\",0", assemblyFullPath);
                 SetValue(Registry.ClassesRoot, progID + @"\DefaultIcon", sbDefaultIconEntry.ToString());
 

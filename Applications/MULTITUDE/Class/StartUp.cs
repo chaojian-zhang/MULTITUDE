@@ -1,11 +1,9 @@
-﻿using MULTITUDE.Canvas;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.IO.Pipes;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -20,7 +18,7 @@ namespace MULTITUDE.Class
         [STAThread]
         public static void Main(string[] args)
         {
-            using var mutex = new Mutex(initiallyOwned: true, name: MutexName, createdNew: out bool isFirstInstance);
+            using Mutex mutex = new(initiallyOwned: true, name: MutexName, createdNew: out bool isFirstInstance);
 
             if (!isFirstInstance)
             {
@@ -30,11 +28,11 @@ namespace MULTITUDE.Class
             }
 
             // Primary instance: start IPC server.
-            using var cts = new CancellationTokenSource();
+            using CancellationTokenSource cts = new();
             _ = Task.Run(() => PipeServerLoopAsync(cts.Token));
 
             // Start WPF app normally.
-            var app = new App();
+            App app = new();
             app.InitializeComponent();
             app.Startup += (_, __) =>
             {
@@ -51,7 +49,7 @@ namespace MULTITUDE.Class
         {
             try
             {
-                using var client = new NamedPipeClientStream(
+                using NamedPipeClientStream client = new(
                     serverName: ".",
                     pipeName: PipeName,
                     direction: PipeDirection.Out);
@@ -59,8 +57,8 @@ namespace MULTITUDE.Class
                 // quick connect; adjust timeout if desired
                 client.Connect(timeout: 500);
 
-                var payload = JsonSerializer.Serialize(args);
-                var bytes = Encoding.UTF8.GetBytes(payload);
+                string payload = JsonSerializer.Serialize(args);
+                byte[] bytes = Encoding.UTF8.GetBytes(payload);
                 client.Write(bytes, 0, bytes.Length);
                 client.Flush();
             }
@@ -76,7 +74,7 @@ namespace MULTITUDE.Class
             {
                 try
                 {
-                    using var server = new NamedPipeServerStream(
+                    using NamedPipeServerStream server = new(
                         PipeName,
                         PipeDirection.In,
                         maxNumberOfServerInstances: 1,
@@ -85,14 +83,14 @@ namespace MULTITUDE.Class
 
                     await server.WaitForConnectionAsync(token).ConfigureAwait(false);
 
-                    using var ms = new MemoryStream();
-                    var buffer = new byte[4096];
+                    using MemoryStream ms = new();
+                    byte[] buffer = new byte[4096];
                     int read;
                     while ((read = await server.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false)) > 0)
                         ms.Write(buffer, 0, read);
 
-                    var json = Encoding.UTF8.GetString(ms.ToArray());
-                    var args = JsonSerializer.Deserialize<string[]>(json) ?? Array.Empty<string>();
+                    string json = Encoding.UTF8.GetString(ms.ToArray());
+                    string[] args = JsonSerializer.Deserialize<string[]>(json) ?? Array.Empty<string>();
 
                     // Marshal to UI thread and call your handler.
                     Application.Current?.Dispatcher.Invoke(() =>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Airi.TheSystem
+﻿namespace Airi.TheSystem
 {
     internal class Properties
     {

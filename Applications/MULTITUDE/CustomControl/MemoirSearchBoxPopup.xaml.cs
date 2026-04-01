@@ -1,21 +1,13 @@
 ﻿using MULTITUDE.Canvas;
-using MULTITUDE.Class;
 using MULTITUDE.Class.DocumentTypes;
-using MULTITUDE.Class.Facility;
 using MULTITUDE.Class.Facility.ClueManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl
 {
@@ -503,7 +495,7 @@ namespace MULTITUDE.CustomControl
             if (e.LeftButton == MouseButtonState.Pressed && (sender as FrameworkElement).DataContext == DocumentSelectionPane.SelectedItem)
             {
                 // Package the data.
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(Document.DragDropFormatString, (sender as FrameworkElement).DataContext);
 
                 // Inititate the drag-and-drop operation.
@@ -620,7 +612,7 @@ namespace MULTITUDE.CustomControl
                     // Extract meta contraints: #metaname#metaname@metavalue, where for meta section order doesn’t matter
                     if (metaStrings != null)
                     {
-                        List<string> metavaluesList = new List<string>();
+                        List<string> metavaluesList = new();
                         metakeys = metaStrings.Split(new char[] { ' ', '#' }, StringSplitOptions.RemoveEmptyEntries);
                         for (int i = 0; i < metakeys.Length; i++)
                         {

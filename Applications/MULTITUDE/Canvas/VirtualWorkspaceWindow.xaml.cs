@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MULTITUDE.Dialog;
 using MULTITUDE.CustomControl;
 using MULTITUDE.Class.DocumentTypes;
 using MULTITUDE.Class;
-using System.Diagnostics;
 using MULTITUDE.Gadget;
 using MULTITUDE.Class.Facility;
 using MULTITUDE.Popup;
@@ -104,7 +98,7 @@ namespace MULTITUDE.Canvas
             // Reset Interface Elements
             // Reset Batch Operation Panel...
             // Reset User Configuration Contents
-            List<GadgetType> gadgets = new List<GadgetType>();
+            List<GadgetType> gadgets = new();
             foreach (VWGadget gadget in CurrentState.Gadgets)
             {
                 gadgets.Add(gadget.Type);
@@ -148,11 +142,11 @@ namespace MULTITUDE.Canvas
             Storyboard.SetTarget(story, DocumentIconsCanvas);
             story.Begin();
             // Generated animation
-            DoubleAnimation shiftX = new DoubleAnimation();
+            DoubleAnimation shiftX = new();
             shiftX.From = 0;
             shiftX.To = 0;
             shiftX.Duration = new Duration(TimeSpan.Parse("0:0:1"));
-            DoubleAnimation shiftY = new DoubleAnimation();
+            DoubleAnimation shiftY = new();
             shiftY.From = 0;
             shiftY.To = 0;
             shiftY.Duration = new Duration(TimeSpan.Parse("0:0:1"));
@@ -247,14 +241,14 @@ namespace MULTITUDE.Canvas
                 for (int j = 0; j < dimension; j++)
                 {
                     // Preview Creation
-                    ItemsControl newListBox = new ItemsControl();
+                    ItemsControl newListBox = new();
                     newListBox.SetValue(Grid.RowProperty, i);
                     newListBox.SetValue(Grid.ColumnProperty, j);
                     // VW Information
                     VirtualWorkspace activeVW = home.TryGetActiveVW(VirtualWorkspace.RowColToLocation(SpiralVWCoordinateGrid.ColumnDefinitions.Count, i, j));
                     if (activeVW != null)
                     {
-                        ObservableCollection<VWStackTraceView> fancyInformationCollection = new ObservableCollection<VWStackTraceView>();
+                        ObservableCollection<VWStackTraceView> fancyInformationCollection = new();
                         // VW Name
                         fancyInformationCollection.Add(new VWStackTraceView("Subject: " + activeVW.Name));
                         // VW Document Count
@@ -434,7 +428,7 @@ namespace MULTITUDE.Canvas
             if (PrevOpenedConfigDialog == null)
             {
                 // Open a dialog for settings, the dialog isn't modal to make it responsive.
-                UserConfigurationDialog dialog = new UserConfigurationDialog(this);
+                UserConfigurationDialog dialog = new(this);
                 Point position = SettingsButton.PointToScreen(new Point(0d, 0d));
                 dialog.Show();
                 dialog.Left = position.X + SettingsButton.ActualWidth;
@@ -546,7 +540,7 @@ namespace MULTITUDE.Canvas
         private void OpenClueBrowser()
         {
             // Create a view; Or we might want to reuse it because it can get quite heavy
-            MULTITUDE.CustomControl.CanvasSpaceWindow.ClueBrowserWindow space = new CustomControl.CanvasSpaceWindow.ClueBrowserWindow(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.ClueBrowserWindow space = new(this);
             // Show it
             space.Show();
             ShowCanvasSpaceSetup();
@@ -555,7 +549,7 @@ namespace MULTITUDE.Canvas
         }
         private void OpenForgottenUniverse()
         {
-            MULTITUDE.CustomControl.CanvasSpaceWindow.ForgottenUniverseWindow space = new CustomControl.CanvasSpaceWindow.ForgottenUniverseWindow(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.ForgottenUniverseWindow space = new(this);
             // Show it
             space.Show();
             ShowCanvasSpaceSetup();
@@ -563,7 +557,7 @@ namespace MULTITUDE.Canvas
         private void OpenVoidUniverse()
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.VoidUniverseWindow space = new MULTITUDE.CustomControl.CanvasSpaceWindow.VoidUniverseWindow(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.VoidUniverseWindow space = new(this);
             // Show it
             space.Show();
             ShowCanvasSpaceSetup();
@@ -571,7 +565,7 @@ namespace MULTITUDE.Canvas
         private void OpenMarkdownPlusEditor(Document target = null)
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow space = new MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow space = new(this);
             // Show space
             space.Show();
             ShowCanvasSpaceSetup();
@@ -581,7 +575,7 @@ namespace MULTITUDE.Canvas
         private void OpenDelightfulBrowser(Document target = null)
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.DelightfulImageBrowser space = new CustomControl.CanvasSpaceWindow.DelightfulImageBrowser(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.DelightfulImageBrowser space = new(this);
             // Show space
             space.Show();
             ShowCanvasSpaceSetup();
@@ -590,18 +584,18 @@ namespace MULTITUDE.Canvas
         }
         private void OpenArchiveViewer(Document target = null)
         {
-            MULTITUDE.Popup.ArchiveViewer ArchiveViewer = new ArchiveViewer(this, target);
+            MULTITUDE.Popup.ArchiveViewer ArchiveViewer = new(this, target);
             ArchiveViewer.Show();
         }
         private void OpenWebBrowser(string urlOrKeyWord = null)
         {
-            LightWebBrowser browser = new LightWebBrowser(urlOrKeyWord);
+            LightWebBrowser browser = new(urlOrKeyWord);
             browser.Show();
         }
         private void OpenCollectionCreator(Document target = null)
         {
             // Create a view
-            CollectionCreatorWindow creator = new CollectionCreatorWindow(this, target as Archive);
+            CollectionCreatorWindow creator = new(this, target as Archive);
             // Show space
             creator.Show();
             ShowCanvasSpaceSetup();
@@ -609,7 +603,7 @@ namespace MULTITUDE.Canvas
         private void OpenGraphEditor(Document target = null)
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.GraphEditor space = new CustomControl.CanvasSpaceWindow.GraphEditor(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.GraphEditor space = new(this);
             // Show space
             space.Show();
             ShowCanvasSpaceSetup();
@@ -623,7 +617,7 @@ namespace MULTITUDE.Canvas
         private void OpenTableViewer(DataCollection target = null)
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow space = new MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow(this, ContentMode.TableOnly);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.MarkdownPlusEditorWindow space = new(this, ContentMode.TableOnly);
             // Show space
             space.Show();
             ShowCanvasSpaceSetup();
@@ -633,7 +627,7 @@ namespace MULTITUDE.Canvas
         private void OpenMediaPlayer(Document target = null)
         {
             // Create a view
-            MULTITUDE.CustomControl.CanvasSpaceWindow.MediaPlayerWindow space = new CustomControl.CanvasSpaceWindow.MediaPlayerWindow(this);
+            MULTITUDE.CustomControl.CanvasSpaceWindow.MediaPlayerWindow space = new(this);
             // Show
             space.Show();
             ShowCanvasSpaceSetup();
@@ -659,7 +653,7 @@ namespace MULTITUDE.Canvas
                 // Get all targets
                 string[] targets = (string[])e.Data.GetData(DataFormats.FileDrop);
                 // Prompt impot options
-                Popup.FileDropOptionsPanel dialog = new Popup.FileDropOptionsPanel(targets.Length == 1 ? SystemHelper.IsFolder(targets[0]) == true : true, this);
+                Popup.FileDropOptionsPanel dialog = new(targets.Length == 1 ? SystemHelper.IsFolder(targets[0]) == true : true, this);
                 if (dialog.ShowDialog() == true)
                 {
                     // Get user options
@@ -892,7 +886,7 @@ namespace MULTITUDE.Canvas
             CanvasRelativeLocation location = CalculateIconLocation(IconBase.DefaultCanvasIconSize, IconBase.DefaultCanvasIconSize, X, Y);
          
             // Set occupation
-            IconArea occupation = new IconArea(location, IconBase.DefaultCanvasIconSize, IconBase.DefaultCanvasIconSize);
+            IconArea occupation = new(location, IconBase.DefaultCanvasIconSize, IconBase.DefaultCanvasIconSize);
             // Add to current page
             DocumentIcon info = CurrentState.Pages[CurrentState.PageIndex].AddDocument(doc, occupation);
             // Display icons
@@ -945,7 +939,7 @@ namespace MULTITUDE.Canvas
             if (y > DocumentIconsCanvas.ActualHeight - IconBase.DefaultCanvasIconSize) y = y % DocumentIconsCanvas.ActualHeight;
 
             // Generate actual location info
-            CanvasRelativeLocation relativeLocation = new CanvasRelativeLocation();
+            CanvasRelativeLocation relativeLocation = new();
             // Basic infor
             double canvasWidth = DocumentIconsCanvas.ActualWidth;
             double canvasHeight = DocumentIconsCanvas.ActualHeight;
@@ -980,7 +974,7 @@ namespace MULTITUDE.Canvas
         private void DisplayDocumentIcon(Document doc, DocumentIcon info)
         {
             // Generate a new icon
-            IconBase newIcon = new IconBase(doc, info);
+            IconBase newIcon = new(doc, info);
             newIcon.PreviewMouseLeftButtonDown += IconBase_PreviewMouseLeftButtonDown;
             newIcon.MouseLeftButtonDown += IconBase_MouseLeftButtonDown;
             newIcon.MouseUp += IconBase_MouseUp;
@@ -1056,17 +1050,17 @@ namespace MULTITUDE.Canvas
             if (DragArea.Width != 0 && DragArea.Height != 0)
             {
                 Point dragAreaLocation = DragArea.TransformToVisual(DocumentIconsCanvas).Transform(new Point(0, 0));
-                Rect dragArearect = new Rect(dragAreaLocation.X, dragAreaLocation.Y, DragArea.ActualWidth, DragArea.ActualHeight);
+                Rect dragArearect = new(dragAreaLocation.X, dragAreaLocation.Y, DragArea.ActualWidth, DragArea.ActualHeight);
 
                 // Add to new selection
-                List<IconBase> intersectIcons = new List<IconBase>();
+                List<IconBase> intersectIcons = new();
                 foreach (FrameworkElement documentIcon in DocumentIconsCanvas.Children)
                 {
                     IconBase icon = documentIcon as IconBase;
                     if (icon != null)
                     {
                         Point iconLocation = icon.TransformToVisual(DocumentIconsCanvas).Transform(new Point(0, 0));
-                        Rect iconRect = new Rect(iconLocation.X, iconLocation.Y, icon.ActualWidth, icon.ActualHeight);
+                        Rect iconRect = new(iconLocation.X, iconLocation.Y, icon.ActualWidth, icon.ActualHeight);
                         if (dragArearect.Contains(iconRect))
                         {
                             intersectIcons.Add(icon);
@@ -1181,7 +1175,7 @@ namespace MULTITUDE.Canvas
         }
         #endregion
         #region Icon Selection and Highlight
-        private List<IconBase> SelectedIcons = new List<IconBase>();   // Might not contain SelectedIcon
+        private List<IconBase> SelectedIcons = new();   // Might not contain SelectedIcon
         private Point CursorOffset; // For translation
         // Add to current selections
         private void AddOrRemoveSelectIcons(List<IconBase> icons)

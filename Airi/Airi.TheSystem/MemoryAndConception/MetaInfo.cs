@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airi.TheSystem.Meta
+﻿namespace Airi.TheSystem.Meta
 {
     /// <summary>
     /// Secondary level memory constructs that provide designer-specified structural information about things

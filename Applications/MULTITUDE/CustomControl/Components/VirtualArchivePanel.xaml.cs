@@ -3,22 +3,13 @@ using MULTITUDE.Class.DocumentTypes;
 using MULTITUDE.Class.Facility;
 using MULTITUDE.CustomControl.CanvasSpaceWindow;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl.Components
 {
@@ -239,8 +230,8 @@ namespace MULTITUDE.CustomControl.Components
             if (e.LeftButton == MouseButtonState.Pressed && bIsDragging)
             {
                 Point newPosition = e.GetPosition(this.Parent as FrameworkElement);
-                Point prevLocation = new Point((double)this.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)this.GetValue(System.Windows.Controls.Canvas.TopProperty));
-                Point newLocation = new Point(prevLocation.X + newPosition.X - currentPosition.X, prevLocation.Y + newPosition.Y - currentPosition.Y);
+                Point prevLocation = new((double)this.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)this.GetValue(System.Windows.Controls.Canvas.TopProperty));
+                Point newLocation = new(prevLocation.X + newPosition.X - currentPosition.X, prevLocation.Y + newPosition.Y - currentPosition.Y);
                 System.Windows.Controls.Canvas.SetLeft(this, newLocation.X);
                 System.Windows.Controls.Canvas.SetTop(this, newLocation.Y);
 

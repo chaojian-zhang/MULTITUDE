@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MULTITUDE.Class.DocumentTypes;
 using System.Runtime.Serialization;
 using MULTITUDE.Class.Facility;
@@ -195,7 +193,7 @@ namespace MULTITUDE.Class
 
         public DocumentIcon AddDocument(Document doc, IconArea occupation)
         {
-            DocumentIcon info = new DocumentIcon(doc.GUID, occupation);
+            DocumentIcon info = new(doc.GUID, occupation);
             Documents.Add(info);
             return info;
         }
@@ -232,7 +230,7 @@ namespace MULTITUDE.Class
     [Serializable]
     public struct Coordinate
     {
-        public static Coordinate Default = new Coordinate(0,0);
+        public static Coordinate Default = new(0,0);
 
         public Coordinate(int x, int y)
         {
@@ -309,7 +307,7 @@ namespace MULTITUDE.Class
             BackgroundMelodyClue = DefaultBackgroundMelodyClue;
         }
 
-        private static Random rnd = new Random();
+        private static Random rnd = new();
         private static string[] PersudoWorkspaceNames = 
             { "House Work", "Documents", "Musics", "My Projects", "Weekend Arragements", "A Default Workspace", "Arts", "History" };
         private static string GetRandomWorkspaceName()
@@ -361,7 +359,7 @@ namespace MULTITUDE.Class
             // Save data into a file
             Stream fileStream = File.Create(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-            BinaryFormatter serializer = new BinaryFormatter();
+            BinaryFormatter serializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             serializer.Serialize(fileStream, Pages);
             fileStream.Close();
@@ -372,7 +370,7 @@ namespace MULTITUDE.Class
             // Load from a file
             Stream fileStream = File.OpenRead(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-            BinaryFormatter deserializer = new BinaryFormatter();
+            BinaryFormatter deserializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             Pages = (List<Page>)deserializer.Deserialize(fileStream);
             fileStream.Close();
@@ -410,18 +408,18 @@ namespace MULTITUDE.Class
 
         internal ObservableCollection<VWStackTraceView> GetStackTrace()
         {
-            ObservableCollection<VWStackTraceView> newList = new ObservableCollection<VWStackTraceView>();
+            ObservableCollection<VWStackTraceView> newList = new();
             // Add self if we have any children
             if (OpenedVWTrace.Count != 0)
             {
-                VWStackTraceView view = new VWStackTraceView();
+                VWStackTraceView view = new();
                 view.SetVW(this);
                 newList.Add(view);
             }
             // Iterate and add children
             foreach (VirtualWorkspace vw in OpenedVWTrace)
             {
-                VWStackTraceView view = new VWStackTraceView();
+                VWStackTraceView view = new();
                 view.SetVW(vw);
                 newList.Add(view);
             }

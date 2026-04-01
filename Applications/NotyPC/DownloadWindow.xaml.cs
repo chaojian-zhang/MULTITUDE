@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Net.Http;
-using System.Net;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -35,12 +25,12 @@ namespace NotyPC
             StatusLabel.Content = "Loading...";
 
             // Send Request and Get Content
-            FormUrlEncodedContent postContent = new FormUrlEncodedContent(new[]
+            FormUrlEncodedContent postContent = new(new[]
             {
                 new KeyValuePair<string, string>("username", App.username),
                 new KeyValuePair<string, string>("password", App.password)
             });
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             HttpResponseMessage response = await client.PostAsync(App.RESTServiceAddress, postContent);
 
             string responseString = response.Content.ReadAsStringAsync().Result;
@@ -65,7 +55,7 @@ namespace NotyPC
                 CleanupFolders(JTempRootFolder);
 
                 // Update View
-                List<JFolder> Roots = new List<JFolder>();
+                List<JFolder> Roots = new();
                 Roots.Add(JTempRootFolder);
                 ChangesList.ItemsSource = Roots;
             }

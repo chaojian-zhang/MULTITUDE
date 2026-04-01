@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Airi.TheSystem.Syntax;
-using Airi.TheSystem.Instruction;
 using System.Reflection;
 
 namespace Airi.TheSystem.Memory
@@ -101,7 +98,7 @@ namespace Airi.TheSystem.Memory
         // Interaction Interface: Find which patterns a given sentence matches (Ideally any sentence matches only one pattern because we require EXACT match but designers can make mistakes so we return all matches)
         public List<PatternInstance> FindMatchPatterns(string sentence)
         {
-            List<PatternInstance> matchedPatterns = new List<PatternInstance>();
+            List<PatternInstance> matchedPatterns = new();
 
             foreach (KeyValuePair<string, Pattern> entry in RecognizedPatterns)
             {
@@ -219,7 +216,7 @@ namespace Airi.TheSystem.Memory
                     actionName = patternString.Substring(actionIndex + 3).Replace(" ", String.Empty);
                     patternString = patternString.Substring(0, actionIndex);
                 }
-                Pattern newPattern = new Pattern(patternName, actionName);
+                Pattern newPattern = new(patternName, actionName);
                 // Get remaining string
                 patternString = patternString.Substring(patternString.LastIndexOf(':') + 1).Replace('\t', ' ');
 
@@ -423,7 +420,7 @@ namespace Airi.TheSystem.Memory
                         }
                         else
                         {
-                            PatternElement element = new PatternElement(PatternElementType.SpecificWord, patternString.Substring(location - characterCounter, characterCounter), false);
+                            PatternElement element = new(PatternElementType.SpecificWord, patternString.Substring(location - characterCounter, characterCounter), false);
                             location--; // Don't consume the location that doesn't belong to us
                             return element;
                         }
@@ -490,7 +487,7 @@ namespace Airi.TheSystem.Memory
                             }
                             else
                             {
-                                PatternElement element = new PatternElement(PatternElementType.VarietyWord, patternString.Substring(location - characterCounter, characterCounter), bInOptionalScope && !bInChoiceScope);
+                                PatternElement element = new(PatternElementType.VarietyWord, patternString.Substring(location - characterCounter, characterCounter), bInOptionalScope && !bInChoiceScope);
                                 location--; // Don't consume the location that doesn't belong to us
                                 return element;
                             }
@@ -763,7 +760,7 @@ namespace Airi.TheSystem.Memory
                         }
                         else
                         {
-                            PatternElement element = new PatternElement(PatternElementType.Tag, patternString.Substring(location - characterCounter, characterCounter), false);
+                            PatternElement element = new(PatternElementType.Tag, patternString.Substring(location - characterCounter, characterCounter), false);
                             location--;
                             return element;
                         }
@@ -809,7 +806,7 @@ namespace Airi.TheSystem.Memory
                         }
                         else
                         {
-                            PatternElement element = new PatternElement(PatternElementType.CategoryInclude, patternString.Substring(location - characterCounter, characterCounter), false);
+                            PatternElement element = new(PatternElementType.CategoryInclude, patternString.Substring(location - characterCounter, characterCounter), false);
                             location--;  // Don't consume the location that doesn't belong to us
                             return element;
                         }
@@ -849,7 +846,7 @@ namespace Airi.TheSystem.Memory
                     if (bInOptionalScope && !bInChoiceScope) throw new InvalidPatternStringException(string.Format("Invalid unknown phrase definition {0} at index {1} of pattern string \"{2}\": unbalanced () scope", patternString.Substring(location - characterCounter, characterCounter), location, patternString));
                     if (characterCounter == 3)
                     {
-                        PatternElement element = new PatternElement(PatternElementType.UnknownPhrase, "???", false);
+                        PatternElement element = new(PatternElementType.UnknownPhrase, "???", false);
                         if (!(location == patternString.Length - 1)) location--;    // Don't consume what doesn't belong to us
                         return element;
                     }
@@ -902,7 +899,7 @@ namespace Airi.TheSystem.Memory
                         }
                         else
                         {
-                            PatternElement element = new PatternElement(PatternElementType.CategoryExclude, patternString.Substring(location - characterCounter, characterCounter), false);
+                            PatternElement element = new(PatternElementType.CategoryExclude, patternString.Substring(location - characterCounter, characterCounter), false);
                             location--;    // Don't consume what doesn't belong to us
                             return element;
                         }

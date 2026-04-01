@@ -2,25 +2,15 @@
 using MULTITUDE.Class.DocumentTypes;
 using MULTITUDE.Class.Facility;
 using MULTITUDE.Class.Facility.ClueManagement;
-using MULTITUDE.Dialog;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl.CanvasSpaces
 {
@@ -108,7 +98,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
 
         private List<PrimaryClueInfo> SearchMatchingClue(string text)
         {
-            List<PrimaryClueInfo> found = new List<PrimaryClueInfo>();
+            List<PrimaryClueInfo> found = new();
             foreach (PrimaryClueInfo info in PrimaryClues)
             {
                 found.AddRange(info.Match(text));
@@ -250,7 +240,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             if (box != null && e.LeftButton == MouseButtonState.Pressed && box.SelectedItem != null)
             {
                 // Package the data
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(Document.DragDropFormatString, box.SelectedItem);
 
                 // Inititate the drag-and-drop operation.
@@ -265,7 +255,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             if (view != null && e.LeftButton == MouseButtonState.Pressed && view.SelectedItem != null)
             {
                 // Package the data
-                DataObject data = new DataObject();
+                DataObject data = new();
                 data.SetData(DataFormats.Text, (view.SelectedItem as PrimaryClueInfo).Name);
 
                 // Inititate the drag-and-drop operation.
@@ -365,8 +355,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
 
         private void FinishEditing(string oldClueString, string newClueString)
         {
-            Clue oldClue = new Clue(oldClueString);
-            Clue newClue = new Clue(newClueString);
+            Clue oldClue = new(oldClueString);
+            Clue newClue = new(newClueString);
 
             // Save Change
             List<Document> affectedDocuments = ClueManager.Manager.ChangeClue(oldClue, newClue);
@@ -384,8 +374,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
             if (CluesListBox.SelectedItem == null) return;
 
             PrimaryClueInfo info = CluesListBox.SelectedItem as PrimaryClueInfo;
-            Clue oldClue = new Clue(info.Name);
-            Clue newAlias = new Clue(AliasMemoirBar.SearchTextBox.Text);
+            Clue oldClue = new(info.Name);
+            Clue newAlias = new(AliasMemoirBar.SearchTextBox.Text);
 
             List<Document> affectedDocuments = ClueManager.Manager.AddClueAlias(oldClue, newAlias);
             foreach (Document doc in affectedDocuments)
@@ -455,7 +445,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaces
 
         private void EasyImportButton_Click(object sender, RoutedEventArgs e)
         {
-            Dialog.EasyImportDialog dialog = new Dialog.EasyImportDialog();
+            Dialog.EasyImportDialog dialog = new();
             // Aura
             // ...
             if (dialog.ShowDialog() == true)

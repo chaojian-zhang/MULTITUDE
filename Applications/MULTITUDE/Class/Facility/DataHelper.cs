@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.Facility
 {
     [Serializable]
     class MultiDict<TKey, TValue> // no (collection) base class
     {
-        private Dictionary<TKey, List<TValue>> _data = new Dictionary<TKey, List<TValue>>();
+        private Dictionary<TKey, List<TValue>> _data = new();
         public Dictionary<TKey, List<TValue>> Data { get { return _data; } }
 
         public void Add(TKey k, TValue v)
@@ -55,7 +52,7 @@ namespace MULTITUDE.Class.Facility
     [Serializable]
     class MultiDictSet<TKey, TValue> // no (collection) base class
     {
-        private Dictionary<TKey, HashSet<TValue>> _data = new Dictionary<TKey, HashSet<TValue>>();
+        private Dictionary<TKey, HashSet<TValue>> _data = new();
         public Dictionary<TKey, HashSet<TValue>> Data { get { return _data; } }
 
         public void Add(TKey k, TValue v)

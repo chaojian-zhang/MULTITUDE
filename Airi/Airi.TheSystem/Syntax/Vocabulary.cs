@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airi.TheSystem.Syntax
 {
@@ -42,7 +41,7 @@ namespace Airi.TheSystem.Syntax
             Categories = new Dictionary<string, Category>();
 
             // <Debug> Timing
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
             int nItems = 0;
 
             // <Improvement> For exact definitions/abstracts we might consider not loading these before hand but develope a mechnism (e.g. record line number, or byte offset into the file) for query per need to save memory
@@ -195,7 +194,7 @@ namespace Airi.TheSystem.Syntax
 
             // <Debug> Timing
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
+            long elapsedMs = watch.ElapsedMilliseconds;
             System.Console.WriteLine("Parsing took: " + elapsedMs + "ms for " + nItems + " items.");
         }
 
@@ -562,7 +561,7 @@ namespace Airi.TheSystem.Syntax
         {
             get
             {
-                List<Phrase> temp = new List<Phrase>();
+                List<Phrase> temp = new();
                 foreach (PhraseDefinition definition in Definitions)
                 {
                     if(definition.Forms != null)
@@ -575,7 +574,7 @@ namespace Airi.TheSystem.Syntax
         {
             get
             {
-                List<Phrase> temp = new List<Phrase>();
+                List<Phrase> temp = new();
                 foreach (PhraseDefinition definition in Definitions)
                 {
                     if (definition.Synonyms != null)
@@ -588,7 +587,7 @@ namespace Airi.TheSystem.Syntax
         {
             get
             {
-                List<Phrase> temp = new List<Phrase>();
+                List<Phrase> temp = new();
                 foreach (PhraseDefinition definition in Definitions)
                 {
                     if (definition.Opposites != null)

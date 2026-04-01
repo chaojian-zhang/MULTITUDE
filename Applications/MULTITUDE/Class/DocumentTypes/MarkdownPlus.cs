@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -18,11 +13,11 @@ namespace MULTITUDE.Class.DocumentTypes
     {
         /// Don't use 0 for comparison needs that for failed comparison
         // Predefined Format
-        Title = 1, 
+        Title = 1,
         Heading = 2,
         Table = 4,
         Bullet = 8,
-        Hyperlink = 16, 
+        Hyperlink = 16,
         // Font Style
         Bold = 32,
         Italic = 64,
@@ -56,14 +51,14 @@ namespace MULTITUDE.Class.DocumentTypes
         // Ref: https://stackoverflow.com/questions/729629/sharing-flowdocuments-between-multiple-richtextboxes
         public static FlowDocument CloneDocument(FlowDocument origin)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new())
             {
-                TextRange range = new TextRange(origin.ContentStart, origin.ContentEnd);
+                TextRange range = new(origin.ContentStart, origin.ContentEnd);
                 System.Windows.Markup.XamlWriter.Save(range, stream);   // Xaml Header
                 range.Save(stream, DataFormats.XamlPackage);
 
-                FlowDocument clone = new FlowDocument();
-                TextRange cloneRange = new TextRange(clone.ContentStart, clone.ContentEnd);
+                FlowDocument clone = new();
+                TextRange cloneRange = new(clone.ContentStart, clone.ContentEnd);
                 cloneRange.Load(stream, DataFormats.XamlPackage);
                 return clone;
             }
@@ -78,10 +73,10 @@ namespace MULTITUDE.Class.DocumentTypes
     class MarkdownPlus : Document, ISerializable
     {
         public MarkdownPlus(string path, string metaname)
-            :this(DocumentType.MarkdownPlus, path, metaname, System.DateTime.Now.ToString("MMMM dd, yyyy HHmmss")){ }
+            : this(DocumentType.MarkdownPlus, path, metaname, System.DateTime.Now.ToString("MMMM dd, yyyy HHmmss")) { }
         // A wrapper for underlying base
         public MarkdownPlus(DocumentType type, string path, string metaname, string date)
-            :base(type, path, metaname, date != null? date : MULTITUDE.Class.Facility.SystemHelper.CurrentTimeFileNameFriendly)
+            : base(type, path, metaname, date != null ? date : MULTITUDE.Class.Facility.SystemHelper.CurrentTimeFileNameFriendly)
         { _FlowDocument = new FlowDocument(); DistributedClonesForCurrentFlowDocument = new List<FlowDocument>(); }
 
         // Book keeper
@@ -120,7 +115,7 @@ namespace MULTITUDE.Class.DocumentTypes
             get
             {
                 FlowDocument docuemntClone = GetFlowDocument();
-                TextRange textRange = new TextRange(docuemntClone.ContentStart, docuemntClone.ContentEnd);
+                TextRange textRange = new(docuemntClone.ContentStart, docuemntClone.ContentEnd);
                 return textRange.Text;
             }
         }
@@ -131,7 +126,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
         #region Serialization
         public MarkdownPlus(SerializationInfo info, StreamingContext ctxt)
-            :base(info, ctxt)
+            : base(info, ctxt)
         {
             // Session-only variables
             DistributedClonesForCurrentFlowDocument = new List<FlowDocument>();
@@ -219,11 +214,13 @@ namespace MULTITUDE.Class.DocumentTypes
         // Binary serialization
         protected override void SaveDocument()
         {
-            if(bDirty)
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
+            if (bDirty)
             {
-                using (FileStream file = new FileStream(Path, FileMode.Create, System.IO.FileAccess.Write))
+                using (FileStream file = new(Path, FileMode.Create, System.IO.FileAccess.Write))
                 {
-                    TextRange tRange = new TextRange(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
+                    TextRange tRange = new(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
                     tRange.Save(file, DataFormats.Xaml, false);    // Notice DataFormats.Rtf doesn't preserve paragraph formats
                 }
 
@@ -236,23 +233,23 @@ namespace MULTITUDE.Class.DocumentTypes
             string path = Path;
             if (System.IO.File.Exists(path))
             {
-                using (FileStream file = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                using (FileStream file = new(Path, FileMode.Open, FileAccess.Read))
                 {
                     _FlowDocument = new FlowDocument();
-                    TextRange textRange = new TextRange(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
+                    TextRange textRange = new(_FlowDocument.ContentStart, _FlowDocument.ContentEnd);
                     textRange.Load(file, DataFormats.Xaml);
                 }
-            }           
+            }
         }
 
         public static MarkdownPlus Import(System.IO.FileInfo target)
         {
             if (target.Extension == FileSuffix)
             {
-                MarkdownPlus mdp = new MarkdownPlus(target.FullName, target.Name);  // Notice we have no way to fetch its document name and creation data since that is stored with relavent Home which might not even be present at import time
-                using (FileStream file = new FileStream(target.FullName, FileMode.Open, FileAccess.Read))
+                MarkdownPlus mdp = new(target.FullName, target.Name);  // Notice we have no way to fetch its document name and creation data since that is stored with relavent Home which might not even be present at import time
+                using (FileStream file = new(target.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    TextRange textRange = new TextRange(mdp._FlowDocument.ContentStart, mdp._FlowDocument.ContentEnd);
+                    TextRange textRange = new(mdp._FlowDocument.ContentStart, mdp._FlowDocument.ContentEnd);
                     textRange.Load(file, DataFormats.Xaml);
                 }
                 return mdp;

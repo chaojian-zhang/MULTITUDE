@@ -1,11 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
+﻿using System.IO;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace MULTITUDE.Class.Facility
 {

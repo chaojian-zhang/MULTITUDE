@@ -6,19 +6,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl.CanvasSpaceWindow
 {
@@ -156,8 +148,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
                 if (bw.CancellationPending) return false;
                 try
                 {
-                    BitmapImage newImage = new BitmapImage();
-                    using (var fs = new FileStream(newImages[i].Path, FileMode.Open))
+                    BitmapImage newImage = new();
+                    using (FileStream fs = new(newImages[i].Path, FileMode.Open))
                     {
                         newImage.BeginInit();
                         newImage.StreamSource = fs;

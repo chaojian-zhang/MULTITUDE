@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using MULTITUDE.CustomControl.CanvasSpaces;
@@ -49,7 +47,7 @@ namespace MULTITUDE.Class.DocumentTypes
     /// Simple textual graph nodes
     /// </summary>
     [Serializable]
-    class GraphNode: ISerializable
+    class GraphNode : ISerializable
     {
         #region Constructors
         public GraphNode(string title, GraphNodeView view)
@@ -94,7 +92,7 @@ namespace MULTITUDE.Class.DocumentTypes
                     MDDocument = new FlowDocument();
                     break;
                 case NodeType.Jumper:
-                    throw new InvalidOperationException("Jumper type graph nodes should call another constructor."); 
+                    throw new InvalidOperationException("Jumper type graph nodes should call another constructor.");
             }
             MDDocument = new FlowDocument();
             Ref = null;
@@ -120,7 +118,8 @@ namespace MULTITUDE.Class.DocumentTypes
 
         // Type C
         public FlowDocument _MDDocument;
-        public FlowDocument MDDocument {
+        public FlowDocument MDDocument
+        {
             get
             {
                 if (_MDDocument == null) throw new InvalidOperationException("_MDDocument is null.");
@@ -129,7 +128,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             set
             {
-                if(_MDDocument != value ) _MDDocument = value;
+                if (_MDDocument != value) _MDDocument = value;
             }
         }
 
@@ -160,9 +159,9 @@ namespace MULTITUDE.Class.DocumentTypes
             // Load Document
             MDDocument = new FlowDocument();
             byte[] data = (byte[])info.GetValue("MDDocument", typeof(byte[]));
-            using (MemoryStream stream = new MemoryStream(data))
+            using (MemoryStream stream = new(data))
             {
-                TextRange tRange = new TextRange(_MDDocument.ContentStart, _MDDocument.ContentEnd);
+                TextRange tRange = new(_MDDocument.ContentStart, _MDDocument.ContentEnd);
                 tRange.Load(stream, DataFormats.Xaml);
             }
         }
@@ -179,9 +178,9 @@ namespace MULTITUDE.Class.DocumentTypes
             info.AddValue("OriginalSearchString", OriginalSearchString);
             info.AddValue("Ref", Ref);
             // Save Document
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new())
             {
-                TextRange tRange = new TextRange(_MDDocument.ContentStart, _MDDocument.ContentEnd);
+                TextRange tRange = new(_MDDocument.ContentStart, _MDDocument.ContentEnd);
                 tRange.Save(stream, DataFormats.Xaml, false);
                 info.AddValue("MDDocument", stream.ToArray());
             }
@@ -258,7 +257,7 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             set
             {
-                if(_Data != value) _Data = value;
+                if (_Data != value) _Data = value;
             }
         }
 
@@ -271,7 +270,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
         #region Serialization
         public Graph(SerializationInfo info, StreamingContext ctxt)
-            :base(info, ctxt)
+            : base(info, ctxt)
         {
             // Load properties
             // Nothing to load
@@ -293,12 +292,14 @@ namespace MULTITUDE.Class.DocumentTypes
 
         protected override void SaveDocument()
         {
-            if(bDirty)
+            throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+
+            if (bDirty)
             {
                 // Save data into a file
                 Stream fileStream = File.Create(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter serializer = new BinaryFormatter();
+                BinaryFormatter serializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 serializer.Serialize(fileStream, _Data);
                 fileStream.Close();
@@ -312,7 +313,7 @@ namespace MULTITUDE.Class.DocumentTypes
             // Load from a file
             Stream fileStream = File.OpenRead(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-            BinaryFormatter deserializer = new BinaryFormatter();
+            BinaryFormatter deserializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
             _Data = (GraphData)deserializer.Deserialize(fileStream);
             fileStream.Close();

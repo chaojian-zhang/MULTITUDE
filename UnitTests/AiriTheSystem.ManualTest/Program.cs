@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Airi.TheSystem;
 using System.IO;
-using Airi.TheSystem.Memory;
 
 namespace AiriTheSystemTest
 {
@@ -33,7 +29,7 @@ namespace AiriTheSystemTest
             string storyContent = File.ReadAllText(filePath);
 
             // Create a new Airi System
-            TheSystem Airi = new TheSystem();
+            TheSystem Airi = new();
             Airi.ReadStory(storyContent);
 
             // Questions and answers
@@ -47,7 +43,7 @@ namespace AiriTheSystemTest
         private static void VocabularyAndPatternInternalUnitTest()
         {
             // Create a new Airi System
-            TheSystem Airi = new TheSystem();
+            TheSystem Airi = new();
 
             Airi.SpeakNativeUnitTest();
         }
@@ -55,7 +51,7 @@ namespace AiriTheSystemTest
         static void SpeakingTest()
         {
             // Create a new Airi System
-            TheSystem Airi = new TheSystem();
+            TheSystem Airi = new();
             // Airi.Learn(@"H:\P Projects\按项目分类 - 执行和创造用\-- Productions\SIS\AiriTheSystem_Training Materials\冰与火之歌1.txt");
             foreach (string path in Directory.EnumerateFiles(@"H:\P Projects\按项目分类 - 执行和创造用\-- Productions\SIS\AiriTheSystem_Training Materials\Friends"))
             {
@@ -78,7 +74,7 @@ namespace AiriTheSystemTest
         static void VocabularyAndPatternTest()
         {
             // Create a new Airi System
-            TheSystem Airi = new TheSystem();
+            TheSystem Airi = new();
 
             // Don't learn from auxiliary materials, but focus on basic understanding of Airi
             Console.WriteLine("Enter Text to communicate...");
@@ -103,7 +99,7 @@ namespace AiriTheSystemTest
         static void VocabularyAndPatternUnitTest()
         {
             // Create a new Airi System
-            TheSystem Airi = new TheSystem();
+            TheSystem Airi = new();
 
             // Test Cases
             VocabularyAndPatternUnitTestHelper(Airi, "is", @"1: Specifics of pattern [Be]
@@ -217,8 +213,8 @@ Parameters: How is weather
         static bool VocabularyAndPatternUnitTestHelper(TheSystem Airi, string testString, string expectedOutput)
         {
             // Set up console output stream
-            var originalConsoleOut = Console.Out; // preserve the original stream
-            using (var writer = new StringWriter())
+            TextWriter originalConsoleOut = Console.Out; // preserve the original stream
+            using (StringWriter writer = new())
             {
                 Console.SetOut(writer);
 

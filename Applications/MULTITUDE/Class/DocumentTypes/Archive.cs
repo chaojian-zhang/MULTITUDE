@@ -7,8 +7,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MULTITUDE.Class.DocumentTypes
 {
@@ -18,11 +16,11 @@ namespace MULTITUDE.Class.DocumentTypes
     {
         #region Constructors
         // Create VA from VW
-        public Archive(VirtualWorkspace vw): base(DocumentType.VirtualArchive, null, vw.Name, vw.CreationDate)
+        public Archive(VirtualWorkspace vw) : base(DocumentType.VirtualArchive, null, vw.Name, vw.CreationDate)
         {
             IsReal = false;
             Roots = new List<ArchiveNode>();
-            ArchiveNode rootNode = new ArchiveNode(vw.Name, this);
+            ArchiveNode rootNode = new(vw.Name, this);
             Roots.Add(rootNode);
 
             // Populate contents
@@ -86,12 +84,12 @@ namespace MULTITUDE.Class.DocumentTypes
 
         // Deserialization constructor
         public Archive(SerializationInfo info, StreamingContext ctxt)
-            :base(info, ctxt)
+            : base(info, ctxt)
         {
             // Get common basic information and assign them to the appropriate properties
             IsReal = (bool)info.GetValue("bReal", typeof(bool));
 
-            if(IsReal)
+            if (IsReal)
             {
                 // Initialize empty root
                 Roots = new List<ArchiveNode>();
@@ -101,17 +99,17 @@ namespace MULTITUDE.Class.DocumentTypes
             }
             else
             {
-                LoadDocument(); 
+                LoadDocument();
             }
         }
         protected override void SaveDocument()
         {
-            if(bDirty && IsReal == false)
+            if (bDirty && IsReal == false)
             {
                 // Save data into a file
                 Stream fileStream = File.Create(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter serializer = new BinaryFormatter();
+                BinaryFormatter serializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 serializer.Serialize(fileStream, Roots);
                 fileStream.Close();
@@ -122,12 +120,12 @@ namespace MULTITUDE.Class.DocumentTypes
 
         protected override void LoadDocument()
         {
-            if(IsReal == false)
+            if (IsReal == false)
             {
                 // Load from a file
                 Stream fileStream = File.OpenRead(Path);
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
-                BinaryFormatter deserializer = new BinaryFormatter();
+                BinaryFormatter deserializer = new();
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 Roots = (List<ArchiveNode>)deserializer.Deserialize(fileStream);
                 fileStream.Close();
@@ -159,7 +157,7 @@ namespace MULTITUDE.Class.DocumentTypes
         }
         public ArchiveNode AddRootNode(string nodeName)
         {
-            ArchiveNode newNode = new ArchiveNode(nodeName, this);
+            ArchiveNode newNode = new(nodeName, this);
             Roots.Add(newNode);
 
             // Request saving
@@ -200,7 +198,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
     [Serializable]
     // <debug> Cautious how this handles Owner: will it automatically link to existing object or cause problem since Archive isn't automatically serialized
-    class ArchiveNode: INotifyPropertyChanged
+    class ArchiveNode : INotifyPropertyChanged
     {
         /// <summary>
         /// Generate a new ArchiveNode, optionally with a parent and a Document reference to establish a link
@@ -220,7 +218,7 @@ namespace MULTITUDE.Class.DocumentTypes
         }
         public string GetPath(string replaceName = null) // Notice this is in Windows format
         {
-            if(Parent != null)
+            if (Parent != null)
                 return System.IO.Path.Combine(Parent.GetPath(), replaceName == null ? Name : replaceName);  // Notice parents are still using their original name
             else
             {
@@ -285,10 +283,10 @@ namespace MULTITUDE.Class.DocumentTypes
             get
             {
                 // If it's a real archive and the node is a directory, load contents at that folder dynamically
-                if(_Children == null)
+                if (_Children == null)
                 {
-                    System.IO.DirectoryInfo newDir = new DirectoryInfo(this.GetPath());
-                    List<ArchiveNode> nodes = new List<ArchiveNode>();
+                    System.IO.DirectoryInfo newDir = new(this.GetPath());
+                    List<ArchiveNode> nodes = new();
                     if (newDir.Exists)
                     {
                         foreach (DirectoryInfo dir in newDir.EnumerateDirectories())
@@ -333,7 +331,7 @@ namespace MULTITUDE.Class.DocumentTypes
         #region Interface
         public ArchiveNode AddNode(string name = DefaultArchiveNodeName, Document docRef = null)
         {
-            ArchiveNode newNode = new ArchiveNode(name, Owner, this);
+            ArchiveNode newNode = new(name, Owner, this);
             // If it's real we add a new folder bearing the node's name, otherwise we just create a virtual node
             if (_Children == null)
             {

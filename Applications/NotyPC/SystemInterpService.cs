@@ -38,7 +38,7 @@ namespace NotyPC
         private const uint SEE_MASK_INVOKEIDLIST = 12;
         public static bool ShowFileProperties(string Filename)  // Filename can be a file or a folder
         {
-            SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+            SHELLEXECUTEINFO info = new();
             info.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(info);
             info.lpVerb = "properties";
             info.lpFile = Filename;

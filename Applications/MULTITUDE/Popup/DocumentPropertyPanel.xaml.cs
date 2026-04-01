@@ -3,18 +3,10 @@ using MULTITUDE.Class.DocumentTypes;
 using MULTITUDE.CustomControl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.Popup
 {
@@ -128,11 +120,11 @@ namespace MULTITUDE.Popup
             // Play animation to show hiden canvas, click again to hide
             if(bInMetaPage == false)
             {
-                DoubleAnimation revealWidth = new DoubleAnimation();
+                DoubleAnimation revealWidth = new();
                 revealWidth.From = 0;
                 revealWidth.To = MetaPageContainerCanvas.ActualWidth;
                 revealWidth.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
-                DoubleAnimation revealHeight = new DoubleAnimation();
+                DoubleAnimation revealHeight = new();
                 revealHeight.From = 0;
                 revealHeight.To = MetaPageContainerCanvas.ActualHeight;
                 revealHeight.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
@@ -147,7 +139,7 @@ namespace MULTITUDE.Popup
             }
             else
             {
-                DoubleAnimation hide = new DoubleAnimation();
+                DoubleAnimation hide = new();
                 hide.To = 0;
                 hide.Duration = new Duration(TimeSpan.Parse("0:0:0.3"));
 

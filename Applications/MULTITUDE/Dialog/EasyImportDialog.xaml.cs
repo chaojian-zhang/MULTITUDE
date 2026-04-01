@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.IO;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using MULTITUDE.Class.Facility;
 
 // MVVM: https://stackoverflow.com/questions/1131937/how-to-make-listview-update-itself-in-wpf
@@ -25,7 +22,7 @@ namespace MULTITUDE.Dialog
             {
                 string fullText = drive.Name + drive.VolumeLabel;
 
-                TreeFolderInfo rootFolder = new TreeFolderInfo(fullText, new DirectoryInfo(drive.Name));
+                TreeFolderInfo rootFolder = new(fullText, new DirectoryInfo(drive.Name));
                 rootFolder.Folders.Add(new TreeFolderInfo(true));
                 RootFoldersList.Add(rootFolder);
             }

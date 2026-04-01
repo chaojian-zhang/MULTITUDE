@@ -4,12 +4,8 @@ using MULTITUDE.CustomControl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace MULTITUDE.Class.DocumentTypes
@@ -30,9 +26,9 @@ namespace MULTITUDE.Class.DocumentTypes
         Web,
         PlayList,
         ImagePlus,
-        Sound, 
-        Video, 
-        VirtualWorkspace, 
+        Sound,
+        Video,
+        VirtualWorkspace,
         Others,     // Those we do not recognize but has a suffix, can be redirected to OS to handle it
         Unkown  // Those do not have a suffix, Default treat as plain text
     }
@@ -182,7 +178,7 @@ namespace MULTITUDE.Class.DocumentTypes
                     case DocumentType.PlainText:
                         return IconBase.PlainTextSmallIcon;
                     case DocumentType.MarkdownPlus:
-                        return IconBase.MarkdownPlusSmallIcon;                        
+                        return IconBase.MarkdownPlusSmallIcon;
                     case DocumentType.Archive:
                         return IconBase.ArchiveSmallIcon;
                     case DocumentType.VirtualArchive:
@@ -227,7 +223,7 @@ namespace MULTITUDE.Class.DocumentTypes
 
             Type = type;
             _PhysicalLocationURI = path;
-            Metadata.Add(new StringValuePair("name", metaname != null? metaname : ""));
+            Metadata.Add(new StringValuePair("name", metaname != null ? metaname : ""));
 
             // CreationDate = System.DateTime.Now.ToString("MMMM dd, yyyy HHmmss");    // https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx
             CreationDate = date;
@@ -269,7 +265,7 @@ namespace MULTITUDE.Class.DocumentTypes
             {
                 if (Clues[i].Equals(oldClue)) { Clues[i] = newClue; return; }
             }
-            
+
             throw new ArgumentException("Old clue doesn't exist in current document!");
         }
         public void ChangePrimaryClueFragment(string oldFragment, string newFragment)
@@ -300,7 +296,7 @@ namespace MULTITUDE.Class.DocumentTypes
             // Replace an old one if found
             for (int i = 0; i < Metadata.Count; i++)
             {
-                if(Metadata[i].Key == field)
+                if (Metadata[i].Key == field)
                 {
                     Metadata[i].Value = value;
                     return;
@@ -419,7 +415,7 @@ namespace MULTITUDE.Class.DocumentTypes
         // Returns whether the given string in any means matches any clue, processed in lower case
         public bool IsPartialCLue(string partialString)
         {
-            Clue compareClue = new Clue(partialString);
+            Clue compareClue = new(partialString);
             foreach (Clue clue in Clues)
             {
                 if (clue.Contains(compareClue)) return true;
@@ -585,14 +581,15 @@ namespace MULTITUDE.Class.DocumentTypes
             string relativePath;
             string filePath = GetLegalPhysicalLocation(out relativePath, extension);
             // Creata a physical file
-            using (System.IO.File.Create(filePath)) { };
+            using (System.IO.File.Create(filePath)) { }
+            ;
 
             // Update
             _PhysicalLocationURI = HomeRootPathProtocol + relativePath;
             AddMeta("extension", extension);
 
             // Save document data (if any) to the created file
-            if(bDirty){SaveDocument(); bDirty = false;}
+            if (bDirty) { SaveDocument(); bDirty = false; }
         }
         public void Disintegrate()
         {
@@ -600,12 +597,16 @@ namespace MULTITUDE.Class.DocumentTypes
                 throw new InvalidOperationException("Only physically existing documents can be disintegrated.");
 
             // Physically delete the file/folder pointed by PATH if it's LOCAL - we don't delete a reference type pointing to external file/folder
-            if(_PhysicalLocationURI.IndexOf(HomeRootPathProtocol) == 0)
+            if (_PhysicalLocationURI.IndexOf(HomeRootPathProtocol) == 0)
             {
                 // Archive Handling vs Normal file document
                 if (System.IO.Directory.Exists(this.Path))
                     System.IO.Directory.Delete(this.Path, true);
-                else System.IO.File.Delete(this.Path);
+                else
+                {
+                    throw new ApplicationException("Saving/Writing/Deleting in MULTITUDE is forbidden until code review.");
+                    System.IO.File.Delete(this.Path);
+                }
             }
 
             // At this time nowhere in our application should have a reference to this object

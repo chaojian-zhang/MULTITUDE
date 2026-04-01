@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeatherNet;
 using WeatherNet.Clients;
 using WeatherNet.Model;
@@ -18,8 +15,8 @@ namespace Airi.Facilities
         public static string GetWeather()
         {
             ClientSettings.SetApiKey("bd5e378503939ddaee76f12ad7a97608");   // 865190f17e5a219e99d7ce1336df43ba -- Our own
-            var result = CurrentWeather.GetByCityName("Toronto", "Canada", "en", "metric");
-            var result2 = FiveDaysForecast.GetByCityName("Toronto", "Canada", "en", "metric");
+            SingleResult<CurrentWeatherResult> result = CurrentWeather.GetByCityName("Toronto", "Canada", "en", "metric");
+            Result<FiveDaysForecastResult> result2 = FiveDaysForecast.GetByCityName("Toronto", "Canada", "en", "metric");
 
             // Formation
             if (result.Success)

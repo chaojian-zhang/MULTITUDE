@@ -5,18 +5,11 @@ using MULTITUDE.CustomControl.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MULTITUDE.CustomControl.CanvasSpaceWindow
 {
@@ -48,7 +41,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
             {
                 ArchiveNode root = CurrentArchive.Roots[i];
 
-                VirtualArchivePanel rootPanel = new VirtualArchivePanel(new ArchiveNodeRepresentation(root));
+                VirtualArchivePanel rootPanel = new(new ArchiveNodeRepresentation(root));
                 System.Windows.Controls.Canvas.SetLeft(rootPanel, 300);
                 System.Windows.Controls.Canvas.SetTop(rootPanel, 200 + i * verticalDisplacement);
                 VirtualArchiveCanvas.Children.Add(rootPanel);
@@ -116,7 +109,7 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
                     ArchiveNode newNode = CurrentArchive.AddRootNode(DefaultNodeName);
 
                     // Create a new panel at location
-                    VirtualArchivePanel newPanel = new VirtualArchivePanel(new ArchiveNodeRepresentation(newNode));
+                    VirtualArchivePanel newPanel = new(new ArchiveNodeRepresentation(newNode));
 
                     Point mouse = e.GetPosition(VirtualArchiveCanvas);
                     System.Windows.Controls.Canvas.SetLeft(newPanel, mouse.X);
@@ -136,9 +129,9 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
         {
             // Get location
             double xPositionOffset = startPanel.ActualWidth * 1.5;
-            Point startPanelPosition = new Point((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty),
+            Point startPanelPosition = new((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty),
                 (double)startPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
-            Point nextPanelPosition = new Point((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty) + xPositionOffset,
+            Point nextPanelPosition = new((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty) + xPositionOffset,
                 (double)startPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
 
             // Show next panel
@@ -172,14 +165,14 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
         //}
         internal void UpdateConnection(VirtualArchivePanel endPanel)
         {
-            Point nextPanelPosition = new Point((double)endPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)endPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
+            Point nextPanelPosition = new((double)endPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)endPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
 
             // Find any exsiting
             foreach (PanelConnection connection in Connections)
             {
                 if (connection.EndPanel == endPanel)
                 {
-                    Point startPanelPosition = new Point((double)connection.StartPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)connection.StartPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
+                    Point startPanelPosition = new((double)connection.StartPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)connection.StartPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
 
                     // Update
                     connection.Line.StartPoint = new Point(startPanelPosition.X + connection.StartPanel.ActualWidth, startPanelPosition.Y + connection.StartPanel.ActualHeight / 2);
@@ -198,8 +191,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
 
         internal void UpdateConnectionBetween(VirtualArchivePanel startPanel, VirtualArchivePanel nextPanel)
         {
-            Point startPanelPosition = new Point((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)startPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
-            Point nextPanelPosition = new Point((double)nextPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)nextPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
+            Point startPanelPosition = new((double)startPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)startPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
+            Point nextPanelPosition = new((double)nextPanel.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)nextPanel.GetValue(System.Windows.Controls.Canvas.TopProperty));
 
             LineGeometry line = null;
             // Change exsiting
@@ -235,8 +228,8 @@ namespace MULTITUDE.CustomControl.CanvasSpaceWindow
             if(e.LeftButton == MouseButtonState.Pressed && bIsEditingContent)
             {
                 Point newPosition = e.GetPosition(this);
-                Point prevLocation = new Point((double)ContentEditorBorder.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)ContentEditorBorder.GetValue(System.Windows.Controls.Canvas.TopProperty));
-                Point newLocation = new Point(prevLocation.X + newPosition.X - CurrentPosition.X, prevLocation.Y + newPosition.Y - CurrentPosition.Y);
+                Point prevLocation = new((double)ContentEditorBorder.GetValue(System.Windows.Controls.Canvas.LeftProperty), (double)ContentEditorBorder.GetValue(System.Windows.Controls.Canvas.TopProperty));
+                Point newLocation = new(prevLocation.X + newPosition.X - CurrentPosition.X, prevLocation.Y + newPosition.Y - CurrentPosition.Y);
                 System.Windows.Controls.Canvas.SetLeft(ContentEditorBorder, newLocation.X);
                 System.Windows.Controls.Canvas.SetTop(ContentEditorBorder, newLocation.Y);
                 CurrentPosition = newPosition;
